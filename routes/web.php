@@ -18,5 +18,20 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/admin', 'AdminController@index');
-Route::get('/client', 'ClientController@index');
+
+Route::prefix('admin')->group(function() {
+	Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+	Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+	Route::get('/', 'AdminController@index')->name('admin.dashboard');
+});
+
+Route::prefix('client')->group(function() {
+	Route::get('/login', 'Auth\ClientLoginController@showLoginForm')->name('client.login');
+	Route::post('/login', 'Auth\ClientLoginController@login')->name('client.login.submit');
+
+	Route::get('/register', 'Auth\ClientRegisterController@showRegistrationForm')->name('client.register');
+	Route::post('/register', 'Auth\ClientRegisterController@register')->name('client.register.submit');
+	Route::get('/', 'ClientController@index')->name('client.dashboard');
+});
+
+//Route::get('/client', 'ClientController@index');
