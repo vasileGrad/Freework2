@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', '| Login')
 
 @section('content')
 <div class="container">
@@ -58,6 +60,12 @@
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
                                 </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <p class="br-br">Don't have an account? <b><a href="{{ route('client.register')}}">Sign Up</a></b></p>
                             </div>
                         </div>
                     </form>

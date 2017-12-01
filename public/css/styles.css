@@ -1,0 +1,55 @@
+a:link { color: #000000; text-decoration: none}
+a:visited { color: #2f2e2f; text-decoration: none}
+a:hover { color: #059fea; text-decoration: none}
+a:active { color: #000000; text-decoration: none}
+
+.body-image {
+	background-image: url("/images/Freework_3.jpg");
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-color: #f5f5f1;
+}
+
+.home-page-buttons {
+	margin-top: 19%;
+    margin-bottom: 3%;
+}
+
+.color-nav {
+	background-color: white;
+}
+
+.freework-img {
+	height: 90px;
+    width: 290px;
+}
+
+.header-link-signup {
+	color: #7d7d7d;
+    font-weight: bold;
+    text-decoration: none;
+    padding-right: 80px;
+    line-height: 90px;
+    font-size: 19px;
+}
+
+.header-link-login {
+	color: #7d7d7d;
+    font-weight: bold;
+    text-decoration: none;
+    padding-right: 123px;
+    line-height: 90px;
+    font-size: 19px;
+}
+
+.center-title {
+	text-align: center;
+}
+
+.form-spacing-top {
+	margin-top: 30px;
+}
+
+.br-br {
+    margin-top: 40px;
+}

@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', '| Register')
 
 @section('content')
 <div class="container">
@@ -80,6 +82,12 @@
                                 <button type="submit" class="btn btn-primary">
                                     Register
                                 </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <p class="br-br">Already have an account? <b><a href="{{ route('client.login')}}">Log In</a></b></p>
                             </div>
                         </div>
                     </form>
