@@ -19,10 +19,20 @@ a:active { color: #000000; text-decoration: none}
 	background-color: white;
 }
 
+/*
 .freework-img {
 	height: 90px;
     width: 290px;
 }
+*/
+
+
+.freework-img {
+    margin-top: -8px;
+    height: 35px;
+    width: 140px;
+}
+
 
 .header-link-signup {
 	color: #7d7d7d;
@@ -53,3 +63,4 @@ a:active { color: #000000; text-decoration: none}
 .br-br {
     margin-top: 40px;
 }
+
