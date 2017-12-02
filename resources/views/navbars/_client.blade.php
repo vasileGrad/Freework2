@@ -10,7 +10,7 @@
         <li role="separator" class="divider"></li>
         <li><a href="#">Contracts</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Post a Job</a></li>
+        <li><a href="{{ route('postJobs') }}">Post a Job</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Profile</a></li>
       </ul>

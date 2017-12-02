@@ -39,4 +39,6 @@ Route::prefix('client')->group(function() {
 	Route::get('/', 'ClientController@index')->name('client.dashboard');
 });
 
-//Route::get('/client', 'ClientController@index');
+
+Route::get('/postJobs', 'JobController@index')->name('postJobs');
+

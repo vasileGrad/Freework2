@@ -27,4 +27,10 @@ class Client extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // One Client has many jobs
+    public function jobs()
+    {
+        return $this->hasMany('\App\Job');
+    }
 }
