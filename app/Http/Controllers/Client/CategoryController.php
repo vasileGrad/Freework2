@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class JobController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        //return view('postJobs');
+        //
     }
 
     /**

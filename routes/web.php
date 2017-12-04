@@ -39,6 +39,7 @@ Route::prefix('client')->group(function() {
 	Route::get('/', 'ClientController@index')->name('client.dashboard');
 });
 
+Route::resource('jobs', 'Client\JobController');
 
-Route::get('/postJobs', 'JobController@index')->name('postJobs');
+//Route::get('/postJobs', 'JobController@index')->name('postJobs');
 

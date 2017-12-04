@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', '| Register')
+@section('title', '| Client Register')
 
 @section('content')
 <div class="container">

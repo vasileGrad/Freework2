@@ -15,10 +15,12 @@ class CreateJobsTable extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
+            $table->text('description');
+            $table->integer('nrFreelancers');
             $table->integer('clientId');
             $table->integer('expectedDurationId');
             $table->integer('complexityId');
-            $table->text('description');
             $table->integer('mainSkillId');
             $table->integer('paymentTypeId');
             $table->decimal('paymentAmount', 8, 2);

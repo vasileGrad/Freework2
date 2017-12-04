@@ -4,13 +4,13 @@
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>JOBS</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="#">My Jobs</a></li>
+        <li><a href="{{ route('jobs.index') }}">My Jobs</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">All Job Posting</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Contracts</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="{{ route('postJobs') }}">Post a Job</a></li>
+        <li><a href="{{ route('jobs.create') }}">Post a Job</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Profile</a></li>
       </ul>

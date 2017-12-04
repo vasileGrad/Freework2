@@ -26,4 +26,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    // One User has many Skills
+    public function skills()
+    {
+        return $this->belongsToMany('App\Skill', 'job_skill');
+    }
+
+    // One User belongs to one Level
+    public function levels()
+    {
+        return $this->belongsTo('App\Level');
+    }
 }
