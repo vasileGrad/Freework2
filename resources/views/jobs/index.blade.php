@@ -10,7 +10,7 @@
 		</div><br>
 
 		<div class="col-md-2 col-md-offset-10">
-			<a href="{{ route('jobs.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">New Job</a>
+			<a href="{{ route('jobs.create') }}" class="btn btn-lg btn-block btn-primary btn-h1-spacing">New Job</a><br><br>
 		</div>
 	</div> <!-- end of .row -->
 
@@ -53,10 +53,18 @@
 
 				</tbody>
 			</table>
-
+			
 			<div class="text-center">
 				{!! $jobs->links(); !!}
 			</div>
+
+			{{-- 
+			<ul>
+				@foreach($skills as $skill)
+					<li>{{ $skill->skillName }}</li>
+				@endforeach
+			</ul>
+			--}}
 		</div>
 	</div>
 

@@ -37,9 +37,14 @@ class JobController extends Controller
                                  ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
                                  ->where('clientId', Auth::user()->id)->paginate(5); // 5 is the number of
 
-        //dd($jobs);        
+        //dd($jobs);
+        //$skills = DB::table('skills')->leftJoin('job_skill', 'job_skill.skill_id', '=', 'skills.id')
+                                     //->leftJoin('jobs', 'jobs.id', '=', 'job_skill.job_id')
+                                     //->where('clientId', Auth::user()->id)->paginate(5); // 5 is the number of        
+        //dd($skills);
 
-        return view('jobs.index', compact('jobs'));
+        //return view('jobs.index', compact('jobs', 'skills'));
+        return view('jobs.index', compact('jobs', 'skills'));
     }
 
     /**
@@ -135,9 +140,21 @@ class JobController extends Controller
      */
     public function show($id)
     {
+        
         // find an item by the id that it's past in the url
         $job = Job::find($id);  // also deep linking for the categories
         // render the view and it's gonna pass in a variable called job which is equal to $job
+        //dd($id);
+
+        //$jobs = DB::table('jobs')->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')->where($id);
+        //dd($job);
+
+
+
+
+        //dd($job);
+
+        //return view('jobs.show', compact('jobs'));
         return view('jobs.show')->withJob($job);
     }
 
