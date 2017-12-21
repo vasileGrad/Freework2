@@ -30,11 +30,15 @@ class JobController extends Controller
      */
     public function index()
     {
+        //$job2 = Job::all()->where('clientId', Auth::user()->id);
+        //dd($job2);
+
         $jobs = DB::table('jobs')->leftJoin('category', 'category.id', '=', 'jobs.categoryId')
                                  ->leftJoin('complexity', 'complexity.id', '=', 'jobs.complexityId')
                                  ->leftJoin('expected_duration', 'expected_duration.id', '=', 'jobs.expectedDurationId')
                                  ->leftJoin('levels', 'levels.id', '=', 'jobs.levelId')
                                  ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
+                                 ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
                                  ->where('clientId', Auth::user()->id)->paginate(5); // 5 is the number of
 
         //dd($jobs);
@@ -44,7 +48,7 @@ class JobController extends Controller
         //dd($skills);
 
         //return view('jobs.index', compact('jobs', 'skills'));
-        return view('jobs.index', compact('jobs', 'skills'));
+        return view('jobs.index', compact('jobs'));
     }
 
     /**
@@ -140,22 +144,27 @@ class JobController extends Controller
      */
     public function show($id)
     {
-        
+        //dd($id);
         // find an item by the id that it's past in the url
-        $job = Job::find($id);  // also deep linking for the categories
+        //$job = Job::find($id);  // also deep linking for the categories
         // render the view and it's gonna pass in a variable called job which is equal to $job
         //dd($id);
+        $jobs2 = Job::find($id);
 
-        //$jobs = DB::table('jobs')->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')->where($id);
-        //dd($job);
+        $jobs = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
+                                ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
+                                ->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')
+                                ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
+                                ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
+                                ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
+                                ->select('clients.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
+                                ->where('jobs.id', $id)
+                                ->get();
 
+        //dd($jobs);
 
-
-
-        //dd($job);
-
-        //return view('jobs.show', compact('jobs'));
-        return view('jobs.show')->withJob($job);
+        return view('jobs.show', compact('jobs', 'jobs2'));
+        //return view('jobs.show')->withJob($job);
     }
 
     /**

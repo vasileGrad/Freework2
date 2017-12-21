@@ -21,9 +21,9 @@
 @endsection
 <div class="container"><br><br>
     <div class="row">
-        <div class="col-md-12 ">
+        <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading"><h2>Post a Job </h2></div>
+                <div class="panel-heading"><h2>Post a Job</h2></div>
 
                 <div class="panel-body">
                     @if (session('status'))
