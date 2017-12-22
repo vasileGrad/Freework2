@@ -19,6 +19,14 @@ a:active { color: #000000; text-decoration: none}
 	background-color: white;
 }
 
+.badge {
+    font-size: 17px;
+}
+
+.glyphicon-heart-empty {
+    font-size: 25px;
+    color: blue;
+}
 /*
 .freework-img {
 	height: 90px;
@@ -62,5 +70,13 @@ a:active { color: #000000; text-decoration: none}
 
 .br-br {
     margin-top: 40px;
+}
+
+.mainUser {
+    top: 20px;
+}
+
+.mainUserLeft {
+    top: 80px;
 }
 

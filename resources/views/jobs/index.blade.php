@@ -57,14 +57,6 @@
 			<div class="text-center">
 				{!! $jobs->links(); !!}
 			</div>
-
-			{{-- 
-			<ul>
-				@foreach($skills as $skill)
-					<li>{{ $skill->skillName }}</li>
-				@endforeach
-			</ul>
-			--}}
 		</div>
 	</div>
 

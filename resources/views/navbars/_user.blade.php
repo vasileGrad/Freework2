@@ -4,7 +4,7 @@
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>FIND WORK</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="#">Find Work</a></li>
+        <li><a href="{{ route('home') }}">Find Work</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Saved Jobs</a></li>
         <li role="separator" class="divider"></li>

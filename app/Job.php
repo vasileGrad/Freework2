@@ -49,4 +49,10 @@ class Job extends Model
     {
         return $this->belongsToMany('App\Skill', 'job_skill');
     }
+
+    // Search jobs
+    public function search($query, $search)
+    {
+        return $query->where('title', 'LIKE', "%$search%");
+    }
 }

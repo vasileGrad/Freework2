@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">Jobs</div>
 
@@ -40,6 +40,19 @@
 					@endforeach
 				</div>
 			</div>
+		</div>
+
+		<div class="col-md-4">
+			<div class="panel panel-default">
+                <div class="panel-heading">Jobs</div>
+                	<div class="panel-body">
+                		<a href="#" class="btn btn-success btn-lg active" role="button">Submit a Proposal</a><br>
+                		<a href="#" class="btn btn-success btn-lg active" role="button">Save a Job</a>
+                		@foreach($jobs as $job)
+
+                		@endforeach
+                	</div>
+           	</div>
 		</div>
     </div>
 </div>
