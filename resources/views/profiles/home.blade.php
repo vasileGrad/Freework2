@@ -14,7 +14,7 @@
 
         <div class="col-md-8 mainUser">
 
-            <form method="POST" action="{{ route("search") }}">
+            <form method="POST" action="{{ route("jobSearch") }}">
             {{ csrf_field() }}
                 <div class="input-group">
                     <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Jobs">
@@ -22,6 +22,7 @@
                         <button type="submit" class="btn btn-default">Submit</button>
                     </div>
                 </div><br><br>
+            </form>
             
             <div class="panel panel-default">
                 <div class="panel-heading">FREELANCER Dashboard</div>

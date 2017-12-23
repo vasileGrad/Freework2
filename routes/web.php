@@ -41,9 +41,8 @@ Route::prefix('client')->group(function() {
 
 Route::resource('jobs', 'Client\JobController');
 
-//Route::post('freelancerPages/freelancerSearch', 'Freelancer\SearchController@index')->name('search');
+Route::post('/jobSearch', 'Freelancer\SearchController@search')->name('jobSearch');
+Route::get('/jobShow/{id}', 'Freelancer\SearchController@show')->name('jobShow');
+Route::post('/jobShow/{freelancerId}', 'Freelancer\JobSavedController@store')->name('jobSaved.store');
 
-Route::post('/search', 'Freelancer\SearchController@search')->name('search');
-
-//Route::get('/postJobs', 'JobController@index')->name('postJobs');
-
+Route::get('/jobSaved', 'Freelancer\JobSavedController@index')->name('jobSaved');
