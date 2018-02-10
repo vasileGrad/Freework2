@@ -42,6 +42,8 @@ class User extends Authenticatable
     // One User belongs to many saved Jobs
     public function jobs() 
     {
-        return $this->belongsToMany('App\Job');
+        return $this->belongsToMany('App\Job', 'job_saved', 'user_id', 'job_id'); 
+                //user_id - is the column that represents the User Model
+                //job_id  - is the column that represents the foreign key
     }
 }

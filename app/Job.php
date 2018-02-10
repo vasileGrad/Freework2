@@ -59,6 +59,8 @@ class Job extends Model
     // One Job belongs to many Users - One Job may be saved by many Freelancers
     public function users() 
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User', 'job_saved', 'job_id', 'user_id');
+                //job_id - is the column that represents the Job Model
+                //user_id  - is the column that represents the foreign key
     }
 }
