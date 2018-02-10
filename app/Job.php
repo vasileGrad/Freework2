@@ -55,4 +55,10 @@ class Job extends Model
     {
         return $query->where('title', 'LIKE', "%$search%");
     }
+
+    // One Job belongs to many Users - One Job may be saved by many Freelancers
+    public function users() 
+    {
+        return $this->belongsToMany('App\User');
+    }
 }

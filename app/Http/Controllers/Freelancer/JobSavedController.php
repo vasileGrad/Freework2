@@ -51,7 +51,20 @@ class JobSavedController extends Controller
      */
     public function store(Request $request, $jobId)
     {
-        dd(Auth::user()->id);
+        //dd(Auth::user()->id);
+        //dd($jobId);
+
+        $jobs = new Job();
+        
+
+        $jobs = DB::table('users')->leftJoin('jobSaved', 'jobSaved.freelancerId', '=', 'users.id')
+                                 ->leftJoin('jobs', 'jobs.id', '=', 'jobSaved.jobId')
+                                 ->leftJoin('clients', 'clients.id', '=', 'jobs.clientId')
+                                 ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
+                                 ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'clients.firstName', 'clients.country')
+                                 ->where('users.id', Auth::user()->id)->get(); // 5 is the number of
+
+
         return view('freelancerPages.jobSaved', compact('jobs'));
     }
 

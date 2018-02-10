@@ -38,4 +38,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Level');
     }
+
+    // One User belongs to many saved Jobs
+    public function jobs() 
+    {
+        return $this->belongsToMany('App\Job');
+    }
 }
