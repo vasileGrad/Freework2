@@ -102,6 +102,7 @@ class JobController extends Controller
         $job = new Job;
 
         // adding things to this brand new object to be created 
+        //$job->title = $request->title;
         $job->title = $request->title;
         $job->nrFreelancers = $request->nrFreelancers;
         $job->categoryId = $request->categoryId;
@@ -113,7 +114,7 @@ class JobController extends Controller
         $job->levelId = $request->levelId;
 
         // we use Purifier to clean and secure
-        $job->description = Purifier::clean($request->description);
+        $job->description = Purifier::clean($request->input('description'));
 
         $job->save(); // save the object
         // save the new item into the Database

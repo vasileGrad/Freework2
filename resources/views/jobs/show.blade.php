@@ -14,7 +14,7 @@
                 		<h3>Job id: {{ $job->id }}</h3>
 						<h3><strong>{{ $job->title }}</strong></h3>
 						<hr>
-						<h3>Description: {{ $job->description }}</h3>
+						<h3>Description: {{ substr(strip_tags($job->description), 0, 50) }}{{ strlen(strip_tags($job->description)) > 50 ? "..." : "" }}</h3>
 						<hr>
 						<h3>Created at: {{ $job->created_at }}</h3>
 						<hr>
