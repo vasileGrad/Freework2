@@ -11,7 +11,6 @@
 
                 <div class="panel-body">
                 	@foreach($jobs as $job)
-                		<h3>Job id: {{ $job->id }}</h3>
 						<h3><strong>{{ $job->title }}</strong></h3>
 						<hr>
 						<h3>Description: {{ substr(strip_tags($job->description), 0, 50) }}{{ strlen(strip_tags($job->description)) > 50 ? "..." : "" }}</h3>
@@ -49,10 +48,16 @@
                 		<a href="#" class="btn btn-success btn-lg active" role="button">Submit a Proposal</a><br><br>
 
                 		{!! Form::open(['route' => ['jobSaved.store', $job->id], 'method' => 'POST']) !!}
-						    {!! Form::submit('Save a Job', array('class' => 'btn btn-success btn-lg active')) !!}
+						    {!! Form::submit('Save Job', array('class' => 'btn btn-success btn-lg active')) !!}
                 		{!! Form::close() !!}
 
+                		<br>
+                		{{-- {!! Form::open(['route' => ['jobSaved.destroy', $job->id], 'method' => 'DELETE']) !!}
+						    {!! Form::submit('Saved', array('class' => 'btn btn-danger btn-lg active')) !!}
+                		{!! Form::close() !!} --}}
+
                 		<!-- Button trigger modal -->
+                		<br>
 						<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
 						  Launch demo modal
 						</button>

@@ -59,7 +59,8 @@ class JobSavedController extends Controller
 
         $user = new User();
         $user->id = Auth::user()->id;
-        $user->jobs()->sync($jobId, false);
+        //$user->jobs()->sync($jobId, false);
+        $user->jobs()->toggle($jobId);
 
         $jobs = DB::table('users')->leftJoin('job_saved', 'job_saved.user_id', '=', 'users.id')
                                  ->leftJoin('jobs', 'jobs.id', '=', 'job_saved.job_id')
@@ -114,6 +115,7 @@ class JobSavedController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Find the post item
+       
     }
 }
