@@ -30,7 +30,7 @@ class User extends Authenticatable
     // One User has many Skills
     public function skills()
     {
-        return $this->belongsToMany('App\Skill', 'job_skill');
+        return $this->belongsToMany('App\Skill', 'freelancer_skill', 'freelancer_id', 'skill_id');
     }
 
     // One User belongs to one Level

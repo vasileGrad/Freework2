@@ -10,7 +10,7 @@
         <li role="separator" class="divider"></li>
         <li><a href="#">Proposals</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Profile</a></li>
+        <li><a href="{{ route('freelancerProfile.show', Auth::user()->id) }}">Profile</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">My Stats</a></li>
         <li role="separator" class="divider"></li>

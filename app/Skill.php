@@ -15,6 +15,6 @@ class Skill extends Model
     // One Skill has many Freelancers
     public function users()
     {
-        return $this->belongsToMany('App\User', 'freelancer_skill');
+        return $this->belongsToMany('App\User', 'freelancer_skill', 'skill_id', 'freelancer_id');
     }
 }

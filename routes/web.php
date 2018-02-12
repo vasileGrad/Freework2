@@ -49,3 +49,5 @@ Route::get('/jobSaved', 'Freelancer\JobSavedController@index')->name('jobSaved')
 
 //Route::resource('jobSaved', 'Freelancer\JobSavedController');
 Route::resource('showJob', 'Freelancer\ShowController');
+
+Route::resource('freelancerProfile', 'Freelancer\ProfileController');
