@@ -36,6 +36,7 @@
                 		@foreach ($jobs as $job)
                 			<div class="row">
 							  	<a href="{{ route('jobShow', $job->id)}}" class="list-group-item">
+							  	{{-- <a href="{{ route('showJob.show', $job->id)}}" class="list-group-item"> --}}
 							  		<span>
 								  		<h4 class="list-group-item-heading"><strong>{{$job->title}}</strong>
 								    	<button type="button" class="btn btn-sm btn-circle pull-right glyphicon glyphicon-heart-empty"></button></h4><br>

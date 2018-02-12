@@ -48,3 +48,4 @@ Route::post('/jobShow/{freelancerId}', 'Freelancer\JobSavedController@store')->n
 Route::get('/jobSaved', 'Freelancer\JobSavedController@index')->name('jobSaved');
 
 //Route::resource('jobSaved', 'Freelancer\JobSavedController');
+Route::resource('showJob', 'Freelancer\ShowController');
