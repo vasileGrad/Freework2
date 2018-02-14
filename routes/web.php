@@ -51,3 +51,7 @@ Route::get('/jobSaved', 'Freelancer\JobSavedController@index')->name('jobSaved')
 Route::resource('showJob', 'Freelancer\ShowController');
 
 Route::resource('freelancerProfile', 'Freelancer\ProfileController');
+
+
+Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
+Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');

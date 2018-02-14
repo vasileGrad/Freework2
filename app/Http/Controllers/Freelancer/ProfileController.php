@@ -94,4 +94,18 @@ class ProfileController extends Controller
     {
         //
     }
+
+    public function updateTitle(Request $request)
+    {
+        $this->validate($request, array(
+            // rules 
+            'text' => 'required|min:3|max:255'
+        ));
+        $user = User::find(Auth::user()->id);
+        $user->title = $request->text;
+        $user->save();
+        return $request->all();
+    }
+
+
 }

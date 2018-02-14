@@ -52,10 +52,6 @@
                 		{!! Form::close() !!}
 
                 		<br>
-                		{{-- {!! Form::open(['route' => ['jobSaved.destroy', $job->id], 'method' => 'DELETE']) !!}
-						    {!! Form::submit('Saved', array('class' => 'btn btn-danger btn-lg active')) !!}
-                		{!! Form::close() !!} --}}
-
                 		<!-- Button trigger modal -->
                 		<br>
 						<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
@@ -71,9 +67,6 @@
 						        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
 						      </div>
 						      <div class="modal-body">
-						        {{ $job->title}}
-						        {{ substr(strip_tags($job->description), 0, 50) }}{{ strlen(strip_tags($job->description)) > 50 ? "..." : "" }}
-						        {{ $job->nrFreelancers}}
 						        {{ $job->title}}
 						      </div>
 						      <div class="modal-footer">
@@ -93,3 +86,53 @@
     </div>
 </div>
 @endsection
+
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	$.ajaxSetup({
+	    headers: {
+	    	'X-CSRF-TOKEN': $('meta[name=_token]').attr('content')
+	        //'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	    }
+	});
+
+	$(document).ready(function() {
+		$(document).on('click', '.editNew', function(event) {
+			var text = $(this).text();
+			$('#title').text('Edit Item');
+			var text = $.trim(text);
+			$('#addItem').val(text);
+			$('#delete').show('400');
+			$('#saveChanges').show('400');
+			$('#addButton').hide('400');
+			$('#id').val(id);
+			console.log(text);
+		});
+
+		$(document).on('click', '#addNew', function(event) {
+			$('#title').text('Add New Item');
+			$('#addItem').val("");
+			$('#delete').hide('400');
+			$('#saveChanges').hide('400');
+			$('#addButton').show('400');
+		});
+		
+		$('#saveChanges').click(function(event) {
+			var text = $("#addItem").val();
+			if (text =="") {
+				alert('Please type anything for item');
+			}else{
+				$.post('/updateTitle', {'text': text, '_token': $('input[name="_token"]').val()}, function(data){
+				$('#items').load(location.href + ' #items');  //refresh the page
+				//console.log(id);
+				console.log(data);
+				});
+			}
+		});
+	});
+
+</script>

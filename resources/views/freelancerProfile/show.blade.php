@@ -3,15 +3,13 @@
 @section('title', '| Profile')
 
 @section('content')
-
-
+<div class="container">
 <div class="row">
 	<div class="col-md-8">
 		<div class="panel panel-default">
 		    <div class="panel-heading"><h3>Profile</h3>
 		</div>
-
-	    <div class="panel-body">
+	    <div class="panel-body" id="items">
 	    	<div class="row">
 	    		<div class="col-md-2">
 	    			<img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" height="120" width="120" />
@@ -21,8 +19,10 @@
 					<h5><span class="glyphicon glyphicon-map-marker"></span><b> {{ $freelancer->location }}, {{ $freelancer->country }}<b></h5>
 	    		</div>
 	    		<div class="col-md-12">
-	    			<h3><b>{{ $freelancer->title }}<b></h3>
-	    			<p>{{ $freelancer->description }}</p>
+	    			<h3 class="editTitle"><a href="#" data-toggle="modal" data-target="#myModal1"><b>{{ $freelancer->title }} <b><input type="hidden" id="itemId2" value="{{$freelancer->id}}"><i class="fa fa-edit fa-sm"></i></a></h3>
+
+	    			<h3><a href="#" id="editDescription" class="pull-right" data-toggle="modal" data-target="#myModal1"><i class="fa fa-edit fa-sm"></i></a></h3>
+	    			<p>{{ $freelancer->description }}<input type="hidden" id="id" value="{{$freelancer->id}}"></p>	    
 	    			<hr>
 	    		</div>
 		    	<div class="col-sm-3">
@@ -37,14 +37,72 @@
 	    		</div>
 	    	</div>
 	    </div>
+
+	    <!-- Modal for title-->
+<div class="modal fade" id="myModal1" tabindex="-3" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="title">Overview</h4>
+      </div>
+      <div class="modal-body">
+      	  <label>Job Title</label>
+          <input type="hidden" id="id">
+          <p><input type="text" placeholder="Write Item Here" id="addItem" class="form-control"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" id="delete" data-dismiss="modal" style="display: none">Delete</button>
+        <button type="button" class="btn btn-primary" id="saveChanges" data-dismiss="modal"style="display: none">Save changes</button>
+        <button type="button" class="btn btn-primary" id="addButton" data-dismiss="modal">Add Item</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 	</div>
 
 	<div class="panel panel-default">
-	  	<div class="panel-heading"><h3>Work History and Feedback</h3></div>
+	  	<div class="panel-heading">
+	  		<div class="row">
+	  			<div class="col-md-10">
+	  				<h3>Work History and Feedback</h3>
+	  			</div>
+	  			<div class="col-md-2">
+	  				<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#myModal"><b>+ Edit<b></button>
+	  			</div>
+	  		</div>
+		</div>
 	  	<div class="panel-body">
-	    Panel content
-	  	</div>
+		    Panel content
+		</div>
 	</div>
+
+
+
+{{-- <!-- Modal for Work History-->
+<div class="modal fade" id="myModal" tabindex="-3" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit Job Title</h4>
+      </div>
+      <div class="modal-body">
+        {{ $freelancer->firstName}}
+        {{ substr(strip_tags($freelancer->description), 0, 50) }}{{ strlen(strip_tags($freelancer->description)) > 50 ? "..." : "" }}
+        {{ $freelancer->title}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div> --}}
+
 
 	<div class="panel panel-default">
 	  	<div class="panel-heading">
@@ -103,4 +161,73 @@
 	</div>
 </div> <!-- end of .col-md-8 -->
 </div>
+</div>
+{{ csrf_field() }}
 @endsection
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	$.ajaxSetup({
+	    headers: {
+	    	'X-CSRF-TOKEN': $('meta[name=_token]').attr('content')
+	        //'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	    }
+	});
+
+	$(document).ready(function() {
+		$(document).on('click', '.editTitle', function(event) {
+			var text = $(this).text();
+			$('#title').text('Edit Job Title');
+			var text = $.trim(text);
+			$('#addItem').val(text);
+			$('#delete').show('400');
+			$('#saveChanges').show('400');
+			$('#addButton').hide('400');
+			console.log(text);
+		});
+
+		$(document).on('click', '#editDescription', function(event) {
+			$('#title').text('Overview');
+			$('#addItem').val("");
+			$('#delete').hide('400');
+			$('#saveChanges').hide('400');
+			$('#addButton').show('400');
+		});
+
+		/*$('#addButton').click(function(event) {
+			var text = $('#addItem').val();
+			if (text =="") {
+				alert('Please type anything for item');
+			}else{
+				$.post("list", {'text': text, '_token': $('input[name="_token"]').val()}, function(data) { // data - we are getting from the Controller
+					console.log(data);
+					$('#items').load(location.href + ' #items');  //refresh the page
+				});
+			}
+		});
+		$('#delete').click(function(event) {
+			var id = $("#id").val();
+			$.post('delete', {'id': id, '_token': $('input[name="_token"]').val()}, function(data){
+			$('#items').load(location.href + ' #items');  //refresh the page
+			//console.log(id);
+			console.log(data);
+			});
+		});*/
+
+		$('#saveChanges').click(function(event) {
+			var text = $("#addItem").val();
+			if (text =="") {
+				alert('Please type anything for item');
+			}else{
+				$.post('/updateTitle', {'text': text, '_token': $('input[name="_token"]').val()}, function(data){
+				$('#items').load(location.href + ' #items');  //refresh the page
+				//console.log(id);
+				console.log(data);
+				});
+			}
+		});
+	});
+
+</script>
