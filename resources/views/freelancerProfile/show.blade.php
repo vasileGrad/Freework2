@@ -21,8 +21,7 @@
 	    		<div class="col-md-12">
 	    			<h3 class="editTitle"><a href="#" data-toggle="modal" data-target="#myModal1"><b>{{ $freelancer->title }} <b><input type="hidden" id="itemId2" value="{{$freelancer->id}}"><i class="fa fa-edit fa-sm"></i></a></h3>
 
-	    			<h3><a href="#" id="editDescription" class="pull-right" data-toggle="modal" data-target="#myModal1"><i class="fa fa-edit fa-sm"></i></a></h3>
-	    			<p>{{ $freelancer->description }}<input type="hidden" id="id" value="{{$freelancer->id}}"></p>	    
+	    			<h4 class="editDescription"><a href="#" class="pull-right" data-toggle="modal" data-target="#myModal1"><h3><i class="fa fa-edit fa-sm"></i></h3></a>{{ $freelancer->description }}<input type="hidden" id="id" value=""></h4>   
 	    			<hr>
 	    		</div>
 		    	<div class="col-sm-3">
@@ -46,11 +45,27 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="title">Overview</h4>
       </div>
-      <div class="modal-body">
-      	  <label>Job Title</label>
-          <input type="hidden" id="id">
-          <p><input type="text" placeholder="Write Item Here" id="addItem" class="form-control"></p>
-      </div>
+      	<div class="modal-body">
+	      	<div class="bodyTitle">
+	      		<label>Job Title</label>
+	          	<input type="hidden" id="id">
+	          	<p><input type="text" placeholder="Write Item Here" id="addItem" class="form-control"></p>
+	      	</div>
+	      	<div class="bodyDescription">
+			    <div class="form-group">
+			    	<br>
+			    	<p>Use this space to show clients you have the skills and experience they're looking for.</p>
+			    	<br>
+			    	<ul>
+			    	  <li style="list-style-type:disc">Describe your strengths and skills</li>
+			    	  <li>Highlight projects, accomplishments and education</li>
+			    	  <li>Keep it short and make sure error-free</li>
+			    	</ul>
+			    	<br>
+			        <textarea class="form-control" rows="10" id="overview"></textarea><br><br>
+			    </div>
+			</div>
+	  	</div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" id="delete" data-dismiss="modal" style="display: none">Delete</button>
         <button type="button" class="btn btn-primary" id="saveChanges" data-dismiss="modal"style="display: none">Save changes</button>
@@ -182,18 +197,24 @@
 			$('#title').text('Edit Job Title');
 			var text = $.trim(text);
 			$('#addItem').val(text);
+			$('.bodyTitle').show();
+			$('.bodyDescription').hide();
 			$('#delete').show('400');
 			$('#saveChanges').show('400');
 			$('#addButton').hide('400');
 			console.log(text);
 		});
 
-		$(document).on('click', '#editDescription', function(event) {
+		$(document).on('click', '.editDescription', function(event) {
+			var text = $(this).text();
+			console.log(text);
 			$('#title').text('Overview');
-			$('#addItem').val("");
-			$('#delete').hide('400');
-			$('#saveChanges').hide('400');
-			$('#addButton').show('400');
+			$('#overview').val(text);
+			$('.bodyTitle').hide();
+			$('.bodyDescription').show();
+			$('#delete').show('400');
+			$('#saveChanges').show('400');
+			$('#addButton').hide('400');
 		});
 
 		/*$('#addButton').click(function(event) {
