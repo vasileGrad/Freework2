@@ -20,7 +20,7 @@
       <ul class="dropdown-menu">
         <li><a href="#">My Freelancers</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Find Freelancers</a></li>
+        <li><a href="{{ route('freelancerSearch.index') }}">Find Freelancers</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Work Diary</a></li>
       </ul>

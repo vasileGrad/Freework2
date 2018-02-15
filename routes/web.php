@@ -52,6 +52,8 @@ Route::resource('showJob', 'Freelancer\ShowController');
 
 Route::resource('freelancerProfile', 'Freelancer\ProfileController');
 
+Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
+
 
 Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
 Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');

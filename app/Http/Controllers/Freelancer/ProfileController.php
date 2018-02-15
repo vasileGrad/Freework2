@@ -10,6 +10,10 @@ use DB;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -103,6 +107,18 @@ class ProfileController extends Controller
         ));
         $user = User::find(Auth::user()->id);
         $user->title = $request->text;
+        $user->save();
+        return $request->all();
+    }
+
+    public function updateOverview(Request $request)
+    {
+        $this->validate($request, array(
+            // rules 
+            'text' => 'required'
+        ));
+        $user = User::find(Auth::user()->id);
+        $user->description = $request->text;
         $user->save();
         return $request->all();
     }

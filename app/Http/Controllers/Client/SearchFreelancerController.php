@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Freelancer;
+namespace App\Http\Controllers\Client;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Job;
-use Auth;
-use DB;
+use App\User;
 
-class ShowController extends Controller
+class SearchFreelancerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:client');
     }
     /**
      * Display a listing of the resource.
@@ -21,9 +19,11 @@ class ShowController extends Controller
      */
     public function index()
     {
-        //
+        //$freelancers = User::all();
+        $freelancers = User::orderBy('id','desc')->paginate(3);
 
-        return view('freelancerPages.jobSaved', compact('jobs'));
+        //return view('clientPages.freelancerSearch', compact($freelancers));
+        return view('clientPages.freelancerSearch')->withFreelancers($freelancers);
     }
 
     /**
@@ -55,22 +55,8 @@ class ShowController extends Controller
      */
     public function show($id)
     {
-        //dd($id);
-        //$job = Job::find($id);
-        $job = DB::table('job_saved')->leftJoin('users', 'users.id', '=', 'job_saved.user_id')
-                                     ->leftJoin('jobs', 'jobs.id', '=', 'job_saved.job_id')
-                                     ->leftJoin('clients', 'clients.id', '=', 'jobs.clientId')
-                                     ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
-                                     ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'clients.firstName', 'clients.country')
-                                     ->where('users.id', Auth::user()->id)->get(); // 5 is the number of
-
-        $count = DB::table('job_saved')->leftJoin('users', 'job_saved.user_id', '=', 'users.id')
-                                    ->where([['users.id', Auth::user()->id], ['job_saved.job_id', '=', $id]])->count('job_id'); 
-        dd($jobs);
-
-        //return redirect()->route('jobShow.show', $count);
-
-        return view('freelancerPages.jobShow')->withCount($count)->withJob($job);
+        $freelancer = User::find($id);
+        return view('clientPages.freelancerShow')->withFreelancer($freelancer);
     }
 
     /**

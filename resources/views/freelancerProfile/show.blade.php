@@ -11,8 +11,8 @@
 		</div>
 	    <div class="panel-body" id="items">
 	    	<div class="row">
-	    		<div class="col-md-2">
-	    			<img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" height="120" width="120" />
+	    		<div class="col-md-3">
+	    			<img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" style="border-radius: 50%" height="120" width="120" />
 	    		</div>
 	    		<div class="col-md-6">
 	    			<h2><b>{{ $freelancer->firstName }} {{ $freelancer->lastName }}<b></h2>
@@ -38,45 +38,45 @@
 	    </div>
 
 	    <!-- Modal for title-->
-<div class="modal fade" id="myModal1" tabindex="-3" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="title">Overview</h4>
-      </div>
-      	<div class="modal-body">
-	      	<div class="bodyTitle">
-	      		<label>Job Title</label>
-	          	<input type="hidden" id="id">
-	          	<p><input type="text" placeholder="Write Item Here" id="addItem" class="form-control"></p>
-	      	</div>
-	      	<div class="bodyDescription">
-			    <div class="form-group">
-			    	<br>
-			    	<p>Use this space to show clients you have the skills and experience they're looking for.</p>
-			    	<br>
-			    	<ul>
-			    	  <li style="list-style-type:disc">Describe your strengths and skills</li>
-			    	  <li>Highlight projects, accomplishments and education</li>
-			    	  <li>Keep it short and make sure error-free</li>
-			    	</ul>
-			    	<br>
-			        <textarea class="form-control" rows="10" id="overview"></textarea><br><br>
-			    </div>
-			</div>
-	  	</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-warning" id="delete" data-dismiss="modal" style="display: none">Delete</button>
-        <button type="button" class="btn btn-primary" id="saveChanges" data-dismiss="modal"style="display: none">Save changes</button>
-        <button type="button" class="btn btn-primary" id="addButton" data-dismiss="modal">Add Item</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+		<div class="modal fade" id="myModal1" tabindex="-3" role="dialog" aria-labelledby="myModalLabel">
+		  	<div class="modal-dialog" role="document">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        		<h4 class="modal-title" id="title">Overview</h4>
+		      		</div>
+		      		<div class="modal-body">
+				      	<div class="bodyTitle">
+				      		<label>Job Title</label>
+				          	<input type="hidden" id="id">
+				          	<p><input type="text" placeholder="Write Item Here" id="addItem" class="form-control"></p>
+				      	</div>
+				      	<div class="bodyDescription">
+						    <div class="form-group">
+						    	<br>
+						    	<p>Use this space to show clients you have the skills and experience they're looking for.</p>
+						    	<br>
+						    	<ul>
+						    	  <li style="list-style-type:disc">Describe your strengths and skills</li>
+						    	  <li>Highlight projects, accomplishments and education</li>
+						    	  <li>Keep it short and make sure error-free</li>
+						    	</ul>
+						    	<br>
+						        <textarea class="form-control" rows="10" id="overview"></textarea><br><br>
+						    </div>
+						</div>
+			  		</div>
+			     	<div class="modal-footer">
+			        	<button type="button" class="btn btn-warning" id="delete" data-dismiss="modal" style="display: none">Delete</button>
+			        	<button type="button" class="btn btn-primary" id="saveChanges" data-dismiss="modal"style="display: none">Save changes</button>
+			        	<button type="button" class="btn btn-primary" id="saveChanges2" data-dismiss="modal"style="display: none">Save changes</button>
+			      	</div>
+		    	</div>
+		  	</div>
+		</div>
 
 	</div>
+
 
 	<div class="panel panel-default">
 	  	<div class="panel-heading">
@@ -201,34 +201,23 @@
 			$('.bodyDescription').hide();
 			$('#delete').show('400');
 			$('#saveChanges').show('400');
-			$('#addButton').hide('400');
+			$('#saveChanges2').hide();
 			console.log(text);
 		});
 
 		$(document).on('click', '.editDescription', function(event) {
-			var text = $(this).text();
-			console.log(text);
+			var text2 = $(this).text();
+			console.log(text2);
 			$('#title').text('Overview');
-			$('#overview').val(text);
+			$('#overview').val(text2);
 			$('.bodyTitle').hide();
 			$('.bodyDescription').show();
 			$('#delete').show('400');
-			$('#saveChanges').show('400');
-			$('#addButton').hide('400');
+			$('#saveChanges2').show('400');
+			$('#saveChanges').hide();
 		});
 
-		/*$('#addButton').click(function(event) {
-			var text = $('#addItem').val();
-			if (text =="") {
-				alert('Please type anything for item');
-			}else{
-				$.post("list", {'text': text, '_token': $('input[name="_token"]').val()}, function(data) { // data - we are getting from the Controller
-					console.log(data);
-					$('#items').load(location.href + ' #items');  //refresh the page
-				});
-			}
-		});
-		$('#delete').click(function(event) {
+		/*$('#delete').click(function(event) {
 			var id = $("#id").val();
 			$.post('delete', {'id': id, '_token': $('input[name="_token"]').val()}, function(data){
 			$('#items').load(location.href + ' #items');  //refresh the page
@@ -243,6 +232,19 @@
 				alert('Please type anything for item');
 			}else{
 				$.post('/updateTitle', {'text': text, '_token': $('input[name="_token"]').val()}, function(data){
+				$('#items').load(location.href + ' #items');  //refresh the page
+				//console.log(id);
+				console.log(data);
+				});
+			}
+		});
+
+		$('#saveChanges2').click(function(event) {
+			var text2 = $("#overview").val();
+			if (text2 =="") {
+				alert('Please type anything for item');
+			}else{
+				$.post('/updateOverview', {'text': text2, '_token': $('input[name="_token"]').val()}, function(data){
 				$('#items').load(location.href + ' #items');  //refresh the page
 				//console.log(id);
 				console.log(data);
