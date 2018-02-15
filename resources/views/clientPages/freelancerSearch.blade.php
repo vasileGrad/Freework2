@@ -81,19 +81,21 @@
 
 
 @section('scripts')
+	{{ Html::script('js/filterButtonFreelancer.js') }}
+@endsection
 
-	<script type="text/javascript">
+	{{-- <script type="text/javascript">
 	// I solved the problem with the menu :) 
 
 	$('#filterButton').click(function(){
 	    $('.filters').toggle();
 	});
 
-	/*$(document).on('click', '#filterButton', function(event) {
+	$(document).on('click', '#filterButton', function(event) {
 		$('.filters').toggle();
-	})*/;
+	})
 	</script>
-@endsection
+@endsection --}}
 
 {{-- 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

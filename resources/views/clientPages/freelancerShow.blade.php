@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', '| Profile')
+@section('title', '| Profile Freelancer Show')
 
 @section('content')
 <div class="container">
