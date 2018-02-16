@@ -7,8 +7,8 @@ $(document).ready(function() {
 });
 
 // Echivalent
-/*$('#filterButton').click(function(){
-    $('.filters').toggle();
-});
-*/
+/*$('#filterButton').hover(function(){
+    $('.filters').toggle(400);
+});*/
+
 

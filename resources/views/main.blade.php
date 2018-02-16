@@ -28,6 +28,9 @@
         @include('partials._javascript')
 
         @yield('scripts')
+        
+        {{ Html::script('js/hoverDropdownMenu.js') }}
+
     </body>
 </html>
 
