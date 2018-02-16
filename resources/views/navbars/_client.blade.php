@@ -36,6 +36,7 @@
       </ul>
     </li>
     <li><a href="#"><strong>MESSAGE</strong></a></li>
+    <li id="glyphicon-comment" style="display: none"><h4><a href="#"><i class="glyphicon glyphicon-comment"></i></a></h4></li>
   </ul>
   <form class="navbar-form navbar-left">
     <div class="form-group">
@@ -47,7 +48,3 @@
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span></a>
     </li>
-
-{{-- @section('scripts')
-  {{ Html::script('js/hoverDropdownMenu.js') }}
-@endsection --}}

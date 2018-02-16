@@ -44,6 +44,7 @@
       </ul>
     </li>
     <li><a href="#"><strong>MESSAGE</strong></a></li>
+    <li id="glyphicon-comment" style="display: none"><h4><a href="#"><i class="glyphicon glyphicon-comment"></i></a></h4></li>
   </ul>
   <form class="navbar-form navbar-left">
     <div class="form-group">
