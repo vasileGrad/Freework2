@@ -9,7 +9,9 @@
         <span class="icon-bar"></span>
       </button>
 
-      <a class="navbar-brand" @if (Auth::check()) href="{{redirect()->back()}}" @else href="{{ route('main') }}" @endif><img src="/images/Freework_logo.png" class="freework-img" /></a>
+
+      {{-- <a class="navbar-brand" @if (Auth::check()) href="{{redirect()->back()}}" @else href="{{ route('main') }}" @endif><img src="/images/Freework_logo.png" class="freework-img" /></a> --}}
+      <a class="navbar-brand" @if (Auth::guard('web')->check()) href="{{ route('home') }}" @elseif (Auth::guard('client')->check())) href="{{ route('client.dashboard') }}" @elseif (Auth::guard('admin')->check())) href="{{ route('admin.dashboard') }}"@endif><img src="/images/Freework_logo.png" class="freework-img" /></a>
     </div>
 
     @if (Auth::check()) 
