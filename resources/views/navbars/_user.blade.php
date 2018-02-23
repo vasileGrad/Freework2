@@ -1,4 +1,22 @@
 <!-- Collect the nav links, forms, and other content for toggling -->
+<style>
+        /* Scrollbar styles for Messenger*/
+        #myScroll::-webkit-scrollbar {
+            width: 15px;
+            height: 15px;
+        }
+        #myScroll::-webkit-scrollbar-track {
+            border: 1px solid #a4a4a5;
+            border-radius: 2px;
+        }
+        #myScroll::-webkit-scrollbar-thumb {
+            background: gray;  
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        #myScroll::-webkit-scrollbar-thumb:hover {
+            background: #b1b2b5; 
+    </style>
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
   <ul class="nav navbar-nav">
     <li class="dropdown">
@@ -43,8 +61,8 @@
         <li><a href="#">Tests</a></li>
       </ul>
     </li>
-    <li><a href="#"><strong>MESSAGE</strong></a></li>
-    <li id="glyphicon-comment" style="display: none"><h4><a href="#"><i class="glyphicon glyphicon-comment"></i></a></h4></li>
+    <li><a href="{{ url('messages') }}"><strong>MESSAGE</strong></a></li>
+    <li id="glyphicon-comment" style="display: none"><h4><a href="{{ url('messages') }}"><i class="glyphicon glyphicon-comment"></i></a></h4></li>
   </ul>
   <form class="navbar-form navbar-left">
     <div class="form-group">

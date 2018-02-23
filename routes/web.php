@@ -57,3 +57,54 @@ Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
 
 Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
 Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
+
+
+Route::post('/sendMessage', 'MessagesController@sendMessage');
+
+
+
+Route::get('/messages', function () {
+	/*$privateMsgs = DB::table('users')	
+    	->where('id', '!=', Auth::user()->id)
+    	->get();
+
+    return view('/messages', compact('privateMsgs'));*/
+	    return view('messages.messages');
+	});
+
+Route::get('/getMessages', function () {
+	// the persons who sent me messages
+    $allUsers1 = DB::table('users')	
+    	->Join('conversations', 'users.id', 'conversations.user_one')
+    	->where('conversations.user_two', Auth::user()->id)
+    	->get();
+    //return $allUsers;
+
+    // the persons to whom I have sent the messages
+    $allUsers2 = DB::table('users')	
+    	->Join('conversations', 'users.id', 'conversations.user_two')
+    	->where('conversations.user_one', Auth::user()->id)
+    	->get();
+    //dd($allUsers2);
+
+    // combine all the users
+    return array_merge($allUsers1->toArray(), $allUsers2->toArray());
+});
+
+Route::get('/getMessages/{id}', function ($id) {
+    // check Conversation
+    /*$checkCon = DB::table('conversations')->where('user_one', Auth::user()->id)
+    	->where('user_two', $id)->get();
+    if(count($checkCon)!=0){
+    	//echo $checkCon[0]->id;
+    	// fetch msgs
+    	$userMsg = DB::table('messages')->where('messages.conversation_id', $checkCon[0]->id)->get();
+    	return $userMsg;
+    }else{
+    	echo "no messages";
+    }*/
+    $userMsg = DB::table('messages')
+    	->leftJoin('users', 'users.id', 'messages.user_from')
+    	->where('messages.conversation_id', $id)->get();
+    return $userMsg;
+});
