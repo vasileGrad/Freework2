@@ -19,7 +19,9 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "moment": "^2.20.1",
         "vue-axios": "^2.0.2",
+        "vue-moment": "^3.2.0",
         "vue-router": "^3.0.1"
     }
 }

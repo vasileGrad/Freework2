@@ -9,6 +9,8 @@ window.VueAxios = require('vue-axios').default;
 
 window.Axios = require('axios').default;
 
+Vue.use(require('moment'));
+
 Vue.use(VueRouter,VueAxios, axios);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
@@ -21,8 +23,8 @@ const app = new Vue({
     privateMsgs: [],
     singleMsgs: [],
     msgFrom: '',
-    conID: '',
-    timer: ''/*,,
+    conID: ''
+    /*,,
     friend_id: '',
     seen: false,
     newMsgFrom: ''
@@ -31,8 +33,6 @@ const app = new Vue({
 
  ready: function(){
    this.created();
-   //this.myTimer();
-   //setInterval(this.myTimer, 1000);
  },
  created(){
   //console.log('createdddddd');
@@ -42,6 +42,9 @@ const app = new Vue({
           // privateMsgs comes from web.php - Route::get('/getMessages', function () {
           // and goes up in the privateMsgs array
           app.privateMsgs = response.data; //we are putting data into our posts array
+          Vue.filter('myDateTime', function(value){
+            return moment(value).calendar();
+          });
         })
         .catch(function (error) {
           console.log(error); // run if we have error
@@ -62,19 +65,6 @@ const app = new Vue({
           });
    },
 
-   refreshMessages: function(id){
-     axios.get('getMessages/' + id)
-        //alert(id);
-        .then(response => {
-         console.log(response.data); // show if success
-         app.singleMsgs = response.data; //we are putting data into our posts array
-         app.conID = response.data[0].conversation_id
-        })
-        .catch(function (error) {
-          console.log(error); // run if we have error
-        });
-  },
-
    inputHandler(e){
     // if Enter key was pressed and not shiftKey (new line)
      if(e.keyCode === 13 && !e.shiftKey){
@@ -82,6 +72,11 @@ const app = new Vue({
        this.sendMsg();
      }
    },
+
+    moment: function () {
+      return moment();
+    },
+
    sendMsg(){
      if(this.msgFrom){
       //alert(this.conID);
@@ -127,7 +122,42 @@ const app = new Vue({
             console.log(error); // run if we have error
           });
    }
-*/
- }
+*/  
 
+    startContract(){
+       axios.post('startContract', {
+          conID: this.conID
+        })
+        .then(function (response) {              
+          console.log(response.data); // show if success
+          // Refresh the page if success
+          if(response.status===200){
+            app.singleMsgs = response.data;
+            app.conID = response.data[0].conversation_id;
+          }
+        })
+        .catch(function (error) {
+          console.log(error); // run if we have error
+        });
+      this.msgFrom = "";
+      },
+
+    finishContract(){
+       axios.post('finishContract', {
+          conID: this.conID
+        })
+        .then(function (response) {              
+          console.log(response.data); // show if success
+          // Refresh the page if success
+          if(response.status===200){
+            app.singleMsgs = response.data;
+            app.conID = response.data[0].conversation_id;
+          }
+        })
+        .catch(function (error) {
+          console.log(error); // run if we have error
+        });
+      this.msgFrom = "";
+      }
+    }
 });

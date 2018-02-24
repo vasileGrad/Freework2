@@ -61,6 +61,9 @@ Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
 
 Route::post('/sendMessage', 'MessagesController@sendMessage');
 
+Route::post('/startContract', 'MessagesController@startContract');
+
+Route::post('/finishContract', 'MessagesController@finishContract');
 
 
 Route::get('/messages', function () {
@@ -108,4 +111,5 @@ Route::get('/getMessages/{id}', function ($id) {
     	->where('messages.conversation_id', $id)
     	->get();
     return $userMsg;
+
 });
