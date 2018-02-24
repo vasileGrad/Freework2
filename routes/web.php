@@ -105,6 +105,7 @@ Route::get('/getMessages/{id}', function ($id) {
     }*/
     $userMsg = DB::table('messages')
     	->leftJoin('users', 'users.id', 'messages.user_from')
-    	->where('messages.conversation_id', $id)->get();
+    	->where('messages.conversation_id', $id)
+    	->get();
     return $userMsg;
 });

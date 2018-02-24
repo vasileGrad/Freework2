@@ -25,29 +25,32 @@
     	<div style="background-color: #fff; min-height: 600px; border-left:5px solid #F5F8FA" class="col-lg-6 col-sm-4">
     		<h3 align="center">Messages</h3>
 
-            <div id="myScroll" style="overflow-y:scroll; overflow-x:hidden; height:410px; background:#fcfcfc; overflow:auto;">
-                <div v-for="singleMsg in singleMsgs">
-                <div v-if="singleMsg.user_from == <?php echo Auth::user()->id; ?>">
+    		<div id="myScroll" style="overflow-y:scroll; overflow-x:hidden; height:410px; background:#fcfcfc; overflow:auto;transform:rotateX(180deg);">
+    			<div class="row col-md-12" style="transform:rotateX(-180deg);">
+	                <div v-for="singleMsg in singleMsgs">
+		                <div v-if="singleMsg.user_from == <?php echo Auth::user()->id; ?>">
 
-                    <div class="col-md-12" style="margin-top:10px; margin-bottom: 10px">
-                        <img :src="'../images/profile/' + singleMsg.image" style="width:34px; height:34px;border-radius:50%; margin-left:5px" class="pull-right"/>
-                        <div style="float:right; background-color:#0084ff; padding:5px 15px 5px 15px; margin-right:10px; color:#333; border-radius:10px; color:#fff;">
-                             @{{singleMsg.msg}}
-                        </div>
-                    </div>
-                </div>
+		                    <div class="col-md-12" style="margin-top:10px; margin-bottom: 10px">
+		                        <img :src="'../images/profile/' + singleMsg.image" style="width:34px; height:34px;border-radius:50%; margin-left:5px" class="pull-right"/>
+		                        <div style="float:right; background-color:#0084ff; padding:5px 15px 5px 15px; margin-right:10px; color:#333; border-radius:10px; color:#fff;">
+		                             @{{singleMsg.msg}}
+		                        </div>
+		                    </div>
+		                </div>
 
-                <div v-else=>
-                    <div class="col-md-12 pull-right" style="margin-top:10px; margin-bottom: 10px">
-                        <img :src="'../images/profile/' + singleMsg.image" style="width:34px; height:34px;border-radius:50%" class="pull-left"/>
-                        <div style="float:left; background-color:#F0F0F0; padding: 5px 15px 5px 15px; border-radius:10px; text-align:right; margin-left: 15px;">
-                        @{{singleMsg.msg}}
-                    </div>
-                        
-                    </div>
-                </div>
-            </div>
-            <hr>
+		                <div v-else=>
+		                    <div class="col-md-12 pull-right" style="margin-top:10px; margin-bottom: 10px">
+		                        <img :src="'../images/profile/' + singleMsg.image" style="width:34px; height:34px;border-radius:50%" class="pull-left"/>
+		                        <div style="float:left; background-color:#F0F0F0; padding: 5px 15px 5px 15px; border-radius:10px; text-align:right; margin-left: 15px;">
+		                        @{{singleMsg.msg}}
+		                    </div>
+		                        
+		                    </div>
+		                </div>
+	            	</div>
+            		<hr>
+    			</div>
+            
 
             </div>
             

@@ -34,7 +34,8 @@ class MessagesController extends Controller
         if($sendM){
             $userMsg = DB::table('messages')
                 ->leftJoin('users', 'users.id', 'messages.user_from')
-                ->where('messages.conversation_id', $conID)->get();
+                ->where('messages.conversation_id', $conID)
+                ->get();
             return $userMsg;
         }else{
             echo 'not sent';

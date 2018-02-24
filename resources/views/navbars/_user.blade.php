@@ -12,7 +12,6 @@
         #myScroll::-webkit-scrollbar-thumb {
             background: gray;  
             border-radius: 10px;
-            margin-top: 20px;
         }
         #myScroll::-webkit-scrollbar-thumb:hover {
             background: #b1b2b5; 

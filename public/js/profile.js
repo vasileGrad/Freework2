@@ -43180,7 +43180,6 @@ var app = new Vue({
       .then(function (response) {
         console.log(response.data); // show if success
         app.singleMsgs = response.data; //we are putting data into our posts array
-        console.log('yepppp');
         app.conID = response.data[0].conversation_id;
       }).catch(function (error) {
         console.log(error); // run if we have error
@@ -43206,6 +43205,7 @@ var app = new Vue({
           // Refresh the page if success
           if (response.status === 200) {
             app.singleMsgs = response.data;
+            app.conID = response.data[0].conversation_id;
           }
         }).catch(function (error) {
           console.log(error); // run if we have error
