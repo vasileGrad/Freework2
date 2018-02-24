@@ -42,6 +42,72 @@ class MessagesController extends Controller
         }
     }
 
+    public function newMessage(){
+      $uid = Auth::user()->id;
+      $freelancers = DB::table('users')->get();
+
+      //dd($freelancers);
+      return view('messages.newMessage', compact('freelancers', $freelancers));
+
+      /*$uid = Auth::user()->id;
+      $friends1 = DB::table('friendships')
+          ->leftJoin('users', 'users.id', 'friendships.user_requested') // who is not logged in but send request to
+          ->where('status', 1)
+          ->where('requester', $uid) // who is loggedin
+          ->get();
+      $friends2 = DB::table('friendships')
+          ->leftJoin('users', 'users.id', 'friendships.requester')
+          ->where('status', 1)
+          ->where('user_requested', $uid)
+          ->get();
+      $friends = array_merge($friends1->toArray(), $friends2->toArray());
+      return view('newMessage', compact('friends', $friends));*/
+    }
+
+    public function sendNewMessage(Request $request) {
+    	$msg = $request->msg;
+    	$friendId = $request->friendId;
+    	$myID = Auth::user()->id;
+
+    	// check if conversation already started or not
+    	$checkCon1 = DB::table('conversation')->where('user_one', $myID)
+    		->where('user_two', $friendId)->get(); // if logged in user started the conversation
+
+    	$checkCon2 = DB::table('conversation')->where('user_two', $myID)
+    		->where('user_one', $friendId)->get(); // if logged in user received message first
+
+    	$allCons = array_merge($checkCon1->toArray(), $checkCon2->toArray());
+    	//echo count($allCons);
+
+    	if(count($allCons != 0)){
+    		// old conversation
+    		$conId_old = $allCons[0]->id;
+    		// insert data into messages table
+    		$msgSent = DB::table('messages')->insert([
+    			'user_from'       => $myID,
+    			'user_to'         => $friendId,
+    			'msg'             => $msg,
+    			'conversation_id' => $conId_old,
+    			'status'          => 1
+    		]);
+    	}else {
+    		// new conversation
+    		$conId_new = DB::table('conversation')->insertGetId([
+    			'user_one' => $myID,
+    			'user_to'  => $friendId
+    		]);
+    		//echo $conId_new;
+
+    		$msgSent = DB::table('messages')->insert([
+    			'user_from'       => $myID,
+    			'user_to'         => $friendId,
+    			'msg'             => $msg,
+    			'conversation_id' => $conId_new,
+    			'status'          => 1 
+    		]);
+    	}
+    }
+
     public function startContract(Request $request) {
     	$idAuth = Auth::user()->id;
         $conID = $request->conID;

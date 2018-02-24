@@ -59341,12 +59341,10 @@ var app = new Vue({
     privateMsgs: [],
     singleMsgs: [],
     msgFrom: '',
-    conID: ''
-    /*,,
+    conID: '',
     friend_id: '',
     seen: false,
     newMsgFrom: ''
-    */
   },
 
   ready: function ready() {
@@ -59428,27 +59426,23 @@ var app = new Vue({
     },
 
 
-    /* friendID: function(id){
-       app.friend_id = id;
-     },
-     sendNewMsg(){
-       axios.post('sendNewMessage', {
-              friend_id: this.friend_id,
-              msg: this.newMsgFrom,
-            })
-            .then(function (response) {
-              console.log(response.data); // show if success
-              if(response.status===200){
-                window.location.replace('http://localhost/larabook/index.php/messages');
-                app.msg = 'your message has been sent successfully';
-              }
-             })
-            .catch(function (error) {
-              console.log(error); // run if we have error
-            });
-     }
-    */
-
+    friendID: function friendID(id) {
+      app.friend_id = id;
+    },
+    sendNewMsg: function sendNewMsg() {
+      axios.post('sendNewMessage', {
+        friend_id: this.friend_id,
+        msg: this.newMsgFrom
+      }).then(function (response) {
+        console.log(response.data); // show if success
+        if (response.status === 200) {
+          window.location.replace('messages');
+          app.msg = 'your message has been sent successfully';
+        }
+      }).catch(function (error) {
+        console.log(error); // run if we have error
+      });
+    },
     startContract: function startContract() {
       axios.post('startContract', {
         conID: this.conID

@@ -23,12 +23,10 @@ const app = new Vue({
     privateMsgs: [],
     singleMsgs: [],
     msgFrom: '',
-    conID: ''
-    /*,,
+    conID: '',
     friend_id: '',
     seen: false,
     newMsgFrom: ''
-*/
  },
 
  ready: function(){
@@ -102,7 +100,7 @@ const app = new Vue({
      }
    },
 
-  /* friendID: function(id){
+   friendID: function(id){
      app.friend_id = id;
    },
    sendNewMsg(){
@@ -113,7 +111,7 @@ const app = new Vue({
           .then(function (response) {
             console.log(response.data); // show if success
             if(response.status===200){
-              window.location.replace('http://localhost/larabook/index.php/messages');
+              window.location.replace('messages');
               app.msg = 'your message has been sent successfully';
             }
 
@@ -121,8 +119,7 @@ const app = new Vue({
           .catch(function (error) {
             console.log(error); // run if we have error
           });
-   }
-*/  
+   }, 
 
     startContract(){
        axios.post('startContract', {

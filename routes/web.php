@@ -59,7 +59,10 @@ Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
 Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
 
 
-Route::post('/sendMessage', 'MessagesController@sendMessage');
+Route::get('newMessage','MessagesController@newMessage');
+Route::post('sendNewMessage', 'MessagesController@sendNewMessage');
+Route::post('sendMessage', 'MessagesController@sendMessage');
+
 
 Route::post('/startContract', 'MessagesController@startContract');
 
