@@ -102,11 +102,15 @@ const app = new Vue({
 
    friendID: function(id){
      app.friend_id = id;
+     console.log(app.friend_id);
    },
+
    sendNewMsg(){
+    /*console.log(this.newMsgFrom);
+    console.log(this.friend_id);*/
      axios.post('sendNewMessage', {
             friend_id: this.friend_id,
-            msg: this.newMsgFrom,
+            msg: this.newMsgFrom
           })
           .then(function (response) {
             console.log(response.data); // show if success

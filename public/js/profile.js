@@ -59313,9 +59313,8 @@ module.exports = __webpack_require__(164);
 
 /***/ }),
 /* 164 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
 
 __webpack_require__(12);
 
@@ -59428,8 +59427,12 @@ var app = new Vue({
 
     friendID: function friendID(id) {
       app.friend_id = id;
+      console.log(app.friend_id);
     },
+
     sendNewMsg: function sendNewMsg() {
+      /*console.log(this.newMsgFrom);
+      console.log(this.friend_id);*/
       axios.post('sendNewMessage', {
         friend_id: this.friend_id,
         msg: this.newMsgFrom

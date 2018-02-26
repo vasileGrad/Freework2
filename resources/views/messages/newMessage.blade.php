@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="col-md-12 msgDiv" >
+<div class="col-md-12 msgDiv" id="app">
 
   <div style="background-color:#fff" class="col-md-3 pull-left">
 
@@ -12,13 +12,13 @@
 
        <div class="col-md-7"><h3>Freelancers</h3></div>
        <div class="col-md-5 pull-right">
-         <a href="{{url('messages')}}" class="btn btn-sm btn-info">All messages</a>
+         <a href="{{url('messages')}}" class="btn btn-sm btn-info">All messages</a>@{{conID}}
        </div>
     </div>
 
    @foreach($freelancers as $freelancer)
 
-   <li @click="friendID({{$freelancer->id}})" v-on:click="seen = true" style="list-style:none;
+   <li @click="friendID({{$freelancer->id}})" v-on:click="seen=true" style="list-style:none;
     margin-top:10px; background-color:#F3F3F3" class="row">
 
       <div class="col-md-3 pull-left">
@@ -37,11 +37,11 @@
 
 
   <div class="col-md-6 msg_main">
-   <h3 align="center">Messages</h3>
-<p class="alert alert-success">@{{msg}}</p>
+    <h3 align="center">Messages</h3>
+    <p class="alert alert-success">@{{msg}}</p>
 
-   <div  v-if="seen">
-      <input type="hidden" v-model="friend_id">
+   <div v-if="seen">
+      <input type="text" v-model="friend_id">
       <textarea class="col-md-12 form-control" v-model="newMsgFrom"></textarea><br>
       <input type="button" value="send message" @click="sendNewMsg()">
   </div>

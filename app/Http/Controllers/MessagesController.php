@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Conversation;
 
 class MessagesController extends Controller
 {
@@ -65,21 +66,22 @@ class MessagesController extends Controller
     }
 
     public function sendNewMessage(Request $request) {
-    	$msg = $request->msg;
-    	$friendId = $request->friendId;
+        $msg = $request->msg;
+    	$friendId = $request->friend_id;
     	$myID = Auth::user()->id;
 
+
     	// check if conversation already started or not
-    	$checkCon1 = DB::table('conversation')->where('user_one', $myID)
+    	$checkCon1 = DB::table('conversations')->where('user_one', $myID)
     		->where('user_two', $friendId)->get(); // if logged in user started the conversation
 
-    	$checkCon2 = DB::table('conversation')->where('user_two', $myID)
+    	$checkCon2 = DB::table('conversations')->where('user_two', $myID)
     		->where('user_one', $friendId)->get(); // if logged in user received message first
 
     	$allCons = array_merge($checkCon1->toArray(), $checkCon2->toArray());
-    	//echo count($allCons);
 
-    	if(count($allCons != 0)){
+    	if(count($allCons) != 0){
+            
     		// old conversation
     		$conId_old = $allCons[0]->id;
     		// insert data into messages table
@@ -92,11 +94,10 @@ class MessagesController extends Controller
     		]);
     	}else {
     		// new conversation
-    		$conId_new = DB::table('conversation')->insertGetId([
+    		$conId_new = DB::table('conversations')->insertGetId([
     			'user_one' => $myID,
-    			'user_to'  => $friendId
+    			'user_two'  => $friendId
     		]);
-    		//echo $conId_new;
 
     		$msgSent = DB::table('messages')->insert([
     			'user_from'       => $myID,
