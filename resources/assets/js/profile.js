@@ -117,6 +117,7 @@ const app = new Vue({
             if(response.status===200){
               window.location.replace('messages');
               app.msg = 'your message has been sent successfully';
+              this.messages(2);
             }
 
           })
@@ -124,7 +125,7 @@ const app = new Vue({
             console.log(error); // run if we have error
           });
    }, 
-
+   
     startContract(){
        axios.post('startContract', {
           conID: this.conID

@@ -59441,6 +59441,7 @@ var app = new Vue({
         if (response.status === 200) {
           window.location.replace('messages');
           app.msg = 'your message has been sent successfully';
+          this.messages(2);
         }
       }).catch(function (error) {
         console.log(error); // run if we have error

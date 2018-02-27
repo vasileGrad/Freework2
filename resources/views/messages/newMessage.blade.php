@@ -36,15 +36,17 @@
 
 
 
-  <div class="col-md-6 msg_main">
-    <h3 align="center">Messages</h3>
-    <p class="alert alert-success">@{{msg}}</p>
+    <div class="col-md-6 msg_main">
+      <h3 align="center">Messages</h3>
+     {{--  <p class="alert alert-success">@{{msg}}</p> --}}
 
-   <div v-if="seen">
-      <input type="text" v-model="friend_id">
-      <textarea class="col-md-12 form-control" v-model="newMsgFrom"></textarea><br>
-      <input type="button" value="send message" @click="sendNewMsg()">
-  </div>
+     <div v-if="seen">
+        @include('messages.messenger')
+
+        <input type="text" v-model="friend_id">
+        <textarea class="col-md-12 form-control" v-model="newMsgFrom"></textarea><br>
+        <input type="button" value="send message" @click="sendNewMsg()">
+    </div>
 
   </div>
 

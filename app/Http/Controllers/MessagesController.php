@@ -45,7 +45,9 @@ class MessagesController extends Controller
 
     public function newMessage(){
       $uid = Auth::user()->id;
-      $freelancers = DB::table('users')->get();
+      $freelancers = DB::table('users')
+            ->where('id', '!=', $uid)
+            ->get();
 
       //dd($freelancers);
       return view('messages.newMessage', compact('freelancers', $freelancers));
