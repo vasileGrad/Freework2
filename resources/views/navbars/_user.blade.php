@@ -35,7 +35,7 @@
       </ul>
     </li>
     <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>MY JOBJ</strong></a>
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>MY JOBS</strong></a>
       <ul class="dropdown-menu">
         <li><a href="#">My Jobs</a></li>
         <li role="separator" class="divider"></li>
@@ -69,7 +69,47 @@
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
-  <ul class="nav navbar-nav navbar-right">
+  {{-- <ul class="nav navbar-nav navbar-right">
     <li class="dropdown">
-      <h4><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span></a></h4>
-    </li>
+      <h4><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell" style="margin-top: 6px"></span></a></h4>
+      <h4>Notificare 1</h4>
+      <h4>Notificare 2</h4>
+      <h4>Notificare 3</h4>
+    </li> --}}
+
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <h4><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell" style="margin-top: 6px;margin-right:40px;"></span></a></h4>
+        <ul class="dropdown-menu" role="menu">
+          <li style="background-color:#E4E9F2;width:400px">
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="/images/profile/vasile.PNG" style="width:50px; padding:5px; background:#fff; border:1px solid #eee" class="img-rounded">
+                </div>
+                <div class="col-md-10">
+                    <b style="color:green; font-size:90%">First Name</b> <span style="color:#000; font-size:90%">Notificare 1</span><br>
+                    <small style="color:#90949C">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        Date</small>
+                </div>
+            </div>
+            <hr>
+          </li>
+          
+        </ul>
+      </li>
+
+
+  {{-- <li class="dropdown">
+          <a href="#" class="dropdown-toggle dropdown-logout" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->firstName}} {{Auth::user()->lastName}}<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">Logout</a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+              </form>
+            </li>
+          </ul>
+        </li>
+ --}}

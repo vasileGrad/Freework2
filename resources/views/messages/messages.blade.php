@@ -28,7 +28,7 @@
 
     		@include('messages.messenger')
             
-            <input type="text" v-model="conID">
+           {{--  <input type="text" v-model="conID"> --}}
             <textarea class="col-md-12 form-control" placeholder="Type a message..." v-model="msgFrom" @keydown="inputHandler" style="margin-top:15px;"></textarea>
     	</div>
 
@@ -49,7 +49,7 @@
     </div>
 </div>
 @endsection
-
+	
 @section('scripts')
 	{{ Html::script('js/moment.min.js') }}
 @endsection

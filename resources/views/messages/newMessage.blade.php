@@ -43,7 +43,7 @@
      <div v-if="seen">
         @include('messages.messenger')
 
-        <input type="text" v-model="friend_id">
+        {{-- <input type="text" v-model="friend_id"> --}}
         <textarea class="col-md-12 form-control" v-model="newMsgFrom"></textarea><br>
         <input type="button" value="send message" @click="sendNewMsg()">
     </div>

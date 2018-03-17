@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Conversation;
+use App\Message;
+use App\Events\NewMessageEvent;
 
 class MessagesController extends Controller
 {
@@ -32,6 +34,16 @@ class MessagesController extends Controller
             'conversation_id' => $conID
         ]);
 
+        $message = Message::where('user_to', $userTo)
+                            ->where('user_from', Auth::user()->id)
+                            ->where('msg', $msg)
+                            ->where('conversation_id', $conID)
+                            ->first();
+
+
+        //broadcast(new NewMessageEvent($message))->toOthers();
+        event(new NewMessageEvent($message));
+
         if($sendM){
             $userMsg = DB::table('messages')
                 ->leftJoin('users', 'users.id', 'messages.user_from')
@@ -41,6 +53,8 @@ class MessagesController extends Controller
         }else{
             echo 'not sent';
         }
+
+
     }
 
     public function newMessage(){

@@ -28,12 +28,14 @@ const app = new Vue({
     seen: false,
     newMsgFrom: ''
  },
-
  ready: function(){
    this.created();
+   //this.listen();
+ },
+ mounted() {
+  this.listen();
  },
  created(){
-  //console.log('createdddddd');
    axios.get('getMessages')
         .then(response => {
           console.log(response.data); // show if success
@@ -75,7 +77,7 @@ const app = new Vue({
       return moment();
     },
 
-   sendMsg(){
+   sendMsg() {
      if(this.msgFrom){
       //alert(this.conID);
       //alert(this.msgFrom);
@@ -94,10 +96,17 @@ const app = new Vue({
         .catch(function (error) {
           console.log(error); // run if we have error
         });
-      this.msgFrom = "";
-      //setInterval(refreshMessages(this.conID), 1000);
-      //this.refreshMessages(this.conID);
-     }
+        this.msgFrom = "";
+      }
+    },
+   listen() {
+      //Echo.private('conversation.'+this.conversation_id)
+      Echo.private('conversation.'+app.conID)
+        .listen('NewMessageEvent', (message) => {
+          console.log(message);
+          app.singleMsgs = message.data;
+          app.conID = message[0].conversation_id;
+        })
    },
 
    friendID: function(id){
@@ -106,8 +115,6 @@ const app = new Vue({
    },
 
    sendNewMsg(){
-    /*console.log(this.newMsgFrom);
-    console.log(this.friend_id);*/
      axios.post('sendNewMessage', {
             friend_id: this.friend_id,
             msg: this.newMsgFrom

@@ -33,7 +33,6 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle dropdown-logout" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->firstName}} {{Auth::user()->lastName}}<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li role="separator" class="divider"></li>
             <li>
               <a href="{{ route('logout') }}" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">Logout</a>
