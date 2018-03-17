@@ -10,7 +10,7 @@
                 <div class="panel-heading">Login FREELANCER</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('freelancer.login.submit') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -57,7 +57,7 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                <a class="btn btn-link" href="{{-- {{ route('password.request') }} --}}">
                                     Forgot Your Password?
                                 </a>
                             </div>
@@ -65,7 +65,7 @@
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <p class="br-br">Don't have an account? <b><a href="{{ route('register')}}">Sign Up</a></b></p>
+                                <p class="br-br">Don't have an account? <b><a href="{{ route('freelancer.register')}}">Sign Up</a></b></p>
                             </div>
                         </div>
                     </form>

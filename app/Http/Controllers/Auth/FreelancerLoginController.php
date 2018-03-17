@@ -9,16 +9,16 @@ use App\User;
 use Auth;
 
 
-class ClientLoginController extends Controller
+class FreelancerLoginController extends Controller
 {
     public function __construct()
 	{
-		$this->middleware('guest:client');
+		$this->middleware('guest:freelancer');
 	}
 
     public function showLoginForm()
     {
-    	return view('auth.client-login');
+    	return view('auth.freelancer-login');
     }
 
     public function login(Request $request)
@@ -32,15 +32,15 @@ class ClientLoginController extends Controller
         $user = User::where('email', '=', $request->email)
                     ->orWhere('password', '=', $request->password)->first();
         //dd($user->role_id);
-        if($user->role_id == 3){
+        if($user->role_id == 2){
             //The attempt method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table.
 
             // guard('admin') - will run in the Admin Model instead of User Model
             // Auth::guard('admin')->attempt($credentials, $remember)
 
-            if (Auth::guard('client')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember))  {
+            if (Auth::guard('freelancer')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember))  {
                 // If successful, then redirect to their intended location
-                return redirect()->intended(route('client.dashboard'));
+                return redirect()->intended(route('freelancer.dashboard'));
 
                 // The intended method on the redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. A fallback URI may be given to this method in case the intended destination is not available.
             }

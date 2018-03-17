@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'freelancer',
         'passwords' => 'users',
     ],
 
@@ -43,12 +43,17 @@ return [
 
         'admin' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'users',
         ],
 
         'client' => [
             'driver' => 'session',
-            'provider' => 'clients',
+            'provider' => 'users',
+        ],
+
+        'freelancer' => [
+            'driver' => 'session',
+            'provider' => 'users',
         ],
 
         'api' => [

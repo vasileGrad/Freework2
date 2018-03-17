@@ -3,13 +3,13 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\Client as Authenticatable;
+use Illuminate\Foundation\Auth\Freelancer as Authenticatable;
 
-class Client extends Authenticatable
+class Freelancer extends Authenticatable
 {
     use Notifiable;
 
-    protected $guard = 'client';
+    protected $guard = 'freelancer';
     /**
      * The attributes that are mass assignable.
      *
@@ -19,9 +19,9 @@ class Client extends Authenticatable
         'user_id'
     ];
 
-    // One Client has many jobs
+    /*// One Client has many jobs
     public function jobs()
     {
         return $this->hasMany('\App\Job');
-    }
+    }*/
 }

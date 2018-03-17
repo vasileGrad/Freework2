@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use App\Client;
+use App\Freelancer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersClients;
+use Illuminate\Foundation\Auth\RegistersFreelancers;
 
-class ClientRegisterController extends Controller
+class FreelancerRegisterController extends Controller
 {
       /*
     |--------------------------------------------------------------------------
@@ -22,14 +22,14 @@ class ClientRegisterController extends Controller
     |
     */
 
-    use RegistersClients;
+    use RegistersFreelancers;
 
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/client';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -38,7 +38,7 @@ class ClientRegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest:client');
+        $this->middleware('guest:freelancer');
     }
 
     
@@ -76,19 +76,19 @@ class ClientRegisterController extends Controller
         )); 
         
         $user = User::create([
-            'role_id' => 3,
+            'role_id' => 2,
             'firstName' => $data['firstName'],
             'lastName' => $data['lastName'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
 
-        Client::create([
+        Freelancer::create([
             'user_id' => $user->id
         ]);
 
         $this->guard()->login($user);
 
-        return redirect(route('client.dashboard'));
+        return redirect(route('freelancer.dashboard'));
     }
 }

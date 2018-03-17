@@ -8,15 +8,22 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-
-
-      {{-- <a class="navbar-brand" @if (Auth::check()) href="{{redirect()->back()}}" @else href="{{ route('main') }}" @endif><img src="/images/Freework_logo.png" class="freework-img" /></a> --}}
-      <a class="navbar-brand" @if (Auth::guard('web')->check()) href="{{ route('home') }}" @elseif (Auth::guard('client')->check())) href="{{ route('client.dashboard') }}" @elseif (Auth::guard('admin')->check())) href="{{ route('admin.dashboard') }}"@endif><img src="/images/Freework_logo.png" class="freework-img" /></a>
+      <a class="navbar-brand" 
+        @if (Auth::guard('freelancer')->check()) 
+          href="{{ route('home') }}" 
+        @elseif (Auth::guard('client')->check())) 
+          href="{{ route('client.dashboard') }}" 
+        @elseif (Auth::guard('admin')->check())) 
+          href="{{ route('admin.dashboard') }}" 
+        @elseif (!Auth::check()) 
+          href="{{ route('main') }}" 
+        @endif>
+      <img src="/images/Freework_logo.png" class="freework-img" /></a>
     </div>
 
     @if (Auth::check()) 
 
-        @if (Auth::guard('web')->check())
+        @if (Auth::guard('freelancer')->check())
 
             @include('navbars._user')
 

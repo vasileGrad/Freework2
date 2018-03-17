@@ -31,12 +31,21 @@ Route::prefix('admin')->group(function() {
 });
 
 Route::prefix('client')->group(function() {
-	Route::get('/login', 'Auth\ClientLoginController@showLoginForm')->name('client.login');
-	Route::post('/login', 'Auth\ClientLoginController@login')->name('client.login.submit');
+    Route::get('/login', 'Auth\ClientLoginController@showLoginForm')->name('client.login');
+    Route::post('/login', 'Auth\ClientLoginController@login')->name('client.login.submit');
 
-	Route::get('/register', 'Auth\ClientRegisterController@showRegistrationForm')->name('client.register');
-	Route::post('/register', 'Auth\ClientRegisterController@register')->name('client.register.submit');
-	Route::get('/', 'ClientController@index')->name('client.dashboard');
+    Route::get('/register', 'Auth\ClientRegisterController@showRegistrationForm')->name('client.register');
+    Route::post('/register', 'Auth\ClientRegisterController@register')->name('client.register.submit');
+    Route::get('/', 'ClientController@index')->name('client.dashboard');
+});
+
+Route::prefix('freelancer')->group(function() {
+	Route::get('/login', 'Auth\FreelancerLoginController@showLoginForm')->name('freelancer.login');
+	Route::post('/login', 'Auth\FreelancerLoginController@login')->name('freelancer.login.submit');
+
+	Route::get('/register', 'Auth\FreelancerRegisterController@showRegistrationForm')->name('freelancer.register');
+	Route::post('/register', 'Auth\FreelancerRegisterController@register')->name('freelancer.register.submit');
+	Route::get('/', 'FreelancerController@index')->name('freelancer.dashboard');
 });
 
 Route::resource('jobs', 'Client\JobController');

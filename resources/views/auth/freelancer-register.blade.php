@@ -10,7 +10,7 @@
                 <div class="panel-heading">Register FREELANCER</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('freelancer.register.submit') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('firstName') ? ' has-error' : '' }}">
@@ -87,7 +87,7 @@
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <p class="br-br">Already have an account? <b><a href="{{ route('login')}}">Log In</a></b></p>
+                                <p class="br-br">Already have an account? <b><a href="{{ route('freelancer.login')}}">Log In</a></b></p>
                             </div>
                         </div>
                     </form>
