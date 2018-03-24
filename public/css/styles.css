@@ -110,3 +110,11 @@ a:active { color: #000000; text-decoration: none}
     top: 80px;
 }
 
+/* Admin */
+.padding-left {
+    margin-left: 15px;
+}
+
+.label-skill {
+    font-size: 18px;
+}

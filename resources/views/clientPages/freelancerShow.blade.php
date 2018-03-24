@@ -71,8 +71,8 @@
 	  	</div>
 	  	<div class="panel-body">
 	    	@foreach($freelancer->skills as $skill)
-			<h3><span class="label label-info">{{ $skill->skillName }}</span></h3>
-		@endforeach
+				<h4><span class="label label-info">{{ $skill->skillName }}</span></h4>
+			@endforeach
 	  	</div>
 	</div>
 

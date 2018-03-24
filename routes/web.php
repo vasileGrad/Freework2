@@ -54,11 +54,17 @@ Route::prefix('admin')->group(function() {
     Route::get('/findClients', 'AdminController@findClients')->name('findClients');
     Route::get('/findJobs', 'AdminController@findJobs')->name('findJobs');
     Route::resource('skills', 'Admin\SkillController');
-    Route::post('/findSkill', 'Admin\SkillController@findSkill')->name('findSkill');
+    Route::get('/findSkill', 'Admin\SkillController@findSkill')->name('findSkill');
     Route::get('/showSkills', 'Admin\SkillController@showSkills')->name('showSkills');
     Route::resource('categories', 'Admin\CategoryController');
-    Route::post('/findCategory', 'Admin\CategoryController@findCategory')->name('findCategory');
+    Route::get('/findCategory', 'Admin\CategoryController@findCategory')->name('findCategory');
     Route::get('/showCategories', 'Admin\CategoryController@showCategories')->name('showCategories');
+    Route::get('/findJob', 'Admin\JobController@findJob')->name('findJob');
+    Route::get('/findJobFilter', 'Admin\JobController@findJobFilter')->name('findJobFilter');
+    Route::get('/showJob/{id}', 'Admin\JobController@showJob')->name('showJob');
+    Route::put('/blockJob/{id}', 'Admin\JobController@blockJob')->name('blockJob');
+    Route::get('/blockedJobs', 'Admin\JobController@blockedJobs')->name('blockedJobs');
+
 });
 
 

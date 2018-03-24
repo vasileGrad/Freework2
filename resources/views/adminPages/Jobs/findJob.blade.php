@@ -10,7 +10,7 @@
                 <div class="panel-heading">
                 	<div class="row">
         				<div class="col-md-12">
-		                	<form method="POST" action="{{ route("jobSearchFilter") }}">
+		                	<form method="GET" action="{{ route("findJobFilter") }}">
 				            	{{ csrf_field() }}
 								<div class="input-group col-md-8 col-sm-8">
 				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Jobs">
@@ -24,16 +24,16 @@
 				                
 				                <br><br>
 				            
-					            @if (count($jobs) === 1)
-					            	<h4><span class="badge">{{ count($jobs) }}</span> Job found</h4>
+					            @if($jobs->total() === 1)
+					            	<h4><span class="badge">{{ $jobs->total() }}</span> Job found</h4>
 					            	
 					            @else
-					            	<h4><span class="badge">{{ count($jobs) }}</span> Jobs found</h4>
+					            	<h4><span class="badge">{{ $jobs->total() }}</span> Jobs found</h4>
 					            @endif
 
 					        	<div class="row filters" style="display: none">
 							    	<div class="col-md-12">
-							    		<hr>
+							    		{{-- <hr>
 							    		<div class="col-md-4 col-sm-4 form-group">
 											<h4><strong>Job Type</strong></h4>
 											  <input type="radio" name="job_type" value="Any" checked> Any Job Type<br>
@@ -78,7 +78,7 @@
 											  <input type="radio" name="project_length" value="1 to 3 months"> 1 to 3 months ({{$one_three_months}})<br>
 											  <input type="radio" name="project_length" value="3 to 6 months"> 3 to 6 months ({{$three_six_months}})<br>
 											  <input type="radio" name="project_length" value="More than 6 months"> More than 6 months ({{$more_six_months}})<br><br>
-							    		</div><hr>
+							    		</div><hr> --}}
 							    	</div>
 					        	</div>
 					        </form>
@@ -87,23 +87,41 @@
                 </div>
                 <div class="panel-body">
                 	<div class="list-group">
-                		@foreach ($jobs as $job)
-                			<div class="row">
-							  	<a href="{{ route('jobShow', $job->id)}}" class="list-group-item">
-							  	{{-- <a href="{{ route('showJob.show', $job->id)}}" class="list-group-item"> --}}
-							  		<span>
-								  		<h4 class="list-group-item-heading"><strong>{{$job->title}}</strong>
-								    	<button type="button" class="btn btn-sm btn-circle pull-right glyphicon glyphicon-heart-empty"></button></h4><br>
-							  		</span>
-							    	
-							    	<h4 class="list-group-item-text"><strong>{{$job->paymentName}}</strong> - {{$job->levelName}} - Budget: &#36;{{ $job->paymentAmount }} - Posted: {{ $job->created_at }}</h4><br>
-							    	<h4 class="list-group-item-text">{{ substr(strip_tags($job->description), 0, 30) }}{{ strlen(strip_tags($job->description)) > 30 ? "..." : ""}}</h4><br>
-							    	<small>
-							    		<h5 class="list-group-item-text"><strong>Client: {!! $job->firstName !!}</strong> <span class="glyphicon glyphicon-map-marker">{!! $job->country !!}</span></h5>
-							    	</small><br>
-							  	</a>
+                		 @if($jobs->total() == 0)
+		                	<div class="list-group center-title">
+		                		<span class="list-group-item-text">
+		                			<div class="col-sm-12">
+		                				<h3 class="list-group-item-text"><strong>Job not found</strong></h3>
+		                			</div>
+		                		</span><br><br><br>
+			                </div>
+			            @else
+	                		@foreach ($jobs as $job)
+	                			<div class="row">
+	                				<div class="col-md-12">
+                						<a href="{{ route('showJob', $job->id)}}" class="list-group-item">
+                							<div class="row">
+            									<div class="col-md-11 col-offset-md-2 col-sm-11 col-offset-sm-2 padding-left">
+											  		<span>
+												  		<h4 class="list-group-item-heading"><strong>{{$job->title}}</strong>
+												    	<button type="button" class="btn btn-sm btn-circle pull-right glyphicon glyphicon-heart-empty"></button></h4><br>
+											  		</span>
+											    	
+											    	<h4 class="list-group-item-text"><strong>{{$job->paymentName}}</strong> - {{$job->levelName}} - Budget: &#36;{{ $job->paymentAmount }} - Posted: {{ $job->created_at }}</h4>
+											    	<h4 class="list-group-item-text">{{ substr(strip_tags($job->description), 0, 30) }}{{ strlen(strip_tags($job->description)) > 30 ? "..." : ""}}</h4>
+											    	<small>
+											    		<h5 class="list-group-item-text"><strong>Client: {!! $job->firstName !!}</strong> <span class="glyphicon glyphicon-map-marker">{!! $job->country !!}</span></h5>
+											    	</small>
+											    </div>
+											</div>
+								  		</a>
+	                				</div>
+								</div>
+							@endforeach
+							<div class="text-center">
+								{!! $jobs->links(); !!}
 							</div>
-						@endforeach
+						@endif
 					</div>
                 </div>
         	</div>

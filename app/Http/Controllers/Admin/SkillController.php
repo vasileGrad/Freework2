@@ -153,7 +153,7 @@ class SkillController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function findSkill(Request $request)
-    {
+    {   
         $search = $request->input('search');
         if($search != '')
             $keyword_skill = $search;
