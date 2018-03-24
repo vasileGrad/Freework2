@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Route::get('/', 'PagesController@getIndex')->name('main');
 
-Auth::routes();
+Auth::routes(); 
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -62,8 +62,11 @@ Route::prefix('admin')->group(function() {
     Route::get('/findJob', 'Admin\JobController@findJob')->name('findJob');
     Route::get('/findJobFilter', 'Admin\JobController@findJobFilter')->name('findJobFilter');
     Route::get('/showJob/{id}', 'Admin\JobController@showJob')->name('showJob');
+    Route::get('/showBlockedJob/{id}', 'Admin\JobController@showBlockedJob')->name('showBlockedJob');
     Route::put('/blockJob/{id}', 'Admin\JobController@blockJob')->name('blockJob');
     Route::get('/blockedJobs', 'Admin\JobController@blockedJobs')->name('blockedJobs');
+    Route::get('/blockedJobsFilter', 'Admin\JobController@blockedJobsFilter')->name('blockedJobsFilter');
+    Route::put('/unblockJob/{id}', 'Admin\JobController@unblockJob')->name('unblockJob');
 
 });
 

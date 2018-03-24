@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', '| Freelancer Job Search Page')
+@section('title', '| Job Search Page')
 
 @section('content')
 <div class="container">
@@ -10,9 +10,9 @@
                 <div class="panel-heading">
                 	<div class="row">
         				<div class="col-md-12">
-		                	<form method="GET" action="{{ route("findJobFilter") }}">
+		                	<form method="GET" action="{{-- {{ route("findJobFilter") }} --}}">
 				            	{{ csrf_field() }}
-								<div class="input-group col-md-8 col-sm-8">
+								<div class="input-group col-md-8 col-sm-8 padding-left mainUser">
 				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Jobs">
 				                    <div class="input-group-btn">
 				                        <button type="submit" class="btn btn-default">Submit</button>
@@ -24,12 +24,15 @@
 				                
 				                <br><br>
 				            
-					            @if($jobs->total() === 1)
+				            	<div class="row padding-left">
+				            		@if($jobs->total() === 1)
 					            	<h4><span class="badge">{{ $jobs->total() }}</span> Job found</h4>
 					            	
-					            @else
-					            	<h4><span class="badge">{{ $jobs->total() }}</span> Jobs found</h4>
-					            @endif
+					            	@else
+					            		<h4><span class="badge">{{ $jobs->total() }}</span> Jobs found</h4>
+					            	@endif
+				            	</div>
+					            
 
 					        	<div class="row filters" style="display: none">
 							    	<div class="col-md-12">

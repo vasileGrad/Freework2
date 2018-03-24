@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', '| Freelancer Job Search Page')
+@section('title', '| Show Job Page')
 
 @section('content')
 <div class="container">
@@ -44,14 +44,22 @@
     		<div class="panel panel-default">
                 <div class="panel-body">
 					<div class="col-md-12 col-sm-6"><br>
-						{!! Form::model($job, ['route' => ['blockJob', $job->id], 'method' => 'PUT']) !!}
-							{{ Form::submit('Block Job', ['class' => 'btn btn-danger btn-block']) }}
-						{!! Form::close() !!}
+						@if($job->status == 1)
+							{!! Form::model($job, ['route' => ['blockJob', $job->id], 'method' => 'PUT']) !!}
+								{{ Form::submit('Block Job', ['class' => 'btn btn-danger btn-block']) }}
+							{!! Form::close() !!}
+						@elseif($job->status == 0)
+							{!! Form::model($job, ['route' => ['unblockJob', $job->id], 'method' => 'PUT']) !!}
+								{{ Form::submit('Unblock Job', ['class' => 'btn btn-success btn-block']) }}
+							{!! Form::close() !!}
+						@endif
 						<br><hr>
+					  	<h5><strong>About the Client</strong></h5><br>
+					  	<h5><strong>{{$job->firstName}}</strong></h5>
+					  	<h5><span class="glyphicon glyphicon-map-marker"> {{ $job->country }}, {{$job->location}}</span></h5><br>
+					  	<h5><strong>Nr Freelancers</strong></h5>
+					  	<h5><strong>{{$job->nrFreelancers}}</strong></h5>
 					</div>
-				  	<h5><strong>About the Client</strong></h5><br>
-				  	<h5><strong>{{$job->firstName}}</strong></h5>
-				  	<h5><span class="glyphicon glyphicon-map-marker"> {{ $job->country }}, {{$job->location}}</span></h5>
                 </div>
         	</div>
     	</div>
