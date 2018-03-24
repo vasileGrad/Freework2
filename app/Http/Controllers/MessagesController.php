@@ -11,6 +11,29 @@ use App\Events\NewMessageEvent;
 
 class MessagesController extends Controller
 {
+    public function messages() {
+        return view('messages.messages');
+    }
+
+    public function getMessages() {
+        // the persons who sent me messages
+        $allUsers1 = DB::table('users') 
+            ->Join('conversations', 'users.id', 'conversations.user_one')
+            ->where('conversations.user_two', Auth::user()->id)
+            ->get();
+        //return $allUsers;
+
+        // the persons to whom I have sent the messages
+        $allUsers2 = DB::table('users') 
+            ->Join('conversations', 'users.id', 'conversations.user_two')
+            ->where('conversations.user_one', Auth::user()->id)
+            ->get();
+        //dd($allUsers2);
+
+        // combine all the users
+        return array_merge($allUsers1->toArray(), $allUsers2->toArray());
+    }
+
     public function sendMessage(Request $request) {
         $conID = $request->conID;
         $msg = $request->msg;
@@ -58,13 +81,23 @@ class MessagesController extends Controller
     }
 
     public function newMessage(){
-      $uid = Auth::user()->id;
-      $freelancers = DB::table('users')
-            ->where('id', '!=', $uid)
-            ->get();
+        $uid = Auth::user()->id;
+        //dd($uid);
+        if(Auth::user()->role_id == 2 && Auth::guard('freelancer')){
+            $users = DB::table('users')->leftJoin('clients', 'users.id', '=', 'clients.user_id')
+                                ->where('role_id', '=', 3)
+                                ->select('users.id', 'users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.image')
+                                ->get();
+        }
+        elseif(Auth::user()->role_id == 3 && Auth::guard('client')){
+            $users = DB::table('users')->leftJoin('freelancers', 'users.id', '=', 'freelancers.user_id')
+                                ->where('role_id', '=', 2)
+                                ->select('users.id', 'users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.image')
+                                ->get();
+        } 
+        //dd($users);
+        return view('messages.newMessage', compact('users'));
 
-      //dd($freelancers);
-      return view('messages.newMessage', compact('freelancers', $freelancers));
 
       /*$uid = Auth::user()->id;
       $friends1 = DB::table('friendships')

@@ -10,7 +10,7 @@
       </button>
       <a class="navbar-brand" 
         @if (Auth::guard('freelancer')->check()) 
-          href="{{ route('home') }}" 
+          href="{{ route('freelancer.dashboard') }}" 
         @elseif (Auth::guard('client')->check())) 
           href="{{ route('client.dashboard') }}" 
         @elseif (Auth::guard('admin')->check())) 
@@ -25,18 +25,22 @@
 
         @if (Auth::guard('freelancer')->check())
 
-            @include('navbars._user')
+            @include('navbars._freelancer')
 
         @elseif (Auth::guard('client')->check())
 
             @include('navbars._client')
 
         @elseif (Auth::guard('admin')->check())
-
             @include('navbars._admin')
 
         @endif
 
+        <li style="height:10px">
+          <a href="">
+            <img class="navProfilePicture" src="/images/profile/{{Auth::user()->image}}"/><br><br>
+          </a>
+        </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle dropdown-logout" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->firstName}} {{Auth::user()->lastName}}<span class="caret"></span></a>
           <ul class="dropdown-menu">

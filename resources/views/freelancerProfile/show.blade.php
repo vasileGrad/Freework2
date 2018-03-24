@@ -9,7 +9,7 @@
 		<div class="panel panel-default">
 		    <div class="panel-heading"><h3>Profile</h3>
 		</div>
-	    <div class="panel-body" id="items">
+	    <div class="panel-body" id="items"> 
 	    	<div class="row">
 	    		<div class="col-md-3">
 	    			<img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" style="border-radius: 50%" height="120" width="120" />

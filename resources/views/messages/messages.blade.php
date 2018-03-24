@@ -6,7 +6,7 @@
 <div class="row" id="app">
 	<div class="col-md-12 col-sm-12">
     	<div class="col-md-3 col-sm-3" style="background-color: #fff">
-    		<h3 align="center">Messenger <abbr title="Create New Conversation"><a href="{{url('/newMessage')}}"><i class="glyphicon glyphicon-edit pull-right"></i></a></abbr></h3>
+    		<h3 align="center">Messenger<abbr title="Create New Conversation"><a href="{{ route('newMessage') }}"><i class="glyphicon glyphicon-edit pull-right"></i></a></abbr></h3>
 
             <ul v-for="privateMsg in privateMsgs">
                 <li @click="messages(privateMsg.id)" style="list-style:none; margin:10px 0px 0px -40px; background-color:#F3F3F3" class="row">

@@ -60,7 +60,7 @@
         <li><a href="#">Tests</a></li>
       </ul>
     </li>
-    <li><a href="{{ url('messages') }}"><strong>MESSAGE</strong></a></li>
+    <li><a href="{{ route('messages') }}"><strong>MESSAGE</strong></a></li>
     <li id="glyphicon-comment" style="display: none"><h4><a href="{{ url('messages') }}"><i class="glyphicon glyphicon-comment"></i></a></h4></li>
   </ul>
   <form class="navbar-form navbar-left">

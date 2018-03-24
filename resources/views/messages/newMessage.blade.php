@@ -16,18 +16,18 @@
        </div>
     </div>
 
-   @foreach($freelancers as $freelancer)
+   @foreach($users as $user)
 
-   <li @click="friendID({{$freelancer->id}})" v-on:click="seen=true" style="list-style:none;
+   <li @click="friendID({{$user->id}})" v-on:click="seen=true" style="list-style:none;
     margin-top:10px; background-color:#F3F3F3" class="row">
 
       <div class="col-md-3 pull-left">
-           <img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" style="width:50px; height:50px; border-radius:50%; margin: 6px 6px 6px 0px" />
+           <img src="{{ asset('images/profile/' . $user->image) }}" alt="" style="width:50px; height:50px; border-radius:50%; margin: 6px 6px 6px 0px" />
        </div>
 
       <div class="col-md-9 pull-left" style="margin-top:5px">
-        <b>{{$freelancer->firstName}}</b><br>
-        <span class="glyphicon glyphicon-map-marker"></span> {{ $freelancer->location }}, {{ $freelancer->country }}
+        <b>{{$user->firstName}}</b><br>
+        <span class="glyphicon glyphicon-map-marker"></span> {{ $user->location }}, {{ $user->country }}
      </div>
    </li>
    @endforeach

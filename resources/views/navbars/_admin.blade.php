@@ -50,8 +50,8 @@
       </ul>
     </li>
 
-    <li><a href="#"><strong>CATEGORIES</strong></a></li>
-    <li><a href="#"><strong>SKILLS</strong></a></li>
+    <li class="{{ Request::is('categories/index') ? 'active' : '' }}"><a href="{{route('categories.index')}}"><strong>CATEGORIES</strong></a></li>
+    <li class="{{ Request::is('skills/index') ? 'active' : '' }}"><a href="{{route('skills.index')}}"><strong>SKILLS</strong></a></li>
   </ul>
   <form class="navbar-form navbar-left">
       <div class="form-group">

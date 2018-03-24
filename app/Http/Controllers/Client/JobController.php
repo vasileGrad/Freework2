@@ -31,17 +31,54 @@ class JobController extends Controller
     public function index()
     {
         //$job2 = Job::all()->where('clientId', Auth::user()->id);
-        //dd($job2);
+        //dd(Auth::user()->id);
 
-        $jobs = DB::table('jobs')->leftJoin('category', 'category.id', '=', 'jobs.categoryId')
+        /*$jobs = DB::table('jobs')->leftJoin('category', 'category.id', '=', 'jobs.categoryId')
                                  ->leftJoin('complexity', 'complexity.id', '=', 'jobs.complexityId')
                                  ->leftJoin('expected_duration', 'expected_duration.id', '=', 'jobs.expectedDurationId')
                                  ->leftJoin('levels', 'levels.id', '=', 'jobs.levelId')
                                  ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
                                  ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
-                                 ->where('clientId', Auth::user()->id)->paginate(5); // 5 is the number of
-
+                                 ->where('clientId', Auth::user()->id)->paginate(5);*/ // 5 is the number of
+        // 1. Selecteaza toate joburile salvate de freelancerul cu id= 4
+        $user_id = Auth::user()->id;
+        $jobs = DB::select('call saved_jobs_freelancer(?)', [$user_id]);
         //dd($jobs);
+        
+        // 2.   Selecteaza numele clientului care a postat jobul cu numele “Job 1”
+        //$job_title = 'Java programmer'; 
+        //$nume_client_job = DB::select('CALL nume_client_job(?)', [$job_title]);
+        //dd($nume_client_job);
+
+
+        //  3. Sa se afiseze toate joburile clientului cu numele “Client1”
+        //$nume_client = 'Client1';  
+        //$job_pentru_client = DB::select('CALL job_pentru_client(?)', [$nume_client]);
+        //dd($job_pentru_client); 
+
+
+        // 4. count_joburi_more_500
+        //$count = DB::select("CALL numara_joburi_more_500()");
+        //dd($count);
+
+        //5. //delete
+        //$job_title = 'Italian translation';
+        //$job_title = DB::select('CALL delete_job(?)', [$job_title]);
+        //dd($job_title);
+
+        //6. // insert
+       // $job_title = 'Job Job';
+        //$job_insert = DB::select('CALL insert_job(?)', [$job_title]);
+        //dd($job_insert);
+
+        // 6. calculoaza_valoare_freelancer - Procedura matematica
+        //$freelancer_nume = 'vasile';
+        //$freelancer_email = 'vasile@gmail.com';
+        //$valoare = DB::SELECT('CALL calculeaza_valoare_freelancer(?,?)', [$freelancer_nume, $freelancer_email]);
+        //dd($valoare);
+
+
+
         //$skills = DB::table('skills')->leftJoin('job_skill', 'job_skill.skill_id', '=', 'skills.id')
                                      //->leftJoin('jobs', 'jobs.id', '=', 'job_skill.job_id')
                                      //->where('clientId', Auth::user()->id)->paginate(5); // 5 is the number of        
@@ -153,12 +190,13 @@ class JobController extends Controller
         $jobs2 = Job::find($id);
 
         $jobs = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
+                                ->leftJoin('users', 'clients.user_id', '=', 'users.id')
                                 ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
                                 ->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')
                                 ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
                                 ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                ->select('clients.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
+                                ->select('users.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
                                 ->where('jobs.id', $id)
                                 ->get();
 

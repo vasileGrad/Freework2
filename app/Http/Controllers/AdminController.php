@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 class AdminController extends Controller
 {
@@ -25,4 +26,35 @@ class AdminController extends Controller
     {
         return view('profiles.admin');
     }
+
+    /**
+     * Find freelancers
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function findFreelancers()
+    {
+        return view('adminPages.findFreelancers');
+    }
+
+    /**
+     * Find clients
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function findClients()
+    {
+        return view('adminPages.findClients');
+    }
+
+    /**
+     * Find jobs
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function findJobs()
+    {
+        return view('adminPages.findJobs');
+    }
+
 }

@@ -233,6 +233,7 @@ return [
         'Purifier' => Mews\Purifier\Facades\Purifier::class,
         'Form' => Illuminate\Html\FormFacade::class, 
         'HTML' => Illuminate\Html\HtmlFacade::class,
+        'Input' => Illuminate\Support\Facades\Input::class,
     ],
 
 ];

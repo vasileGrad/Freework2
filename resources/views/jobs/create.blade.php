@@ -84,7 +84,7 @@
 						   		@endforeach
 						   	</select>
 						<hr>
-						{{ Form::label('nrFreelancers', 'Ho many freelancers do you need to hirefor this job?') }}
+						{{ Form::label('nrFreelancers', 'Ho many freelancers do you need to hire for this job?') }}
 				    	{{ Form::text('nrFreelancers', null, array('class' => 'form-control', 'required' => '', 'numeric', 'min' => '1', 'max' => '10')) }}
 				    	<hr>
 				    	{{ Form::label('paymentAmount', 'Estimated Budget') }}

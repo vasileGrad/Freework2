@@ -22,12 +22,13 @@ class JobSavedController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $jobs = DB::table('job_saved')->leftJoin('users', 'users.id', '=', 'job_saved.user_id')
-                                     ->leftJoin('jobs', 'jobs.id', '=', 'job_saved.job_id')
+    {   
+        //dd('heloooo');
+        $jobs = DB::table('job_saved')->leftJoin('jobs', 'jobs.id', '=', 'job_saved.job_id')
                                      ->leftJoin('clients', 'clients.id', '=', 'jobs.clientId')
+                                     ->leftJoin('users', 'users.id', '=', 'clients.user_id')
                                      ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
-                                     ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'clients.firstName', 'clients.country')
+                                     ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'users.firstName', 'users.country')
                                      ->where('users.id', Auth::user()->id)->get(); // 5 is the number of
 
 
@@ -53,23 +54,25 @@ class JobSavedController extends Controller
      */
     public function store(Request $request, $jobId)
     {
-        //dd(Auth::user()->id);
-        //dd($jobId);
-        //dd($request);
-
         $user = new User();
         $user->id = Auth::user()->id;
         //$user->jobs()->sync($jobId, false);
-        $user->jobs()->toggle($jobId);
-
-        $jobs = DB::table('users')->leftJoin('job_saved', 'job_saved.user_id', '=', 'users.id')
+        //$user->jobs()->toggle($jobId);
+        /*$job_saved = DB::table('users')->leftJoin('freelancers', 'users.id', '=', 'freelancers.user_id')
+                                 ->leftJoin('job_saved', 'job_saved.freelancer_id', '=', 'freelancers.id')
                                  ->leftJoin('jobs', 'jobs.id', '=', 'job_saved.job_id')
-                                 ->leftJoin('clients', 'clients.id', '=', 'jobs.clientId')
                                  ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
-                                 ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'clients.firstName', 'clients.country')
-                                 ->where('users.id', Auth::user()->id)->get(); // 5 is the number of
+                                 ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'users.firstName', 'users.country')
+                                 ->where('users.id', $user->id)->get(); // 5 is the number of*/
 
-        //dd($jobs);
+        $jobs = DB::table('job_saved')->leftJoin('jobs', 'jobs.id', '=', 'job_saved.job_id')
+                                 ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
+                                 ->leftJoin('freelancers', 'freelancers.user_id', '=', 'job_saved.freelancer_id')
+                                 ->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
+                                 ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'users.firstName', 'users.country')
+                                 ->where('users.id', $user->id)->get(); // 5 is the number of
+
+        //dd($job_saved);
         return view('freelancerPages.jobSaved', compact('jobs'));
     }
 

@@ -48,11 +48,26 @@ Route::prefix('freelancer')->group(function() {
 	Route::get('/', 'FreelancerController@index')->name('freelancer.dashboard');
 });
 
-Route::resource('jobs', 'Client\JobController');
+// Admin Profile
+Route::prefix('admin')->group(function() {
+    Route::get('/findFreelancers', 'AdminController@findFreelancers')->name('findFreelancers');
+    Route::get('/findClients', 'AdminController@findClients')->name('findClients');
+    Route::get('/findJobs', 'AdminController@findJobs')->name('findJobs');
+    Route::resource('skills', 'Admin\SkillController');
+    Route::post('/findSkill', 'Admin\SkillController@findSkill')->name('findSkill');
+    Route::get('/showSkills', 'Admin\SkillController@showSkills')->name('showSkills');
+    Route::resource('categories', 'Admin\CategoryController');
+    Route::post('/findCategory', 'Admin\CategoryController@findCategory')->name('findCategory');
+    Route::get('/showCategories', 'Admin\CategoryController@showCategories')->name('showCategories');
+});
 
+
+
+Route::resource('jobs', 'Client\JobController');
 Route::post('/jobSearch', 'Freelancer\SearchController@search')->name('jobSearch');
+Route::post('/jobSearchFilter', 'Freelancer\SearchController@searchFilters')->name('jobSearchFilter');
 Route::get('/jobShow/{id}', 'Freelancer\SearchController@show')->name('jobShow');
-Route::post('/jobShow/{freelancerId}', 'Freelancer\JobSavedController@store')->name('jobSaved.store');
+Route::post('/jobShow/{freelancer_id}', 'Freelancer\JobSavedController@store')->name('jobSaved.store');
 
 Route::get('/jobSaved', 'Freelancer\JobSavedController@index')->name('jobSaved');
 
@@ -62,13 +77,15 @@ Route::resource('showJob', 'Freelancer\ShowController');
 Route::resource('freelancerProfile', 'Freelancer\ProfileController');
 
 Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
+Route::post('/freelancerSearch', 'Client\SearchFreelancerController@searchFilter')->name('freelancerSearchFilter');
 
 
 Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
 Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
 
 
-Route::get('newMessage','MessagesController@newMessage');
+
+Route::get('newMessage', 'MessagesController@newMessage')->name('newMessage');
 Route::post('sendNewMessage', 'MessagesController@sendNewMessage');
 Route::post('sendMessage', 'MessagesController@sendMessage');
 
@@ -78,33 +95,10 @@ Route::post('/startContract', 'MessagesController@startContract');
 Route::post('/finishContract', 'MessagesController@finishContract');
 
 
-Route::get('/messages', function () {
-	/*$privateMsgs = DB::table('users')	
-    	->where('id', '!=', Auth::user()->id)
-    	->get();
+Route::get('/messages', 'MessagesController@messages')->name('messages');
 
-    return view('/messages', compact('privateMsgs'));*/
-	    return view('messages.messages');
-	});
+Route::get('/getMessages', 'MessagesController@getMessages')->name('getMessages');
 
-Route::get('/getMessages', function () {
-	// the persons who sent me messages
-    $allUsers1 = DB::table('users')	
-    	->Join('conversations', 'users.id', 'conversations.user_one')
-    	->where('conversations.user_two', Auth::user()->id)
-    	->get();
-    //return $allUsers;
-
-    // the persons to whom I have sent the messages
-    $allUsers2 = DB::table('users')	
-    	->Join('conversations', 'users.id', 'conversations.user_two')
-    	->where('conversations.user_one', Auth::user()->id)
-    	->get();
-    //dd($allUsers2);
-
-    // combine all the users
-    return array_merge($allUsers1->toArray(), $allUsers2->toArray());
-});
 
 Route::get('/getMessages/{id}', function ($id) {
     // check Conversation

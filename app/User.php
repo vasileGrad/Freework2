@@ -27,6 +27,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function isRole(){
+        return $this->role_id;
+    }
+
     // One User has many Skills
     public function skills()
     {
