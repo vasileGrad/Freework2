@@ -31,6 +31,9 @@
 							  	</a>
 							</div>
 						@endforeach
+						<div class="text-center">
+							{!! $jobs->links(); !!}
+						</div>
 					</div>
                 </div>
         	</div>

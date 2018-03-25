@@ -36,7 +36,7 @@ class JobController extends Controller
                                 ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
                                 ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
-                                ->where('jobs.status', '=', 1)
+                                ->where('jobs.statusActiv', '=', 1)
                                 ->orderBy('jobs.id','desc')
                                 ->paginate(5);                      
         return view('adminPages.Jobs.findJob', compact('jobs'));
@@ -65,7 +65,7 @@ class JobController extends Controller
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
                                 ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
                                 ->where([
-                                	['jobs.status', '=', 1],
+                                	['jobs.statusActiv', '=', 1],
                                 	['jobs.title', 'LIKE', '%'.$keyword_job.'%']
                                 ])
                                 ->orderBy('jobs.id','desc')
@@ -88,10 +88,10 @@ class JobController extends Controller
                             ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
                             ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                             ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                            ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.status','jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
+                            ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.statusActiv','jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
                             ->where([
                             	['jobs.id', '=', $id],
-                            	['jobs.status', '=', 1]
+                            	['jobs.statusActiv', '=', 1]
                             ])
                             ->first(); 
 
@@ -118,10 +118,10 @@ class JobController extends Controller
                             ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
                             ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                             ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                            ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.status', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
+                            ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.statusActiv', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
                             ->where([
                                 ['jobs.id', '=', $id],
-                                ['jobs.status', '=', 0]
+                                ['jobs.statusActiv', '=', 0]
                             ])
                             ->first(); 
 
@@ -188,7 +188,7 @@ class JobController extends Controller
                                 ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
                                 ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
-                                ->where('jobs.status', '=', 0)
+                                ->where('jobs.statusActiv', '=', 0)
                                 ->orderBy('jobs.id','desc')
                                 ->paginate(5);
 
@@ -218,7 +218,7 @@ class JobController extends Controller
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
                                 ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
                                 ->where([
-                                    ['jobs.status', '=', 0],
+                                    ['jobs.statusActiv', '=', 0],
                                     ['jobs.title', 'LIKE', '%'.$keyword_job.'%']
                                 ])
                                 ->orderBy('jobs.id','desc')

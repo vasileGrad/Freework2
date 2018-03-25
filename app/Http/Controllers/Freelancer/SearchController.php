@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use App\Job;
+use Auth;
 use DB;
 
 class SearchController extends Controller
@@ -19,7 +20,7 @@ class SearchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() 
     {
         $jobs = DB::table('jobs')->leftJoin('category', 'category.id', '=', 'jobs.categoryId')
                                  ->leftJoin('complexity', 'complexity.id', '=', 'jobs.complexityId')
@@ -27,7 +28,8 @@ class SearchController extends Controller
                                  ->leftJoin('levels', 'levels.id', '=', 'jobs.levelId')
                                  ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
                                  ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
-                                 ->where('clientId', Auth::user()->id)->paginate(5); // 5 is the number of
+                                 ->where('clientId', Auth::user()->id)
+                                 ->paginate(5);
 
         return view('jobs.index', compact('jobs'));
     }
@@ -59,9 +61,13 @@ class SearchController extends Controller
                                 ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
                                 ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                ->select('users.firstName', 'users.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
-                                ->where('jobs.title', 'LIKE', '%'.$keyword.'%')
-                                ->get(); 
+                                ->select('users.firstName', 'users.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.statusActiv', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
+                                ->where([
+                                    ['jobs.title', 'LIKE', '%'.$keyword.'%'],
+                                    ['jobs.statusActiv', '=', 1]
+                                ])
+                                ->orderBy('jobs.id','desc')
+                                ->paginate(5);
 
         $hourly = DB::table('jobs')->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')->where('payment_type.paymentName', 'Hourly')->count();
 
@@ -88,11 +94,11 @@ class SearchController extends Controller
         $three_six_months = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', '3 to 6 months')->count();
         $more_six_months = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', 'More than 6 months')->count();
 
-        return view('freelancerPages.jobSearch', compact('jobs', 'hourly', 'fixed_price', 'entry_level','intermediate','expert','less_100','between_100_500','between_500_1k','between_1k_5k','more_5k','less_one_week','less_one_month','one_three_months','three_six_months','more_six_months'));
+        return view('freelancerPages.findWork.jobSearch', compact('jobs', 'hourly', 'fixed_price', 'entry_level','intermediate','expert','less_100','between_100_500','between_500_1k','between_1k_5k','more_5k','less_one_week','less_one_month','one_three_months','three_six_months','more_six_months'));
     }
 
     public function searchFilters(Request $request)
-    {
+    { 
         $keyword = $request->input('search');
         $job_type = Input::get('job_type');
         $experience_level = Input::get('experience_level');
@@ -154,15 +160,17 @@ class SearchController extends Controller
                                 ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
                                 ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                ->select('users.firstName', 'users.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
+                                ->select('users.firstName', 'users.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.statusActiv', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
                                 ->where([
+                                    ['jobs.statusActiv', '=', 1],
                                     ['jobs.title', 'LIKE', '%'.$keyword.'%'],
                                     ['payment_type.paymentName', 'LIKE', '%'.$keyword_job_type.'%'],
                                     ['levels.levelName', 'LIKE', '%'.$keyword_experience_level.'%'],
                                     ['expected_duration.durationName', 'LIKE', '%'.$keyword_project_length.'%']
                                 ])
                                 ->whereBetween('jobs.paymentAmount', array($keyword_budget1, $keyword_budget2))
-                                ->get();
+                                ->orderBy('jobs.id','desc')
+                                ->paginate(5);
 
         $hourly = DB::table('jobs')->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')->where('payment_type.paymentName', 'Hourly')->count();
 
@@ -189,7 +197,7 @@ class SearchController extends Controller
         $three_six_months = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', '3 to 6 months')->count();
         $more_six_months = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', 'More than 6 months')->count();
 
-        return view('freelancerPages.jobSearch', compact('jobs', 'hourly', 'fixed_price', 'entry_level','intermediate','expert','less_100','between_100_500','between_500_1k','between_1k_5k','more_5k','less_one_week','less_one_month','one_three_months','three_six_months','more_six_months'));
+        return view('freelancerPages.findWork.jobSearch', compact('jobs', 'hourly', 'fixed_price', 'entry_level','intermediate','expert','less_100','between_100_500','between_500_1k','between_1k_5k','more_5k','less_one_week','less_one_month','one_three_months','three_six_months','more_six_months'));
     }
 
     /**
@@ -209,24 +217,42 @@ class SearchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function jobShow($id)
     {
-        $jobs2 = Job::find($id);
+        $user_id = Auth::user()->id;
 
-        $jobs = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
-                                ->leftJoin('users', 'clients.user_id', '=', 'clients.id')
-                                ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
-                                ->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')
-                                ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
-                                ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
-                                ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                ->select('users.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
-                                ->where('jobs.id', $id)
-                                ->get();
+        $job = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
+                            ->leftJoin('users', 'clients.user_id', '=', 'users.id')
+                            ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
+                            ->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')
+                            ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
+                            ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
+                            ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
+                            ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.statusActiv','jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
+                            ->where([
+                                ['jobs.id', '=', $id],
+                                ['jobs.statusActiv', '=', 1]
+                            ])
+                            ->first(); 
 
-        //dd([$jobs, $jobs]);
+        $job_skills = DB::table('skills')->leftJoin('job_skill', 'skills.id', '=', 'job_skill.skill_id')
+                                        ->leftJoin('jobs', 'job_skill.job_id', '=', 'jobs.id')
+                                        ->select('skills.skillName')
+                                        ->where('jobs.id', '=', $id)
+                                        ->get();  
 
-        return view('freelancerPages.jobShow', compact('jobs', 'jobs2'));
+        $proposal = DB::table('proposals')->where([
+                                            ['proposals.job_id', '=', $id],
+                                            ['proposals.freelancer_id', '=', $user_id]
+                                        ])->count(); 
+
+        $job_saved = DB::table('job_saved')->where([
+                                            ['job_saved.job_id', '=', $id],
+                                            ['job_saved.freelancer_id', '=', $user_id]
+                                        ])->count();
+
+        //dd([$job,$job_skills,$proposal, $job_saved, $id, $user_id]);                                                     
+        return view('freelancerPages.findWork.jobShow', compact('job','job_skills','proposal','job_saved'));
     }
 
     /**

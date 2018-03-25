@@ -10,9 +10,9 @@
                 <div class="panel-heading">
                 	<div class="row">
         				<div class="col-md-12">
-		                	<form method="POST" action="{{ route("jobSearchFilter") }}">
+		                	<form method="GET" action="{{ route("jobSearchFilter") }}">
 				            	{{ csrf_field() }}
-								<div class="input-group col-md-8 col-sm-8">
+								<div class="input-group col-md-8 col-sm-8 padding-left mainUser">
 				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Jobs">
 				                    <div class="input-group-btn">
 				                        <button type="submit" class="btn btn-default">Submit</button>
@@ -24,12 +24,14 @@
 				                
 				                <br><br>
 				            
-					            @if (count($jobs) === 1)
-					            	<h4><span class="badge">{{ count($jobs) }}</span> Job found</h4>
-					            	
-					            @else
-					            	<h4><span class="badge">{{ count($jobs) }}</span> Jobs found</h4>
-					            @endif
+				            	<div class="row padding-left">
+						            @if ($jobs->total() === 1)
+						            	<h4><span class="badge">{{ $jobs->total() }}</span> Job found</h4>
+						            	
+						            @else
+						            	<h4><span class="badge">{{ $jobs->total() }}</span> Jobs found</h4>
+						            @endif
+					            </div>
 
 					        	<div class="row filters" style="display: none">
 							    	<div class="col-md-12">
@@ -90,7 +92,6 @@
                 		@foreach ($jobs as $job)
                 			<div class="row">
 							  	<a href="{{ route('jobShow', $job->id)}}" class="list-group-item">
-							  	{{-- <a href="{{ route('showJob.show', $job->id)}}" class="list-group-item"> --}}
 							  		<span>
 								  		<h4 class="list-group-item-heading"><strong>{{$job->title}}</strong>
 								    	<button type="button" class="btn btn-sm btn-circle pull-right glyphicon glyphicon-heart-empty"></button></h4><br>
@@ -104,6 +105,9 @@
 							  	</a>
 							</div>
 						@endforeach
+						<div class="text-center">
+							{!! $jobs->links(); !!}
+						</div>
 					</div>
                 </div>
         	</div>

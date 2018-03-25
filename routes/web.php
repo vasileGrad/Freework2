@@ -10,17 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-/*
-Route::get('/', function () {
-    return view('welcome');
-});
-*/
-
-Route::get('/', 'PagesController@getIndex')->name('main');
-
 Auth::routes(); 
-
+Route::get('/', 'PagesController@getIndex')->name('main');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('admin')->group(function() {
@@ -70,27 +61,31 @@ Route::prefix('admin')->group(function() {
 
 });
 
+// Freelancer pages
+Route::prefix('freelancer')->group(function() {
+    Route::resource('freelancerProfile', 'Freelancer\ProfileController');
+    Route::post('/saveJob/{id}', 'Freelancer\JobController@saveJob')->name('saveJob');
+    Route::post('/unsaveJob/{id}', 'Freelancer\JobController@unsaveJob')->name('unsaveJob');
+    Route::get('/jobSaved', 'Freelancer\JobController@jobSaved')->name('jobSaved');
+    Route::get('/goBack', 'Freelancer\JobController@goBack')->name('goBack');
+    
+
+
+    Route::get('/jobSearch', 'Freelancer\SearchController@search')->name('jobSearch');
+    Route::get('/jobSearchFilter', 'Freelancer\SearchController@searchFilters')->name('jobSearchFilter');
+    Route::get('/jobShow/{id}', 'Freelancer\SearchController@jobShow')->name('jobShow');
+    
+    
+});
+
+//Route::resource('jobSaved', 'Freelancer\JobSavedController');
+Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
+Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
 
 
 Route::resource('jobs', 'Client\JobController');
-Route::post('/jobSearch', 'Freelancer\SearchController@search')->name('jobSearch');
-Route::post('/jobSearchFilter', 'Freelancer\SearchController@searchFilters')->name('jobSearchFilter');
-Route::get('/jobShow/{id}', 'Freelancer\SearchController@show')->name('jobShow');
-Route::post('/jobShow/{freelancer_id}', 'Freelancer\JobSavedController@store')->name('jobSaved.store');
-
-Route::get('/jobSaved', 'Freelancer\JobSavedController@index')->name('jobSaved');
-
-//Route::resource('jobSaved', 'Freelancer\JobSavedController');
-Route::resource('showJob', 'Freelancer\ShowController');
-
-Route::resource('freelancerProfile', 'Freelancer\ProfileController');
-
 Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
 Route::post('/freelancerSearch', 'Client\SearchFreelancerController@searchFilter')->name('freelancerSearchFilter');
-
-
-Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
-Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
 
 
 
