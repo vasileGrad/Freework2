@@ -36,16 +36,6 @@ class JobController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function goBack()
-    {
-        return Redirect::back();
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -69,7 +59,8 @@ class JobController extends Controller
                                      ->leftJoin('clients', 'clients.id', '=', 'jobs.clientId')
                                      ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
                                      ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'clients.firstName', 'clients.country')
-                                     ->where('users.id', Auth::user()->id)->get(); // 5 is the number of
+                                     ->where('users.id', Auth::user()->id)
+                                     ->get(); // 5 is the number of
 
         $count = DB::table('job_saved')->leftJoin('users', 'job_saved.userId', '=', 'users.id')
                                     ->where([

@@ -67,7 +67,12 @@ Route::prefix('freelancer')->group(function() {
     Route::post('/saveJob/{id}', 'Freelancer\JobController@saveJob')->name('saveJob');
     Route::post('/unsaveJob/{id}', 'Freelancer\JobController@unsaveJob')->name('unsaveJob');
     Route::get('/jobSaved', 'Freelancer\JobController@jobSaved')->name('jobSaved');
-    Route::get('/goBack', 'Freelancer\JobController@goBack')->name('goBack');
+    Route::resource('freelancerProposal', 'Freelancer\ProposalController', ['except' => ['store']]);
+    Route::post('/createProposal/{id}', 'Freelancer\ProposalController@createProposal')->name('createProposal');
+    Route::post('/storeProposal/{job_id}', 'Freelancer\ProposalController@storeProposal')->name('storeProposal');
+
+    Route::get('/goBack', 'Freelancer\SearchController@goBack')->name('goBack');
+    Route::get('/goBackProposals', 'Freelancer\ProposalController@goBackProposals')->name('goBackProposals');
     
 
 
@@ -83,9 +88,12 @@ Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
 Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
 
 
-Route::resource('jobs', 'Client\JobController');
-Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
-Route::post('/freelancerSearch', 'Client\SearchFreelancerController@searchFilter')->name('freelancerSearchFilter');
+// Client pages
+Route::prefix('client')->group(function() {
+    Route::resource('jobs', 'Client\JobController');
+    Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
+    Route::post('/freelancerSearch', 'Client\SearchFreelancerController@searchFilter')->name('freelancerSearchFilter');
+});
 
 
 

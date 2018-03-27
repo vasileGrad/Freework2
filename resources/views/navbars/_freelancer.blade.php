@@ -25,7 +25,7 @@
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('jobSaved') }}">Saved Jobs</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Proposals</a></li>
+        <li><a href="{{ route('freelancerProposal.index') }}">Proposals</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('freelancerProfile.show', Auth::user()->id) }}">Profile</a></li>
         <li role="separator" class="divider"></li>

@@ -13,8 +13,9 @@ class SearchController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:freelancer');
     }
+    
     /**
      * Display a listing of the resource.
      *
@@ -42,6 +43,17 @@ class SearchController extends Controller
     public function create()
     {
         //
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function goBack()
+    {
+        return Redirect()->route('jobSearch');
     }
 
     /**

@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-	<a href="{{route('goBack')}}"><h4><span class="glyphicon glyphicon-menu-left"></span> <strong>back link</strong></h4></a>
+	<a href="{{route('goBack')}}"><h4><span class="glyphicon glyphicon-menu-left"></span> <strong>Back to jobs list</strong></h4></a>
     <div class="row">
         <div class="col-md-8 mainUser">
             <div class="panel panel-default">
@@ -46,8 +46,8 @@
                 <div class="panel-body">
 					<div class="col-md-10 col-sm-11"><br>
 						@if($proposal == 0)
-							{!! Form::open(['route' => ['saveJob', $job->id], 'method' => 'POST']) !!}
-									{!! Form::button('<strong>Submit a Proposal</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg btn-block')) !!}
+							{!! Form::open(['route' => ['createProposal', $job->id], 'method' => 'POST']) !!}
+								{!! Form::button('<strong>Submit a Proposal</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg btn-block')) !!}
 				            {!! Form::close() !!}<br><br>
 				        @elseif($proposal == 1)
 							<h4>Proposal submitted</h4>

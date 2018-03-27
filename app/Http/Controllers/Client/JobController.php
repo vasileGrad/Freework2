@@ -33,16 +33,18 @@ class JobController extends Controller
         //$job2 = Job::all()->where('clientId', Auth::user()->id);
         //dd(Auth::user()->id);
 
-        /*$jobs = DB::table('jobs')->leftJoin('category', 'category.id', '=', 'jobs.categoryId')
+        $jobs = DB::table('jobs')->leftJoin('clients', 'clients.id', '=', 'jobs.clientId')
+                                 ->leftJoin('users', 'clients.user_id', '=', 'users.id')
+                                 ->leftJoin('category', 'category.id', '=', 'jobs.categoryId')
                                  ->leftJoin('complexity', 'complexity.id', '=', 'jobs.complexityId')
                                  ->leftJoin('expected_duration', 'expected_duration.id', '=', 'jobs.expectedDurationId')
                                  ->leftJoin('levels', 'levels.id', '=', 'jobs.levelId')
                                  ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
                                  ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
-                                 ->where('clientId', Auth::user()->id)->paginate(5);*/ // 5 is the number of
+                                 ->where('users.id', Auth::user()->id)->paginate(5); // 5 is the number of
         // 1. Selecteaza toate joburile salvate de freelancerul cu id= 4
-        $user_id = Auth::user()->id;
-        $jobs = DB::select('call saved_jobs_freelancer(?)', [$user_id]);
+        //$user_id = Auth::user()->id;
+        //$jobs = DB::select('call saved_jobs_freelancer(?)', [$user_id]);
         //dd($jobs);
         
         // 2.   Selecteaza numele clientului care a postat jobul cu numele “Job 1”
@@ -85,7 +87,7 @@ class JobController extends Controller
         //dd($skills);
 
         //return view('jobs.index', compact('jobs', 'skills'));
-        return view('jobs.index', compact('jobs'));
+        return view('clientPages.jobs.index', compact('jobs'));
     }
 
     /**
@@ -102,7 +104,7 @@ class JobController extends Controller
         $levels = Level::all();
         $skills = Skill::all();
 
-        return view('jobs.create')->withCategories($categories)
+        return view('clientPages.jobs.create')->withCategories($categories)
                                  ->withComplexities($complexities)
                                  ->withDurations($durations)
                                  ->withPayments($payments)
@@ -170,7 +172,7 @@ class JobController extends Controller
         Session::flash('success', 'The job was successfully saved!');
 
         // 3. redirect to another page : show() or index()
-        return redirect()->route('jobs.show', $job->id); // redirect to the named post called posts.show
+        return redirect()->route('clientPages.jobs.show', $job->id); // redirect to the named post called posts.show
         // grab the id from the $post->id of the post object
     }
 
@@ -202,7 +204,7 @@ class JobController extends Controller
 
         //dd($jobs);
 
-        return view('jobs.show', compact('jobs', 'jobs2'));
+        return view('clientPages.jobs.show', compact('jobs', 'jobs2'));
         //return view('jobs.show')->withJob($job);
     }
 

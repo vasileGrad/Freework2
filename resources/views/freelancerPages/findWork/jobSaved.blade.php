@@ -11,10 +11,10 @@
                 	<h5>Keep track of jobs you're interested in. Once a job is closed, it will automatically be removed from your list. </h5>
                 	<div class="row">
         				<div class="col-md-6">
-				            @if (count($jobs) === 1)
-				            	<h4><span class="badge">{{ count($jobs) }}</span> Job found</h4>
+				            @if ($jobs->total() === 1)
+				            	<h4><span class="badge">{{ $jobs->total() }}</span> Job found</h4>
 				            @else
-				            	<h4><span class="badge">{{ count($jobs) }}</span> Jobs found</h4>
+				            	<h4><span class="badge">{{ $jobs->total() }}</span> Jobs found</h4>
 				            @endif
 				        </div>
 				    </div>

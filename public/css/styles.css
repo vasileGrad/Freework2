@@ -121,3 +121,10 @@ a:active { color: #000000; text-decoration: none}
 
 
 /* Freelancer */
+.inline {
+    display: inline;
+}
+
+.top-proposal {
+    top: 87px;
+}

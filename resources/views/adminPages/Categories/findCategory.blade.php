@@ -34,7 +34,7 @@
 	            @else
 	                @foreach ($categories as $category)
 		                <div class="list-group center-title">
-		                    <a href=" {{ route('categories.show', $category->id)}}" class="list-group-item">
+		                    <a href="{{ route('categories.show', $category->id)}}" class="list-group-item">
 	                    		<span class="list-group-item-text">
 	                    			<div class="col-sm-12">
 	                    				<h3 class="list-group-item-text"><strong>{{$category->categoryName}}</strong></h3>

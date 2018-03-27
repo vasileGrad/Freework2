@@ -40,7 +40,7 @@
 				    	{{ Form::text('title', null, array('class' => 'form-control', 'required' => '', 'maxlength' => '255')) }}
 				    	<hr>
 				    	{{ Form::label('description', 'Describe the work to be done', ['class' => 'margin-top-nav'])}}
-				    	{{ Form::textarea('description', null, array('class' => 'form-control')) }}
+				    	{{ Form::textarea('description', null, array('class' => 'form-control', 'minlength' => '5', 'maxlength' => '2000')) }}
 						<hr>
 						{{ Form::label('categoryId', 'Choose a Category') }}
 						   	<select class="form-control" name="categoryId">
