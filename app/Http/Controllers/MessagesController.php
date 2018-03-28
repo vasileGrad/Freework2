@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+//use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Conversation;
 use App\Message;
 use App\Events\NewMessageEvent;
+use Auth;
 
 class MessagesController extends Controller
 {
@@ -81,17 +82,24 @@ class MessagesController extends Controller
     }
 
     public function newMessage(){
-        $uid = Auth::user()->id;
-        //dd($uid);
-        if(Auth::user()->role_id == 2 && Auth::guard('freelancer')){
+        //$uid = Auth::user()->id;
+        /*if (Auth::check())
+        {
+            dd(['yes', Auth::user()->id, Auth::user()->firstName, Auth::guard('client')]);
+        }else{
+            dd('no');
+        }*/
+
+        //dd(Auth::user()->id);
+        if(Auth::user()->role_id == 3 && Auth::guard('freelancer')){
             $users = DB::table('users')->leftJoin('clients', 'users.id', '=', 'clients.user_id')
-                                ->where('role_id', '=', 3)
+                                ->where('role_id', '=', 2)
                                 ->select('users.id', 'users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.image')
                                 ->get();
         }
-        elseif(Auth::user()->role_id == 3 && Auth::guard('client')){
+        elseif(Auth::user()->role_id == 2 && Auth::guard('client')){
             $users = DB::table('users')->leftJoin('freelancers', 'users.id', '=', 'freelancers.user_id')
-                                ->where('role_id', '=', 2)
+                                ->where('role_id', '=', 3)
                                 ->select('users.id', 'users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.image')
                                 ->get();
         } 

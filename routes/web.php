@@ -91,8 +91,12 @@ Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
 // Client pages
 Route::prefix('client')->group(function() {
     Route::resource('jobs', 'Client\JobController');
+    Route::get('/showProposal/{freelancer_id}', 'Client\JobController@showProposal')->name('showProposal');
+    Route::get('goBackProposal/{id}', 'Client\JobController@goBackProposal')->name('goBackProposal');
+    Route::get('/goBackJobs', 'Client\JobController@goBackJobs')->name('goBackJobs');
     Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
     Route::post('/freelancerSearch', 'Client\SearchFreelancerController@searchFilter')->name('freelancerSearchFilter');
+
 });
 
 

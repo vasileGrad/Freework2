@@ -183,29 +183,100 @@ class JobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {   
         //dd($id);
-        // find an item by the id that it's past in the url
-        //$job = Job::find($id);  // also deep linking for the categories
-        // render the view and it's gonna pass in a variable called job which is equal to $job
-        //dd($id);
-        $jobs2 = Job::find($id);
-
-        $jobs = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
+        $job = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
                                 ->leftJoin('users', 'clients.user_id', '=', 'users.id')
                                 ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
                                 ->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')
                                 ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
                                 ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                ->select('users.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
+                                ->select('users.firstName','users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
                                 ->where('jobs.id', $id)
-                                ->get();
+                                ->first();
 
-        //dd($jobs);
+        $job_skills = DB::table('jobs')->leftJoin('job_skill', 'jobs.id', '=', 'job_skill.job_id')
+                                    ->leftJoin('skills', 'job_skill.skill_id', '=', 'skills.id')
+                                    ->select('skills.skillName')
+                                    ->where([
+                                        ['jobs.id', '=', $id],
+                                        ['jobs.statusActiv', '=', 1]
+                                    ])->get();
 
-        return view('clientPages.jobs.show', compact('jobs', 'jobs2'));
-        //return view('jobs.show')->withJob($job);
+        $freelancer_proposals = DB::table('proposals')->leftJoin('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
+                                        ->select('users.firstName', 'users.lastName', 'proposals.created_at','proposals.id')
+                                        ->where('proposals.job_id', '=', $id)
+                                         ->get();
+
+        //dd([count($job_skills),$job_skills,$id,$freelancer_proposals]);
+
+        return view('clientPages.jobs.show', compact('job','job_skills','freelancer_proposals'));
+    }
+
+    /**
+     * Show proposal info
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showProposal($id) {
+        //dd($id);
+        $job = DB::table('proposals')->leftJoin('proposal_status_catalog', 'proposals.current_proposal_status', '=', 'proposal_status_catalog.id')
+                                    ->leftJoin('payment_type', 'proposals.payment_type_id', '=', 'payment_type.id')
+                                    ->leftJoin('jobs', 'proposals.job_id', '=', 'jobs.id')
+                                    ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
+                                    ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
+                                    ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
+                                    ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
+                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id', 'proposals.payment_amount', 'proposals.freelancer_comment', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
+                                    ->where('proposals.id','=', $id)
+                                    ->first();
+
+        //dd($job);
+        $job_skills = DB::table('jobs')->leftJoin('job_skill', 'jobs.id', '=', 'job_skill.job_id')
+                                    ->leftJoin('skills', 'job_skill.skill_id', '=', 'skills.id')
+                                    ->select('skills.skillName')
+                                    ->where([
+                                        ['jobs.id', '=', $job->job_id],
+                                        ['jobs.statusActiv', '=', 1]
+                                    ])->get();
+        
+        $freelancer = DB::table('proposals')->leftJoin('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')
+                                ->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
+                                ->select('freelancers.id','users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.created_at')
+                                ->where('proposals.id', '=', $id)
+                                ->first();
+
+        /*$count_jobs = DB::table('jobs')->where([
+                                        ['jobs.clientId', '=', $client->id],
+                                        ['jobs.statusActiv', '=', 1]
+                                    ])
+                                    ->count();*/
+        $proposals_job = DB::table('proposals')->where('proposals.job_id', '=', $job->job_id)
+                                                ->count();
+
+        //dd([$job,$job_skills,$freelancer]);
+
+        return view('clientPages.jobs.showProposal', compact('job','job_skills','freelancer','proposals_job'));
+    }
+
+    /**
+     * Return back to the proposal
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function goBackProposal($id) {
+        return Redirect()->route('jobs.show', ['id' => $id]);
+    }
+
+    /**
+     * Return back to the jobs list
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function goBackJobs() {
+        return Redirect()->route('jobs.index');
     }
 
     /**

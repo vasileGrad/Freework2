@@ -24,9 +24,13 @@ class ProposalController extends Controller
      */
     public function index()
     {
+        $freelancer = DB::table('freelancers')->where('freelancers.user_id', '=', Auth::user()->id)
+                                                ->select('freelancers.id')
+                                                ->first(); 
+
         $proposals = DB::table('proposals')->leftJoin('jobs', 'proposals.job_id', '=', 'jobs.id')
                                     ->select('jobs.title', 'proposals.id', 'proposals.created_at')
-                                    ->where('proposals.freelancer_id','=', Auth::user()->id)
+                                    ->where('proposals.freelancer_id','=', $freelancer->id)
                                     ->get();
                                     
         //dd($proposals);  
@@ -82,19 +86,25 @@ class ProposalController extends Controller
             'body'    => 'required|min:5|max:2000'
         ));
 
+        $freelancer = DB::table('freelancers')->where('freelancers.user_id', '=', Auth::user()->id)
+                                                ->select('freelancers.id')
+                                                ->first();
+        //dd($freelancer_id);
+
         $job = DB::table('jobs')->select('jobs.paymentAmount', 'jobs.paymentTypeId')
                                 ->where('jobs.id', '=', $id)
                                 ->first();
 
         $proposal = new Proposal;
         $proposal->job_id = $id;
-        $proposal->freelancer_id = Auth::user()->id;
+        //$proposal->freelancer_id = Auth::user()->id;
+        $proposal->freelancer_id = $freelancer->id;
         $proposal->payment_type_id = $job->paymentTypeId;
         $proposal->payment_amount = $job->paymentAmount;
         $proposal->current_proposal_status = 1;
         $proposal->freelancer_comment = $request->body;
 
-
+        //dd($proposal);
 
         $proposal->save();
 
@@ -112,6 +122,7 @@ class ProposalController extends Controller
      */
     public function show($id)
     {
+        //dd($id);
         $job = DB::table('proposals')->leftJoin('proposal_status_catalog', 'proposals.current_proposal_status', '=', 'proposal_status_catalog.id')
                                     ->leftJoin('payment_type', 'proposals.payment_type_id', '=', 'payment_type.id')
                                     ->leftJoin('jobs', 'proposals.job_id', '=', 'jobs.id')
@@ -119,29 +130,31 @@ class ProposalController extends Controller
                                     ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                     ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
                                     ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.id', 'proposals.payment_amount', 'proposals.freelancer_comment', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
+                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id', 'proposals.payment_amount', 'proposals.freelancer_comment', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
                                     ->where('proposals.id','=', $id)
                                     ->first();
+
+        //dd($job->job_id);
         $job_skills = DB::table('jobs')->leftJoin('job_skill', 'jobs.id', '=', 'job_skill.job_id')
                                     ->leftJoin('skills', 'job_skill.skill_id', '=', 'skills.id')
                                     ->select('skills.skillName')
                                     ->where([
-                                        ['jobs.id', '=', $job->id],
+                                        ['jobs.id', '=', $job->job_id],
                                         ['jobs.statusActiv', '=', 1]
                                     ])->get();
-
+        
         $client = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
                                 ->leftJoin('users', 'clients.user_id', '=', 'users.id')
                                 ->select('clients.id','users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.created_at')
-                                ->where('jobs.id', '=', $job->id)
+                                ->where('jobs.id', '=', $job->job_id)
                                 ->first();
-
+        //dd($client);
         $count_jobs = DB::table('jobs')->where([
                                         ['jobs.clientId', '=', $client->id],
                                         ['jobs.statusActiv', '=', 1]
                                     ])
                                     ->count();
-        $proposals_job = DB::table('proposals')->where('proposals.job_id', '=', $job->id)
+        $proposals_job = DB::table('proposals')->where('proposals.job_id', '=', $job->job_id)
                                                 ->count();
         //dd([$job,$client,$count_jobs]); 
          return view('freelancerPages.Proposal.showProposal', compact(['job','client','count_jobs','job_skills','proposals_job']));

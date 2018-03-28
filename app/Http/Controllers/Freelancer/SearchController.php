@@ -229,7 +229,7 @@ class SearchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function jobShow($id)
+    public function jobShow($id) 
     {
         $user_id = Auth::user()->id;
 
