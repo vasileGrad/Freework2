@@ -3,16 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Conversation;
 use App\Message;
 use App\Events\NewMessageEvent;
-use Auth;
 
 class MessagesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:client');
+        /*dd($id);
+        if(Auth::check()){
+            dd('da');
+        }else{
+            dd('nu');
+        }*/
+        //$this->middleware('auth');
+        /*$getGuard = $this->getGuard();
+        //dd($getGuard);
+        if($getGuard == 2){
+            dd('freelancer');
+            $this->middleware('auth:freelancer');
+        }elseif($getGuard == 3){
+            dd('client');
+            $this->middleware('auth:client');
+        }*/
+    }
+
+    public function getGuard() {
+        dd(Auth::check());
+        if(Auth::check()){
+            return 2;
+        }else{
+            return 3;
+        }
+    }
+
     public function messages() {
+        //dd(Auth::user()->role_id == 2);
+        //dd(Auth::check());
+        //dd(Auth::guard()->name);
         return view('messages.messages');
     }
 
@@ -122,6 +154,26 @@ class MessagesController extends Controller
       return view('newMessage', compact('friends', $friends));*/
     }
 
+    /**
+     * Get Messages
+     *
+     * @return \Illuminate\Http\Response
+     */
+    /*public function getMessages($id) {
+        $userMsg = DB::table('messages')
+                        ->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->where('messages.conversation_id', $id)
+                        ->get();
+
+        return $userMsg;
+    }*/
+
+    /**
+     * Send New Message.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function sendNewMessage(Request $request) {
         $msg = $request->msg;
     	$friendId = $request->friend_id;

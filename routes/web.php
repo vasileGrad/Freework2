@@ -114,6 +114,8 @@ Route::post('/finishContract', 'MessagesController@finishContract');
 Route::get('/messages', 'MessagesController@messages')->name('messages');
 
 Route::get('/getMessages', 'MessagesController@getMessages')->name('getMessages');
+//Route::get('/getMessagesId/{id}', 'MessagesController@getMessagesId')->name('getMessagesId');
+//Route::get('/getGuard', 'MessagesController@getGuard')->name('getGuard');
 
 
 Route::get('/getMessages/{id}', function ($id) {

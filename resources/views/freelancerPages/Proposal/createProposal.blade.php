@@ -42,7 +42,7 @@
 						<div class="col-md-6 col-sm-6">
 							<div class="col-md-7 col-offset-md-1 col-sm-7 col-offset-sm-1">
 								{!! Form::button('<strong>Submit a Proposal</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg btn-block')) !!}
-				{!! Form::close() !!}
+								{!! Form::close() !!}
 							</div>
 							<div class="col-md-4 col-offset-md-1 col-sm-4 col-offset-sm-1">
 								{!! Html::linkRoute('jobShow', 'Cancel', array($job->id), array('class' => 'btn btn-success btn-lg btn-block')) !!}

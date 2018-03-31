@@ -36,7 +36,7 @@
 
         @endif
 
-        <li style="height:10px">
+        <li class="nav-height">
           <a href="">
             <img class="navProfilePicture" src="/images/profile/{{Auth::user()->image}}"/><br><br>
           </a>

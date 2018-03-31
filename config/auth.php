@@ -16,6 +16,8 @@ return [
     'defaults' => [
         'guard' => 'freelancer',
         'passwords' => 'users',
+        /*'guard' => 'freelancer',
+        'passwords' => 'users',*/
     ],
 
     /*
@@ -41,17 +43,17 @@ return [
             'provider' => 'users',
         ],
 
+        'freelancer' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
         'admin' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
 
         'client' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-
-        'freelancer' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
@@ -119,18 +121,18 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 120,
+            'table' => 'password_resets'/*,
+            'expire' => 120,*/
         ],
         'admins' => [
             'provider' => 'admins',
-            'table' => 'password_resets',
-            'expire' => 120,
+            'table' => 'password_resets'/*,
+            'expire' => 120,*/
         ],
          'clients' => [
             'provider' => 'clients',
-            'table' => 'password_resets',
-            'expire' => 120,
+            'table' => 'password_resets'/*,
+            'expire' => 120,*/
         ],
     ],
 

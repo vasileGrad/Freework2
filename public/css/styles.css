@@ -30,6 +30,62 @@ a:active { color: #000000; text-decoration: none}
     margin-right: -19px;
 }
   
+.nav-height {
+    height:10px;
+}
+
+/* Collect the nav links, forms, and other content for toggling */
+
+/* Scrollbar styles for Messenger*/
+#myScroll::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+}
+#myScroll::-webkit-scrollbar-track {
+    border: 1px solid #a4a4a5;
+    border-radius: 2px;
+}
+#myScroll::-webkit-scrollbar-thumb {
+    background: gray;  
+    border-radius: 10px;
+}
+#myScroll::-webkit-scrollbar-thumb:hover {
+    background: #b1b2b5; 
+}  
+
+/* Notification Style */
+.bell-top-margin {
+    margin-top: 6px;
+    margin-right:40px;
+}
+
+.notification-style {
+    background-color:#E4E9F2;
+    width:400px;
+}
+
+.notification-image {
+    width:50px; 
+    padding:5px; 
+    background:#fff; 
+    border:1px solid #eee;
+}
+
+.notification-name {
+    color:green; 
+    font-size:90%;
+}
+
+.notification-info {
+    color:#000; 
+    font-size:90%;
+}
+
+.notification-color {
+    color:#90949C;
+}
+
+
 .imageHomePage {
     width: 170px;
     height: 200px;
@@ -128,3 +184,131 @@ a:active { color: #000000; text-decoration: none}
 .top-proposal {
     top: 87px;
 }
+
+/* Messages */
+.mess-color {
+     background-color: #fff;
+}
+
+.color-heading {
+    color:black; 
+    height: 55px;
+}
+
+.image-privateMsg {
+    width:50px; 
+    height:50px; 
+    border-radius:50%; 
+    margin: 6px 6px 6px 0px;
+}
+
+.image-privateMsg2 {
+    width:34px; 
+    height:34px;
+    border-radius:50%; 
+    margin-left:5px;
+}
+
+.image-privateMsg3{
+    width:34px; 
+    height:34px;
+    border-radius:50%;
+}
+
+.top-message {
+    margin-top:5px;
+}
+
+.messages {
+    background-color: #fff; 
+    min-height: 600px; 
+    border-left:5px solid #F5F8FA;
+}
+
+.privateMsg {
+    list-style:none;
+    margin:10px 0px 0px -40px; 
+    background-color:#F3F3F3;
+}
+
+.singleMsg-msg-right {
+    float:right; 
+    background-color:#0084ff; 
+    padding:5px 15px 5px 15px; 
+    margin-right:10px; 
+    color:#333; 
+    border-radius:10px; 
+    color:#fff;
+}
+
+.singleMsg-msg-left {
+    float:left; 
+    background-color:#F0F0F0; 
+    padding: 5px 15px 5px 15px; 
+    border-radius:10px; 
+    text-align:right; 
+    margin-left: 15px;
+}
+
+.singleMsg-created_at {
+    font-size: 12px; 
+    opacity: 0.5; 
+    margin-top: -10px;
+    margin-right: 64px;
+}
+
+.top-textarea {
+    margin-top:15px;
+}
+
+.padding-row {
+    padding:10px;
+}
+
+#myScroll {
+    overflow-y:scroll;
+    overflow-x:hidden; 
+    height:410px; 
+    background:#fcfcfc; 
+    overflow:auto;
+    transform:rotateX(180deg);
+}
+
+.margin-top-bottom {
+    margin-top:10px; 
+    margin-bottom: 10px;
+}
+
+.newMsg-users {
+    list-style:none;
+    margin-top:10px;
+    background-color:#F3F3F3;
+}
+
+
+.rotateX {
+    transform:rotateX(-180deg);
+}
+
+/* Freelancer */
+.image-radius-freelancer {
+    border-radius: 50%;
+}
+
+.list-style {
+    list-style-type:disc;
+}
+/* End Freelancer */
+
+
+/*  Client  */
+.image-radius-client {
+    border-radius: 50%;
+}
+/*  End Client  */
+
+/*  Admin  */
+.image-radius-admin {
+    border-radius: 50%;
+}
+/*  End Admin  */

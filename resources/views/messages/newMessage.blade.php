@@ -5,57 +5,44 @@
 @section('content')
 
 <div class="col-md-12 msgDiv" id="app">
-
-  <div style="background-color:#fff" class="col-md-3 pull-left">
-
-    <div class="row" style="padding:10px">
-
+  <div class="col-md-3 pull-left mess-color">
+    <div class="row padding-row">
        <div class="col-md-7"><h3>Freelancers</h3></div>
        <div class="col-md-5 pull-right">
          <a href="{{url('messages')}}" class="btn btn-sm btn-info">All messages</a>@{{conID}}
        </div>
     </div>
 
-   @foreach($users as $user)
+     @foreach($users as $user)
+       <li @click="friendID({{$user->id}})" v-on:click="seen=true" class="row newMsg-users">
 
-   <li @click="friendID({{$user->id}})" v-on:click="seen=true" style="list-style:none;
-    margin-top:10px; background-color:#F3F3F3" class="row">
+          <div class="col-md-3 pull-left">
+               <img src="{{ asset('images/profile/' . $user->image) }}" alt="" class="image-privateMsg"/>
+           </div>
 
-      <div class="col-md-3 pull-left">
-           <img src="{{ asset('images/profile/' . $user->image) }}" alt="" style="width:50px; height:50px; border-radius:50%; margin: 6px 6px 6px 0px" />
-       </div>
-
-      <div class="col-md-9 pull-left" style="margin-top:5px">
-        <b>{{$user->firstName}}</b><br>
-        <span class="glyphicon glyphicon-map-marker"></span> {{ $user->location }}, {{ $user->country }}
-     </div>
-   </li>
-   @endforeach
-   <hr>
+          <div class="col-md-9 pull-left top-message">
+            <b>{{$user->firstName}}</b><br>
+            <span class="glyphicon glyphicon-map-marker"></span> {{ $user->location }}, {{ $user->country }}
+         </div>
+       </li>
+     @endforeach
+     <hr>
   </div>
-
-
-
-    <div class="col-md-6 msg_main">
-      <h3 align="center">Messages</h3>
+  <div class="col-md-6 msg_main">
+    <h3 align="center">Messages</h3>
      {{--  <p class="alert alert-success">@{{msg}}</p> --}}
+    <div v-if="seen">
+      @include('messages.messenger')
 
-     <div v-if="seen">
-        @include('messages.messenger')
-
-        {{-- <input type="text" v-model="friend_id"> --}}
-        <textarea class="col-md-12 form-control" v-model="newMsgFrom"></textarea><br>
-        <input type="button" value="send message" @click="sendNewMsg()">
+      {{-- <input type="text" v-model="friend_id"> --}}
+      <textarea class="col-md-12 form-control" v-model="newMsgFrom"></textarea><br>
+      <input type="button" value="send message" @click="sendNewMsg()">
     </div>
-
   </div>
 
   <div class="col-md-3 pull-right msg_right">
-   <h3 align="center">User Information</h3>
-   <hr>
+    <h3 align="center">User Information</h3>
+    <hr>
   </div>
-
 </div>
-
-
 @endsection

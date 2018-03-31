@@ -12,7 +12,7 @@
 	    <div class="panel-body" id="items"> 
 	    	<div class="row">
 	    		<div class="col-md-3">
-	    			<img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" style="border-radius: 50%" height="120" width="120" />
+	    			<img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" class="image-radius-freelancer" height="120" width="120"/>
 	    		</div>
 	    		<div class="col-md-6">
 	    			<h2><b>{{ $freelancer->firstName }} {{ $freelancer->lastName }}<b></h2>
@@ -57,7 +57,7 @@
 						    	<p>Use this space to show clients you have the skills and experience they're looking for.</p>
 						    	<br>
 						    	<ul>
-						    	  <li style="list-style-type:disc">Describe your strengths and skills</li>
+						    	  <li class="list-style">Describe your strengths and skills</li>
 						    	  <li>Highlight projects, accomplishments and education</li>
 						    	  <li>Keep it short and make sure error-free</li>
 						    	</ul>

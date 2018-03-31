@@ -1,40 +1,40 @@
 
-<div id="myScroll" style="overflow-y:scroll; overflow-x:hidden; height:410px; background:#fcfcfc; overflow:auto;transform:rotateX(180deg);">
-	<div class="row col-md-12" style="transform:rotateX(-180deg);">
+<div id="myScroll">
+	<div class="row col-md-12 rotateX">
         <div v-for="singleMsg in singleMsgs">
             <div v-if="singleMsg.status != 3 && singleMsg.status != 4 && singleMsg.user_from == <?php echo Auth::user()->id; ?>">
             	{{-- <div style="text-align:center; opacity: 0.5">@{{ moment().calendar() }}</span></div> --}}
-                <div class="col-md-12" style="margin-top:10px; margin-bottom: 10px">
-                    <img :src="'../images/profile/' + singleMsg.image" style="width:34px; height:34px;border-radius:50%; margin-left:5px" class="pull-right"/>
-                    <div style="float:right; background-color:#0084ff; padding:5px 15px 5px 15px; margin-right:10px; color:#333; border-radius:10px; color:#fff;">
+                <div class="col-md-12 margin-top-bottom">
+                    <img :src="'../images/profile/' + singleMsg.image" class="pull-right image-privateMsg2"/>
+                    <div class="singleMsg-msg-right">
                          @{{singleMsg.msg}}
                     </div>
                 </div>
-                <p class="pull-right" style="font-size: 12px; opacity: 0.5; margin-top: -10px;margin-right: 64px;">
+                <p class="pull-right singleMsg-created_at">
             	@{{singleMsg.created_at}}
             	</p>
             </div>
             
 
             <div v-else-if="singleMsg.status != 3 && singleMsg.status != 4 && singleMsg.user_from != <?php echo Auth::user()->id; ?>">
-                <div class="col-md-12 pull-right" style="margin-top:10px; margin-bottom: 10px">
-                    <img :src="'../images/profile/' + singleMsg.image" style="width:34px; height:34px;border-radius:50%" class="pull-left"/>
-                    <div style="float:left; background-color:#F0F0F0; padding: 5px 15px 5px 15px; border-radius:10px; text-align:right; margin-left: 15px;">
+                <div class="col-md-12 pull-right margin-top-bottom">
+                    <img :src="'../images/profile/' + singleMsg.image" class="pull-left image-privateMsg3"/>
+                    <div class="singleMsg-msg-left">
                     	@{{singleMsg.msg}}
                 	</div>
                 </div>
-                <p class="pull-left" style="font-size: 12px; opacity: 0.5; margin-top:-10px; margin-left:64px;">
+                <p class="pull-left singleMsg-created_at">
             	@{{ singleMsg.created_at }}
             	</p>
             </div>
 
             <div v-else-if="singleMsg.status == 3">
-            	<div class="col-md-12" style="margin-top:10px; margin-bottom: 10px">
+            	<div class="col-md-12 margin-top-bottom">
                 	<hr>
                 	<div class="panel panel-info">
-					  	<div class="panel-heading" style="color:black; height: 55px;">
+					  	<div class="panel-heading color-heading">
 					  		<b>{{ucwords(Auth::user()->firstName)}} {{ucwords(Auth::user()->lastName)}}</b> @{{singleMsg.msg}}
-							<img :src="'../images/profile/' + singleMsg.image" style="width:34px; height:34px;border-radius:50%" class="pull-right" />
+							<img :src="'../images/profile/' + singleMsg.image" class="pull-right image-privateMsg3"/>
 					  	</div>
 					  	<div class="panel-body">
 					    	<h3><a href="{{ url('jobShow/1') }}">Job title</a></h3>
@@ -46,12 +46,12 @@
 				</div>
             </div>
             <div v-else="singleMsg.status == 4">
-                <div class="col-md-12" style="margin-top:10px; margin-bottom: 10px">
+                <div class="col-md-12 margin-top-bottom">
                     <hr>
                     <div class="panel panel-danger">
-					  	<div class="panel-heading" style="color:black; height: 55px;">
+					  	<div class="panel-heading color-heading">
 					  		<b>{{ucwords(Auth::user()->firstName)}} {{ucwords(Auth::user()->lastName)}}</b> @{{singleMsg.msg}}
-							<img :src="'../images/profile/' + singleMsg.image" style="width:34px; height:34px;border-radius:50%" class="pull-right" />
+							<img :src="'../images/profile/' + singleMsg.image" class="pull-right image-privateMsg3" />
 					  	</div>
 					  	<div class="panel-body">
 					    	<h3><a href="{{ url('jobShow/1') }}">Job title</a></h3>

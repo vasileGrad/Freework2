@@ -38,8 +38,12 @@ class ClientLoginController extends Controller
             // guard('admin') - will run in the Admin Model instead of User Model
             // Auth::guard('admin')->attempt($credentials, $remember)
 
+            //Auth::guard()->name('client');
+            //Auth::guard('client')->setDefault();
+
             if (Auth::guard('client')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember))  {
                 // If successful, then redirect to their intended location
+
                 return redirect()->intended(route('client.dashboard'));
 
                 // The intended method on the redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. A fallback URI may be given to this method in case the intended destination is not available.

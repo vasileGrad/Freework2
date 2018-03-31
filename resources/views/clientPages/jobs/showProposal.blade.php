@@ -68,7 +68,7 @@
     	</div>
     	<div class="col-md-3 col-sm-3 top-proposal">
 			<div class="col-md-12 col-sm-12">
-				{!! Form::open(['route' => ['createProposal', $job->id], 'method' => 'POST']) !!}
+				{!! Form::open(['route' => ['messages', ], 'method' => 'GET']) !!}
 					{!! Form::button('<strong>Write a Message</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg')) !!}
 	            {!! Form::close() !!}<br><br>
 				<h5><strong>Submitted Proposals</strong></h5><br>

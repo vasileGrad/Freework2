@@ -89,7 +89,7 @@
                     		<span class="list-group-item-text">
 	                    		<div class="row">
 	                    			<div class="col-sm-2">
-	                    				<img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" style="border-radius: 50%" height="110px" width="110px" />
+	                    				<img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" class="image-radius-admin" height="110px" width="110px" />
 	                    			</div>
 	                    			<div class="col-sm-8">
 	                    				<h4 class="list-group-item-text"><strong>{{$freelancer->firstName}} {{$freelancer->lastName}}</strong></h4>

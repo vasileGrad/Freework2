@@ -12,10 +12,10 @@ use DB;
 
 class ProposalController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('auth:freelancer');
-    }
+    }*/
 
     /**
      * Display a listing of the resource.
