@@ -21,15 +21,14 @@
       <img src="/images/Freework_logo.png" class="freework-img" /></a>
     </div>
 
-    @if (Auth::check()) 
+    @if (Auth::check() || Session::get('AuthUserRole') == 3) 
 
         @if (Auth::guard('freelancer')->check())
 
             @include('navbars._freelancer')
 
         @elseif (Auth::guard('client')->check())
-
-            @include('navbars._client')
+            @include('navbars._client')         
 
         @elseif (Auth::guard('admin')->check())
             @include('navbars._admin')
@@ -38,11 +37,11 @@
 
         <li class="nav-height">
           <a href="">
-            <img class="navProfilePicture" src="/images/profile/{{Auth::user()->image}}"/><br><br>
+            <img class="navProfilePicture" src="/images/profile/{{Session::get('UserImage')}}"/><br><br>
           </a>
         </li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle dropdown-logout" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->firstName}} {{Auth::user()->lastName}}<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle dropdown-logout" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Session::get('UserFirstName')}} {{Session::get('UserLastName')}}<span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li>
               <a href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -53,7 +52,6 @@
             </li>
           </ul>
         </li>
-
     @endif
 
     </div><!-- /.navbar-collapse -->

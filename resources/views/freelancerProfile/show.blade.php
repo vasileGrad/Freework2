@@ -19,9 +19,9 @@
 					<h5><span class="glyphicon glyphicon-map-marker"></span><b> {{ $freelancer->location }}, {{ $freelancer->country }}<b></h5>
 	    		</div>
 	    		<div class="col-md-12">
-	    			<h3 class="editTitle"><a href="#" data-toggle="modal" data-target="#myModal1"><b>{{ $freelancer->title }} <b><input type="hidden" id="itemId2" value="{{$freelancer->id}}"><i class="glyphicon glyphicon-edit"></i></a></h3>
+	    			<h3 class="editTitle"><a href="#" data-toggle="modal" data-target="#myModal1"><b>{{ $freelancer->title }} <b><input type="hidden" id="itemId2" value="{{$freelancer->id}}"><i class="glyphicon glyphicon-edit"></i></a></h3><br>
 
-	    			<h4 class="editDescription"><a href="#" class="pull-right" data-toggle="modal" data-target="#myModal1"><h3><i class="glyphicon glyphicon-edit"></i></h3></a>{{ $freelancer->description }}<input type="hidden" id="id" value=""></h4>   
+	    			<h4 class="editDescription"><a href="#" class="pull-right" data-toggle="modal" data-target="#myModal1"><h3><i class="glyphicon glyphicon-edit"></i></h3></a>{{ $freelancer->description }}<input type="hidden" id="id" value=""></h4><br> 
 	    			<hr>
 	    		</div>
 		    	<div class="col-sm-3">

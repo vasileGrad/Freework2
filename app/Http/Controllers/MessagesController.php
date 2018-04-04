@@ -7,33 +7,23 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Conversation;
 use App\Message;
+use App\Proposal;
+use Session;
 use App\Events\NewMessageEvent;
 
 class MessagesController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->middleware('auth:client');
-        /*dd($id);
-        if(Auth::check()){
-            dd('da');
-        }else{
-            dd('nu');
-        }*/
-        //$this->middleware('auth');
-        /*$getGuard = $this->getGuard();
-        //dd($getGuard);
-        if($getGuard == 2){
-            dd('freelancer');
-            $this->middleware('auth:freelancer');
-        }elseif($getGuard == 3){
-            dd('client');
-            $this->middleware('auth:client');
-        }*/
-    }
+    }*/
 
     public function getGuard() {
-        dd(Auth::check());
+        //$AuthUserRole = Session::get('AuthUserRole');
+        $AuthUser = Session::get('AuthUser');
+        dd($AuthUser);
+
+        //dd(Auth::check());
         if(Auth::check()){
             return 2;
         }else{
@@ -42,38 +32,241 @@ class MessagesController extends Controller
     }
 
     public function messages() {
-        //dd(Auth::user()->role_id == 2);
-        //dd(Auth::check());
-        //dd(Auth::guard()->name);
-        return view('messages.messages');
+
+        $userId = Session::get('AuthUser');
+        $AuthUserRole = Session::get('AuthUserRole');
+        //dd($AuthUserRole);
+
+        if ($AuthUserRole == 2) {
+            $user = DB::table('users')->join('freelancers', 'users.id', '=', 'freelancers.user_id')
+                                ->select('users.id', 'users.firstName', 'users.lastName', 'users.location', 'users.country')
+                                ->where('users.id', '=', $userId)
+                                ->first();
+        }elseif($AuthUserRole == 3){
+            $user = DB::table('users')->join('clients', 'users.id', '=', 'clients.user_id')
+                                ->select('users.id', 'users.firstName', 'users.lastName', 'users.location', 'users.country')
+                                ->where('users.id', '=', $userId)
+                                ->first();
+        }
+
+        /*$AuthUserRole = Session::get('AuthUserRole');
+
+        if($AuthUserRole == 3){
+            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                    ->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
+                    ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                    ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                    ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                    ->select('users.firstName', 'users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
+                    ->where('messages.conversation_id', 35)
+                    ->get();
+        }
+
+        if($AuthUserRole == 2){
+            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                    ->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
+                    ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                    ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                    ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                    ->select('users.firstName', 'users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
+                    ->where('messages.conversation_id', 35)
+                    ->get();
+        } */
+
+        /*$id = 35;
+        $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select(DB::raw('(SELECT(firstName) FROM proposals
+                            left join freelancers on proposals.freelancer_id = freelancers.id
+                            left join users on freelancers.user_id = users.id
+                            left join conversations on proposals.id = conversations.proposal_id) as firstNameShow'),
+                                DB::raw('(SELECT(lastName) FROM proposals
+                            left join freelancers on proposals.freelancer_id = freelancers.id
+                            left join users on freelancers.user_id = users.id
+                            left join conversations on proposals.id = conversations.proposal_id) as lastNameShow'),
+                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
+                        ->where('messages.conversation_id', $id)
+                        ->get();
+            
+            dd($userMsg);*/
+
+        //$userMsg = DB::select('messages_get(?)', array($id));
+        //dd($jobs);
+        //dd($userMsg);
+        //dd([$user, $userId]);
+        return view('messages.messages', compact('user','userId'));
     }
 
     public function getMessages() {
-        // the persons who sent me messages
+        $AuthUser = Session::get('AuthUser');
+
+        /*// the persons who sent me messages
         $allUsers1 = DB::table('users') 
-            ->Join('conversations', 'users.id', 'conversations.user_one')
-            ->where('conversations.user_two', Auth::user()->id)
+            ->leftJoin('conversations', 'users.id', 'conversations.user_one')
+            ->where('conversations.user_two', $AuthUser)
             ->get();
-        //return $allUsers;
+        //dd($allUsers1);
 
         // the persons to whom I have sent the messages
         $allUsers2 = DB::table('users') 
             ->Join('conversations', 'users.id', 'conversations.user_two')
-            ->where('conversations.user_one', Auth::user()->id)
-            ->get();
-        //dd($allUsers2);
+            ->where('conversations.user_one', $AuthUser)
+            ->get();*/
 
+
+        $allUsers1 = DB::table('users') 
+            ->leftJoin('conversations', 'users.id', 'conversations.user_two')
+            ->leftJoin('proposals', 'conversations.proposal_id', '=', 'proposals.id')
+            ->leftJoin('jobs', 'proposals.job_id', '=', 'jobs.id')
+            ->select('jobs.title', 'conversations.id','users.firstName', 'users.lastName', 'users.image')
+            ->where('conversations.user_one', $AuthUser)
+            ->get();
+        //dd($allUsers1);
+
+        $allUsers2 = DB::table('users') 
+            ->leftJoin('conversations', 'users.id', 'conversations.user_one')
+            ->leftJoin('proposals', 'conversations.proposal_id', '=', 'proposals.id')
+            ->leftJoin('jobs', 'proposals.job_id', '=', 'jobs.id')
+            ->select('jobs.title', 'conversations.id','users.firstName', 'users.lastName','users.image')
+            ->where('conversations.user_two', $AuthUser)
+            ->get();
         // combine all the users
+
         return array_merge($allUsers1->toArray(), $allUsers2->toArray());
     }
 
+    /**
+     * Get information about that particular message
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getMessagesId($id) {
+
+        /*$AuthUserRole = Session::get('AuthUserRole');
+
+        if($AuthUserRole == 3){
+            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                    ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                    ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                    ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                    ->select('users.firstName', 'users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
+                    ->where('messages.conversation_id', $id)
+                    ->get();
+        }elseif($AuthUserRole == 2){
+            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                    ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                    ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                    ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                    ->select('users.firstName', 'users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
+                    ->where('messages.conversation_id', $id)
+                    ->get();
+        }*/
+
+        $AuthUserRole = Session::get('AuthUserRole');
+
+        if($AuthUserRole == 2){
+            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select(DB::raw("(SELECT(firstName) FROM proposals
+                            left join conversations on proposals.id = conversations.proposal_id
+                            left join jobs on proposals.job_id = jobs.id
+                            left join clients on jobs.clientId = clients.id
+                            left join users on clients.user_id = users.id
+                            where conversations.id = '$id') as firstNameShow"),
+                                DB::raw("(SELECT(lastName) FROM proposals
+                            left join conversations on proposals.id = conversations.proposal_id
+                            left join jobs on proposals.job_id = jobs.id
+                            left join clients on jobs.clientId = clients.id
+                            left join users on clients.user_id = users.id
+                            where conversations.id = '$id') as lastNameShow"),
+                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
+                        ->where('messages.conversation_id', $id)
+                        ->get();
+        //dd($userMsg1);
+        }elseif($AuthUserRole == 3){
+            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select(DB::raw("(SELECT(firstName) FROM proposals
+                            left join freelancers on proposals.freelancer_id = freelancers.id
+                            left join users on freelancers.user_id = users.id
+                            left join conversations on proposals.id = conversations.proposal_id where conversations.id = '$id') as firstNameShow"),
+                                DB::raw("(SELECT(lastName) FROM proposals
+                            left join freelancers on proposals.freelancer_id = freelancers.id
+                            left join users on freelancers.user_id = users.id
+                            left join conversations on proposals.id = conversations.proposal_id where conversations.id = '$id') as lastNameShow"),
+                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
+                        ->where('messages.conversation_id', $id)
+                        ->get();
+            
+            //dd($userMsg);
+        }
+
+        //$userMsg = DB::select('messages_get(?)', [$conv_id]);
+        //dd($jobs);
+        //dd($userMsg);
+
+        //dd($userMsg);
+        return $userMsg;
+    }
+
+    /**
+     * Write a message to somebody
+     *
+     * @param  int  $proposal_id
+     * @return \Illuminate\Http\Response
+     */
+    public function messageProposal($proposal_id) {
+        $AuthUser = Session::get('AuthUser');
+        $proposal_id = (int)$proposal_id;
+
+        $proposal = Proposal::find($proposal_id);
+        $proposal->current_proposal_status = 2;
+        $proposal->save();
+
+        $freelancer_id = DB::table('proposals')->join('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')
+                                                ->select('freelancers.user_id')
+                                                ->where('proposals.id', '=', $proposal_id)
+                                                ->first();
+
+        //dd([$AuthUser, $freelancer_id->user_id, $proposal_id]);
+        // new conversation for a new Job
+        $conId_new = DB::table('conversations')->insertGetId([
+            'user_one'    => $AuthUser,
+            'user_two'    => $freelancer_id->user_id,
+            'proposal_id' => $proposal_id
+        ]);
+
+        // Client send Message
+        $sendM = DB::table('messages')->insert([
+            'user_from'       => $AuthUser,
+            'user_to'         => $freelancer_id->user_id,
+            'msg'             => 'Started the conversation',
+            'status'          => 1,
+            'conversation_id' => $conId_new
+        ]);
+        //dd($sendM);
+
+        return redirect()->route('messages');
+    }
+
     public function sendMessage(Request $request) {
+        //dd('hello');
+        $AuthUser = Session::get('AuthUser');
+        
         $conID = $request->conID;
         $msg = $request->msg;
-
+        //dd(['conID','msg']);
         $fetch_userTo = DB::table('messages')->where('conversation_id', $conID)->get();
 
-        if($fetch_userTo[0]->user_from == Auth::user()->id){
+        //dd($fetch_userTo);
+        if($fetch_userTo[0]->user_from == $AuthUser){
             // fetch user_to
             $userTo = $fetch_userTo[0]->user_to;
         }else {
@@ -84,21 +277,21 @@ class MessagesController extends Controller
         // now send message
         $sendM = DB::table('messages')->insert([
             'user_to'         => $userTo,
-            'user_from'       => Auth::user()->id,
+            'user_from'       => $AuthUser,
             'msg'             => $msg,
             'status'          => 1,
             'conversation_id' => $conID
         ]);
 
         $message = Message::where('user_to', $userTo)
-                            ->where('user_from', Auth::user()->id)
+                            ->where('user_from', $AuthUser)
                             ->where('msg', $msg)
                             ->where('conversation_id', $conID)
                             ->first();
 
-
+        /*dd($message);                    
         //broadcast(new NewMessageEvent($message))->toOthers();
-        event(new NewMessageEvent($message));
+        event(new NewMessageEvent($message));*/
 
         if($sendM){
             $userMsg = DB::table('messages')
@@ -109,8 +302,6 @@ class MessagesController extends Controller
         }else{
             echo 'not sent';
         }
-
-
     }
 
     public function newMessage(){
@@ -123,13 +314,13 @@ class MessagesController extends Controller
         }*/
 
         //dd(Auth::user()->id);
-        if(Auth::user()->role_id == 3 && Auth::guard('freelancer')){
+        if(Session::get('AuthUserRole') == 3 /*&& Auth::guard('freelancer')*/){
             $users = DB::table('users')->leftJoin('clients', 'users.id', '=', 'clients.user_id')
                                 ->where('role_id', '=', 2)
                                 ->select('users.id', 'users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.image')
                                 ->get();
         }
-        elseif(Auth::user()->role_id == 2 && Auth::guard('client')){
+        elseif(Session::get('AuthUserRole') ==  2/* && Auth::guard('client')*/){
             $users = DB::table('users')->leftJoin('freelancers', 'users.id', '=', 'freelancers.user_id')
                                 ->where('role_id', '=', 3)
                                 ->select('users.id', 'users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.image')
@@ -137,7 +328,6 @@ class MessagesController extends Controller
         } 
         //dd($users);
         return view('messages.newMessage', compact('users'));
-
 
       /*$uid = Auth::user()->id;
       $friends1 = DB::table('friendships')
@@ -177,7 +367,7 @@ class MessagesController extends Controller
     public function sendNewMessage(Request $request) {
         $msg = $request->msg;
     	$friendId = $request->friend_id;
-    	$myID = Auth::user()->id;
+    	$myID = Session::get('AuthUser'); 
 
 
     	// check if conversation already started or not
@@ -219,12 +409,13 @@ class MessagesController extends Controller
     }
 
     public function startContract(Request $request) {
-    	$idAuth = Auth::user()->id;
+        $AuthUser = Session::get('AuthUser');
         $conID = $request->conID;
+        $conProposal = $request->conProposal;
 
      	$fetch_userTo = DB::table('messages')->where('conversation_id', $conID)->get();
 
-        if($fetch_userTo[0]->user_from == $idAuth){
+        if($fetch_userTo[0]->user_from == $AuthUser){
             // fetch user_to
             $userTo = $fetch_userTo[0]->user_to;
         }else {
@@ -235,7 +426,7 @@ class MessagesController extends Controller
         // check if you started or not the contract
         $checkStartContract = DB::table('messages')
         	->where('conversation_id', $conID)
-        	->where('user_from', $idAuth)
+        	->where('user_from', $AuthUser)
         	->where('user_to', $userTo)
         	->where('status', 3)
         	->get();
@@ -250,14 +441,14 @@ class MessagesController extends Controller
         	// fetch the usert_to row
         	$userToName = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_to')
 	        	->where('conversation_id', $conID)
-	        	->where('user_from', $idAuth)
+	        	->where('user_from', $AuthUser)
 	        	->where('user_to', $userTo)
 	        	->get();
 
         	// now send message
 	        $sendM = DB::table('messages')->insert([
 	            'user_to'         => $userTo,
-	            'user_from'       => $idAuth,
+	            'user_from'       => $AuthUser,
 	            'msg'             => 'started the contract',
 	            /*'msg'             => ucwords(Auth::user()->firstName) . ' ' . ucwords(Auth::user()->lastName) . ' started the contract with the freelancer '. ucwords($userToName[0]->firstName),*/
 	            'status'          => 3,

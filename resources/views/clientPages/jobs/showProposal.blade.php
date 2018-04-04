@@ -12,7 +12,7 @@
         			<div class="row">
         				<div class="col-md-12 col-sm-12 padding-left">
 					  		<br><h3 class="list-group-item-heading"><strong>Cover Letter - <a href="">{{ucwords($freelancer->firstName)}} {{ucwords($freelancer->lastName)}}</a></strong></h3><br><br>
-					  		<h4 class="list-group-item-text">{{ strip_tags($job->freelancer_comment) }}</h4><br>
+					  		<h4 class="list-group-item-text">{!! $job->freelancer_comment !!}</h4><br>
         				</div>
 					</div>
                 </div>
@@ -46,7 +46,7 @@
         			<div class="row">
         				<div class="col-md-12 col-sm-12 padding-left">
 					  		<br><h3 class="list-group-item-heading"><strong>Details</strong></h3><br><br>
-					  		<h4 class="list-group-item-text">{{ strip_tags($job->description) }}</h4><br>
+					  		<h4 class="list-group-item-text">{!! $job->description !!}</h4><br>
         				</div>
 					</div><hr>
 					<div class="row">
@@ -68,9 +68,13 @@
     	</div>
     	<div class="col-md-3 col-sm-3 top-proposal">
 			<div class="col-md-12 col-sm-12">
-				{!! Form::open(['route' => ['messages', ], 'method' => 'GET']) !!}
-					{!! Form::button('<strong>Write a Message</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg')) !!}
-	            {!! Form::close() !!}<br><br>
+				@if($job->current_proposal_status == 1)
+					{!! Form::open(['route' => ['messageProposal', $freelancer->id], 'method' => 'POST']) !!}
+						{!! Form::button('<strong>Write a Message</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg')) !!}
+		            {!! Form::close() !!}<br><br>
+	            @elseif($job->current_proposal_status == 2)
+	            	<a href="{{ route('messages') }}" class="btn btn-success btn-lg">Write a Message</a>
+	            @endif
 				<h5><strong>Submitted Proposals</strong></h5><br>
 				<h5><strong>Your proposed terms:</strong></h5><br>
 				@if($job->paymentName == 'Hourly')

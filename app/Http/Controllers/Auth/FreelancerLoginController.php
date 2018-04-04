@@ -32,19 +32,29 @@ class FreelancerLoginController extends Controller
         $user = User::where('email', '=', $request->email)
                     ->orWhere('password', '=', $request->password)->first();
         //dd($user->role_id);
-        if($user->role_id == 2){
-            //The attempt method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table.
+        if($user != null){
+            if($user->role_id == 2){
+                //The attempt method accepts an array of key / value pairs as its first argument. The values in the array will be used to find the user in your database table.
 
-            // guard('admin') - will run in the Admin Model instead of User Model
-            // Auth::guard('admin')->attempt($credentials, $remember)
+                // guard('admin') - will run in the Admin Model instead of User Model
+                // Auth::guard('admin')->attempt($credentials, $remember)
 
-            if (Auth::guard('freelancer')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember))  {
-                // If successful, then redirect to their intended location
-                return redirect()->intended(route('freelancer.dashboard'));
+                if (Auth::guard('freelancer')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember))  {
+                    // If successful, then redirect to their intended location
 
-                // The intended method on the redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. A fallback URI may be given to this method in case the intended destination is not available.
+                    //We use this session to store the Auth::user()->id for Messenger
+                    Session::put('AuthUser', $user->id);
+                    Session::put('AuthUserRole', $user->role_id);
+                    Session::put('UserImage', $user->image);
+                    Session::put('UserFirstName', $user->firstName);
+                    Session::put('UserLastName', $user->lastName);
+
+                    return redirect()->intended(route('freelancer.dashboard'));
+
+                    // The intended method on the redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. A fallback URI may be given to this method in case the intended destination is not available.
+                }
+
             }
-
         }
 
         //Session::flash('errors', "You don't have a client account!");

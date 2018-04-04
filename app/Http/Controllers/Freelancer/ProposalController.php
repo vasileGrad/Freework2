@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
 use App\Proposal;
+use Purifier;
 use App\Job;
 use Auth;
 use DB;
@@ -102,9 +103,11 @@ class ProposalController extends Controller
         $proposal->payment_type_id = $job->paymentTypeId;
         $proposal->payment_amount = $job->paymentAmount;
         $proposal->current_proposal_status = 1;
-        $proposal->freelancer_comment = $request->body;
 
         //dd($proposal);
+
+        // we use Purifier to clean and secure
+        $proposal->freelancer_comment = Purifier::clean($request->body);
 
         $proposal->save();
 

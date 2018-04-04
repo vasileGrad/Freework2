@@ -13,8 +13,8 @@
         				<div class="col-md-12 col-sm-12">
         					<div class="col-md-8 col-sm-8 padding-left">
 						  		<br><h3 class="list-group-item-heading"><strong>{{ $job->title }}</strong></h3><br><br>
-						  		<span class="label label-default label-skill">{{$job->categoryName}}</span>    Posted {{ date( 'M j, Y h', strtotime($job->created_at)) }} <br>
-					    		<br><h4 class="list-group-item-text">{{ strip_tags($job->description) }}</h4>
+						  		<span class="label label-default label-skill">{{$job->categoryName}}</span>    Posted {{ date( 'M j, Y h', strtotime($job->created_at)) }} <br><br>
+					    		<br><h4 class="list-group-item-text">{!! $job->description!!}</h4>
 						    </div>
 						    <div class="col-md-3 col-sm-3 pull-right">
 						    	<br><br><br><br>

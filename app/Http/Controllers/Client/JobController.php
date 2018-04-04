@@ -229,7 +229,7 @@ class JobController extends Controller
                                     ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                     ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
                                     ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id', 'proposals.payment_amount', 'proposals.freelancer_comment', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
+                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id', 'proposals.payment_amount', 'proposals.current_proposal_status', 'proposals.freelancer_comment', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
                                     ->where('proposals.id','=', $id)
                                     ->first();
 
@@ -244,7 +244,7 @@ class JobController extends Controller
         
         $freelancer = DB::table('proposals')->leftJoin('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')
                                 ->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
-                                ->select('freelancers.id','users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.created_at')
+                                ->select('freelancers.id','users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.created_at','proposals.id')
                                 ->where('proposals.id', '=', $id)
                                 ->first();
 
@@ -253,6 +253,8 @@ class JobController extends Controller
                                         ['jobs.statusActiv', '=', 1]
                                     ])
                                     ->count();*/
+       /* $proposal_status = DB::table('proposals')->select('proposals.current_proposal_status')->where('proposals.id', '=', )->first();
+*/
         $proposals_job = DB::table('proposals')->where('proposals.job_id', '=', $job->job_id)
                                                 ->count();
 

@@ -123,6 +123,4 @@ class ProfileController extends Controller
         $user->save();
         return $request->all();
     }
-
-
 }

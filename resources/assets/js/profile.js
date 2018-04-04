@@ -26,17 +26,28 @@ const app = new Vue({
     conID: '',
     friend_id: '',
     seen: false,
-    newMsgFrom: ''
- },
- ready: function(){
-   this.created();
-   //this.listen();
- },
- mounted() {
+    newMsgFrom: '',
+    conProposal: '',
+    userFirstName: '',
+    userLastName: '',
+    firstNameShow: '',
+    lastNameShow: '',
+    substrJobTitle: '',
+    jobTitle: '',
+    jobId: ''
+},
+
+ready: function(){
+  this.created();
+  //this.listen();
+},
+
+/*mounted() {
   this.listen();
- },
- created(){
-   axios.get('getMessages')
+},*/
+
+created(){
+  axios.get('getMessages')
         .then(response => {
           console.log(response.data); // show if success
           // privateMsgs comes from web.php - Route::get('/getMessages', function () {
@@ -49,39 +60,47 @@ const app = new Vue({
         .catch(function (error) {
           console.log(error); // run if we have error
         });
- },
+},
 
- methods:{
-   messages: function(id){
-     axios.get('getMessages/' + id)
-          //alert(id);
+methods:{
+  messages: function(id){
+    axios.get('getMessagesId/' + id)
           .then(response => {
             console.log(response.data); // show if success
-           app.singleMsgs = response.data; //we are putting data into our posts array
-           app.conID = response.data[0].conversation_id;
+            app.singleMsgs = response.data; //we are putting data into our posts array
+            app.conID = response.data[0].conversation_id;
+            app.userFirstName = response.data[0].firstName;
+            app.userLastName = response.data[0].lastName;
+            app.firstNameShow = response.data[0].firstNameShow;
+            app.lastNameShow = response.data[0].lastNameShow;
+            //app.substrJobTitle = response.data[0].substrJobTitle;
+            app.jobTitle = response.data[0].jobTitle;
+            app.jobId = response.data[0].jobId;
+            app.conProposal = response.data[0].conProposal;
+            //alert(app.conProposal);
           })
           .catch(function (error) {
             console.log(error); // run if we have error
           });
-   },
+  },
 
-   inputHandler(e){
+  inputHandler(e){
     // if Enter key was pressed and not shiftKey (new line)
-     if(e.keyCode === 13 && !e.shiftKey){
-       e.preventDefault();
-       this.sendMsg();
-     }
-   },
+    if(e.keyCode === 13 && !e.shiftKey){
+      e.preventDefault();
+      this.sendMsg();
+    }
+  },
 
-    moment: function () {
-      return moment();
-    },
+  moment: function () {
+    return moment();
+  },
 
-   sendMsg() {
-     if(this.msgFrom){
+  sendMsg() {
+    if(this.msgFrom){
       //alert(this.conID);
       //alert(this.msgFrom);
-       axios.post('sendMessage', {
+      axios.post('sendMessage', {
           conID: this.conID,
           msg: this.msgFrom
         })
@@ -99,7 +118,8 @@ const app = new Vue({
         this.msgFrom = "";
       }
     },
-   listen() {
+
+  /*listen() {
       //Echo.private('conversation.'+this.conversation_id)
       Echo.private('conversation.'+app.conID)
         .listen('NewMessageEvent', (message) => {
@@ -107,15 +127,15 @@ const app = new Vue({
           app.singleMsgs = message.data;
           app.conID = message[0].conversation_id;
         })
-   },
+  },*/
 
-   friendID: function(id){
-     app.friend_id = id;
-     console.log(app.friend_id);
-   },
+  friendID: function(id){
+    app.friend_id = id;
+    console.log(app.friend_id);
+  },
 
-   sendNewMsg(){
-     axios.post('sendNewMessage', {
+  sendNewMsg(){
+    axios.post('sendNewMessage', {
             friend_id: this.friend_id,
             msg: this.newMsgFrom
           })
@@ -124,49 +144,49 @@ const app = new Vue({
             if(response.status===200){
               window.location.replace('messages');
               app.msg = 'your message has been sent successfully';
-              this.messages(2);
+              this.messages();
             }
-
           })
           .catch(function (error) {
             console.log(error); // run if we have error
           });
-   }, 
+  }, 
    
-    startContract(){
-       axios.post('startContract', {
-          conID: this.conID
-        })
-        .then(function (response) {              
-          console.log(response.data); // show if success
-          // Refresh the page if success
-          if(response.status===200){
-            app.singleMsgs = response.data;
-            app.conID = response.data[0].conversation_id;
-          }
-        })
-        .catch(function (error) {
-          console.log(error); // run if we have error
-        });
-      this.msgFrom = "";
-      },
+  startContract(){
+    axios.post('startContract', {
+        conID: this.conID,
+        conProposal: this.conProposal
+      })
+      .then(function (response) {              
+        console.log(response.data); // show if success
+        // Refresh the page if success
+        if(response.status===200){
+          app.singleMsgs = response.data;
+          app.conID = response.data[0].conversation_id;
+        }
+      })
+      .catch(function (error) {
+        console.log(error); // run if we have error
+      });
+    this.msgFrom = "";
+  },
 
-    finishContract(){
-       axios.post('finishContract', {
-          conID: this.conID
-        })
-        .then(function (response) {              
-          console.log(response.data); // show if success
-          // Refresh the page if success
-          if(response.status===200){
-            app.singleMsgs = response.data;
-            app.conID = response.data[0].conversation_id;
-          }
-        })
-        .catch(function (error) {
-          console.log(error); // run if we have error
-        });
-      this.msgFrom = "";
-      }
+  finishContract(){
+    axios.post('finishContract', {
+        conID: this.conID
+      })
+      .then(function (response) {              
+        console.log(response.data); // show if success
+        // Refresh the page if success
+        if(response.status===200){
+          app.singleMsgs = response.data;
+          app.conID = response.data[0].conversation_id;
+        }
+      })
+      .catch(function (error) {
+        console.log(error); // run if we have error
+      });
+    this.msgFrom = "";
     }
+  }
 });

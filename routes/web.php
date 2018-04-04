@@ -103,7 +103,7 @@ Route::prefix('client')->group(function() {
 
 Route::get('newMessage', 'MessagesController@newMessage')->name('newMessage');
 Route::post('sendNewMessage', 'MessagesController@sendNewMessage');
-Route::post('sendMessage', 'MessagesController@sendMessage');
+Route::post('/sendMessage', 'MessagesController@sendMessage');
 
 
 Route::post('/startContract', 'MessagesController@startContract');
@@ -112,28 +112,8 @@ Route::post('/finishContract', 'MessagesController@finishContract');
 
 
 Route::get('/messages', 'MessagesController@messages')->name('messages');
+Route::post('/messageProposal/{proposal_id}', 'MessagesController@messageProposal')->name('messageProposal');
 
 Route::get('/getMessages', 'MessagesController@getMessages')->name('getMessages');
-//Route::get('/getMessagesId/{id}', 'MessagesController@getMessagesId')->name('getMessagesId');
+Route::get('/getMessagesId/{id}', 'MessagesController@getMessagesId')->name('getMessagesId');
 //Route::get('/getGuard', 'MessagesController@getGuard')->name('getGuard');
-
-
-Route::get('/getMessages/{id}', function ($id) {
-    // check Conversation
-    /*$checkCon = DB::table('conversations')->where('user_one', Auth::user()->id)
-    	->where('user_two', $id)->get();
-    if(count($checkCon)!=0){
-    	//echo $checkCon[0]->id;
-    	// fetch msgs
-    	$userMsg = DB::table('messages')->where('messages.conversation_id', $checkCon[0]->id)->get();
-    	return $userMsg;
-    }else{
-    	echo "no messages";
-    }*/
-    $userMsg = DB::table('messages')
-    	->leftJoin('users', 'users.id', 'messages.user_from')
-    	->where('messages.conversation_id', $id)
-    	->get();
-    return $userMsg;
-
-});

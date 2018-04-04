@@ -2,6 +2,21 @@
 
 @section('title', '| Create Proposal Page')
 
+@section('stylesheets')
+
+	{!! Html::style('css/parsley.css') !!}
+	<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+
+	<script>
+		tinymce.init({
+			selector: 'textarea',
+			plugins: 'link code lists image',
+			menubar: false
+		});
+	</script>
+
+@endsection
+
 @section('content')
 <div class="container">
 	<h2>Submit a proposal</h2>
@@ -27,7 +42,7 @@
 				</div>
 			</div><br>
 			<div class="panel panel-default mainUser">
-				{!! Form::open(['route' => ['storeProposal', $job->id], 'method' => 'POST']) !!}
+				{!! Form::open(['route' => ['storeProposal', $job->id], 'data-parsley-validate' => '', 'method' => 'POST']) !!}
             		<div class="panel-heading"><h2>Additional information</h2></div>
 	                <div class="panel-body">
 	        			<div class="row">
@@ -44,7 +59,7 @@
 								{!! Form::button('<strong>Submit a Proposal</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg btn-block')) !!}
 								{!! Form::close() !!}
 							</div>
-							<div class="col-md-4 col-offset-md-1 col-sm-4 col-offset-sm-1">
+							<div class="col-md-5 col-offset-md-1 col-sm-5 col-offset-sm-2">
 								{!! Html::linkRoute('jobShow', 'Cancel', array($job->id), array('class' => 'btn btn-success btn-lg btn-block')) !!}
 							</div>
 						</div>
@@ -54,4 +69,10 @@
 		</div>
 	</div>
 </div>
+@endsection
+
+@section('scripts')
+
+	{!! Html::script('js/parsley.min.js') !!}
+
 @endsection

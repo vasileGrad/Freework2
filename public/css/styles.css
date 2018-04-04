@@ -1,8 +1,8 @@
 
-a:link { color: #000000; text-decoration: none}
+a:link { color: #36a1ff; text-decoration: none}
 a:visited { color: #2f2e2f; text-decoration: none}
-a:hover { color: #059fea; text-decoration: none}
-a:active { color: #000000; text-decoration: none}
+a:hover { color: #059fea; text-decoration: underline;}
+a:active { color: #000000; text-decoration: underline;}
 
 .body-image {
 	background-image: url("/images/Freework_3.jpg");
@@ -52,6 +52,23 @@ a:active { color: #000000; text-decoration: none}
 #myScroll::-webkit-scrollbar-thumb:hover {
     background: #b1b2b5; 
 }  
+
+/* Scrollbar styles for Messenger*/
+/*#app::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+}
+#app::-webkit-scrollbar-track {
+    border: 1px solid #a4a4a5;
+    border-radius: 2px;
+}
+#app::-webkit-scrollbar-thumb {
+    background: gray;  
+    border-radius: 10px;
+}
+#app::-webkit-scrollbar-thumb:hover {
+    background: #b1b2b5; 
+} */ 
 
 /* Notification Style */
 .bell-top-margin {
@@ -250,11 +267,19 @@ a:active { color: #000000; text-decoration: none}
     margin-left: 15px;
 }
 
-.singleMsg-created_at {
+ 
+.singleMsg-right-created_at {
     font-size: 12px; 
     opacity: 0.5; 
     margin-top: -10px;
     margin-right: 64px;
+}
+
+.singleMsg-left-created_at {
+    font-size: 12px; 
+    opacity: 0.5; 
+    margin-top: -10px;
+    margin-left: 64px;
 }
 
 .top-textarea {
@@ -285,8 +310,8 @@ a:active { color: #000000; text-decoration: none}
     background-color:#F3F3F3;
 }
 
-
-.rotateX {
+/* -180deg inainte  */
+.rotateX { 
     transform:rotateX(-180deg);
 }
 
@@ -306,6 +331,7 @@ a:active { color: #000000; text-decoration: none}
     border-radius: 50%;
 }
 /*  End Client  */
+
 
 /*  Admin  */
 .image-radius-admin {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Session;
 use App\User;
 use Auth;
 
@@ -36,6 +37,12 @@ class AdminLoginController extends Controller
 
         	if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember))  {
         		// If successful, then redirect to their intended location
+                Session::put('AuthUser', $user->id);
+                Session::put('AuthUserRole', $user->role_id);
+                Session::put('UserImage', $user->image);
+                Session::put('UserFirstName', $user->firstName);
+                Session::put('UserLastName', $user->lastName);
+
         		return redirect()->intended(route('admin.dashboard'));
 
         		// The intended method on the redirector will redirect the user to the URL they were attempting to access before being intercepted by the authentication middleware. A fallback URI may be given to this method in case the intended destination is not available.

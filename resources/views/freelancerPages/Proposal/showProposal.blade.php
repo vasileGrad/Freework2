@@ -60,7 +60,7 @@
         			<div class="row">
         				<div class="col-md-12 col-sm-12 padding-left">
 					  		<br><h3 class="list-group-item-heading"><strong>Cover Letter</strong></h3><br><br>
-					  		<h4 class="list-group-item-text">{{ strip_tags($job->freelancer_comment) }}</h4><br>
+					  		<h4 class="list-group-item-text">{!! $job->freelancer_comment !!}</h4><br>
         				</div>
 					</div>
                 </div>
@@ -83,7 +83,7 @@
 			  		<h5>{{$count_jobs}} Job Posted</h5><br>
 			  	@elseif($count_jobs > 1)
 			  		<h5>{{$count_jobs}} Jobs Posted</h5><br>
-			  	@endif
+			  	@endif 
 			  	<small>Member since: {{ date('M j, Y', strtotime($client->created_at)) }}</small><br><hr>
 			  	<h5><strong>Activity for this job</strong></h5><br>
 			  	@if ($proposals_job == 1)
