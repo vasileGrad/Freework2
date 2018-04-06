@@ -64114,6 +64114,7 @@ var app = new Vue({
     firstNameShow: '',
     lastNameShow: '',
     substrJobTitle: '',
+    currentProposalStatus: '',
     jobTitle: '',
     jobId: ''
   },
@@ -64153,9 +64154,11 @@ var app = new Vue({
         app.firstNameShow = response.data[0].firstNameShow;
         app.lastNameShow = response.data[0].lastNameShow;
         //app.substrJobTitle = response.data[0].substrJobTitle;
+        app.currentProposalStatus = response.data[0].currentProposalStatus;
         app.jobTitle = response.data[0].jobTitle;
         app.jobId = response.data[0].jobId;
         app.conProposal = response.data[0].conProposal;
+        //alert(app.currentProposalStatus);
         //alert(app.conProposal);
       }).catch(function (error) {
         console.log(error); // run if we have error
@@ -64196,8 +64199,17 @@ var app = new Vue({
           console.log(response.data); // show if success
           // Refresh the page if success
           if (response.status === 200) {
-            app.singleMsgs = response.data;
+            app.singleMsgs = response.data; //we are putting data into our posts array
             app.conID = response.data[0].conversation_id;
+            app.userFirstName = response.data[0].firstName;
+            app.userLastName = response.data[0].lastName;
+            app.firstNameShow = response.data[0].firstNameShow;
+            app.lastNameShow = response.data[0].lastNameShow;
+            //app.substrJobTitle = response.data[0].substrJobTitle;
+            app.currentProposalStatus = response.data[0].currentProposalStatus;
+            app.jobTitle = response.data[0].jobTitle;
+            app.jobId = response.data[0].jobId;
+            app.conProposal = response.data[0].conProposal;
           }
         }).catch(function (error) {
           console.log(error); // run if we have error
@@ -64247,6 +64259,15 @@ var app = new Vue({
         if (response.status === 200) {
           app.singleMsgs = response.data;
           app.conID = response.data[0].conversation_id;
+          app.userFirstName = response.data[0].firstName;
+          app.userLastName = response.data[0].lastName;
+          app.firstNameShow = response.data[0].firstNameShow;
+          app.lastNameShow = response.data[0].lastNameShow;
+          //app.substrJobTitle = response.data[0].substrJobTitle;
+          app.currentProposalStatus = response.data[0].currentProposalStatus;
+          app.jobTitle = response.data[0].jobTitle;
+          app.jobId = response.data[0].jobId;
+          app.conProposal = response.data[0].conProposal;
         }
       }).catch(function (error) {
         console.log(error); // run if we have error
@@ -64255,13 +64276,23 @@ var app = new Vue({
     },
     finishContract: function finishContract() {
       axios.post('finishContract', {
-        conID: this.conID
+        conID: this.conID,
+        conProposal: this.conProposal
       }).then(function (response) {
         console.log(response.data); // show if success
         // Refresh the page if success
         if (response.status === 200) {
           app.singleMsgs = response.data;
           app.conID = response.data[0].conversation_id;
+          app.userFirstName = response.data[0].firstName;
+          app.userLastName = response.data[0].lastName;
+          app.firstNameShow = response.data[0].firstNameShow;
+          app.lastNameShow = response.data[0].lastNameShow;
+          //app.substrJobTitle = response.data[0].substrJobTitle;
+          app.currentProposalStatus = response.data[0].currentProposalStatus;
+          app.jobTitle = response.data[0].jobTitle;
+          app.jobId = response.data[0].jobId;
+          app.conProposal = response.data[0].conProposal;
         }
       }).catch(function (error) {
         console.log(error); // run if we have error

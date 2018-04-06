@@ -8,29 +8,17 @@ use Illuminate\Support\Facades\DB;
 use App\Conversation;
 use App\Message;
 use App\Proposal;
+use App\Contract;
 use Session;
 use App\Events\NewMessageEvent;
 
 class MessagesController extends Controller
 {
-    /*public function __construct()
-    {
-        $this->middleware('auth:client');
-    }*/
-
-    public function getGuard() {
-        //$AuthUserRole = Session::get('AuthUserRole');
-        $AuthUser = Session::get('AuthUser');
-        dd($AuthUser);
-
-        //dd(Auth::check());
-        if(Auth::check()){
-            return 2;
-        }else{
-            return 3;
-        }
-    }
-
+    /**
+     * Take messages
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function messages() {
 
         $userId = Session::get('AuthUser');
@@ -99,6 +87,11 @@ class MessagesController extends Controller
         return view('messages.messages', compact('user','userId'));
     }
 
+    /**
+     * Get Messages
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function getMessages() {
         $AuthUser = Session::get('AuthUser');
 
@@ -184,7 +177,7 @@ class MessagesController extends Controller
                             left join clients on jobs.clientId = clients.id
                             left join users on clients.user_id = users.id
                             where conversations.id = '$id') as lastNameShow"),
-                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
+                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
                         ->where('messages.conversation_id', $id)
                         ->get();
         //dd($userMsg1);
@@ -201,7 +194,7 @@ class MessagesController extends Controller
                             left join freelancers on proposals.freelancer_id = freelancers.id
                             left join users on freelancers.user_id = users.id
                             left join conversations on proposals.id = conversations.proposal_id where conversations.id = '$id') as lastNameShow"),
-                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
+                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
                         ->where('messages.conversation_id', $id)
                         ->get();
             
@@ -256,6 +249,12 @@ class MessagesController extends Controller
         return redirect()->route('messages');
     }
 
+    /**
+     * Send Message
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function sendMessage(Request $request) {
         //dd('hello');
         $AuthUser = Session::get('AuthUser');
@@ -294,16 +293,24 @@ class MessagesController extends Controller
         event(new NewMessageEvent($message));*/
 
         if($sendM){
-            $userMsg = DB::table('messages')
-                ->leftJoin('users', 'users.id', 'messages.user_from')
-                ->where('messages.conversation_id', $conID)
-                ->get();
+             $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select('users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
+                        ->where('messages.conversation_id', $conID)
+                        ->get();
             return $userMsg;
         }else{
             echo 'not sent';
         }
     }
 
+    /**
+     * New Message
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function newMessage(){
         //$uid = Auth::user()->id;
         /*if (Auth::check())
@@ -343,20 +350,6 @@ class MessagesController extends Controller
       $friends = array_merge($friends1->toArray(), $friends2->toArray());
       return view('newMessage', compact('friends', $friends));*/
     }
-
-    /**
-     * Get Messages
-     *
-     * @return \Illuminate\Http\Response
-     */
-    /*public function getMessages($id) {
-        $userMsg = DB::table('messages')
-                        ->leftJoin('users', 'users.id', 'messages.user_from')
-                        ->where('messages.conversation_id', $id)
-                        ->get();
-
-        return $userMsg;
-    }*/
 
     /**
      * Send New Message.
@@ -408,12 +401,18 @@ class MessagesController extends Controller
     	}
     }
 
+    /**
+     * Start Contract
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function startContract(Request $request) {
         $AuthUser = Session::get('AuthUser');
         $conID = $request->conID;
         $conProposal = $request->conProposal;
 
-     	$fetch_userTo = DB::table('messages')->where('conversation_id', $conID)->get();
+     	$fetch_userTo = DB::table('messages')->where('messages.conversation_id', $conID)->get();
 
         if($fetch_userTo[0]->user_from == $AuthUser){
             // fetch user_to
@@ -423,113 +422,102 @@ class MessagesController extends Controller
             $userTo = $fetch_userTo[0]->user_from;
         }
 
-        // check if you started or not the contract
-        $checkStartContract = DB::table('messages')
-        	->where('conversation_id', $conID)
-        	->where('user_from', $AuthUser)
-        	->where('user_to', $userTo)
-        	->where('status', 3)
-        	->get();
+        // find the proposal in the table proposals 
+        $proposal = Proposal::find($conProposal);
 
-        if(count($checkStartContract) != 0) {
-        	$userMsg = DB::table('messages')
-	            ->leftJoin('users', 'users.id', 'messages.user_from')
-	            ->where('messages.conversation_id', $conID)
-	            ->get();
-	        return $userMsg;
-        }else {
-        	// fetch the usert_to row
-        	$userToName = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_to')
-	        	->where('conversation_id', $conID)
-	        	->where('user_from', $AuthUser)
-	        	->where('user_to', $userTo)
-	        	->get();
-
-        	// now send message
-	        $sendM = DB::table('messages')->insert([
-	            'user_to'         => $userTo,
-	            'user_from'       => $AuthUser,
-	            'msg'             => 'started the contract',
-	            /*'msg'             => ucwords(Auth::user()->firstName) . ' ' . ucwords(Auth::user()->lastName) . ' started the contract with the freelancer '. ucwords($userToName[0]->firstName),*/
-	            'status'          => 3,
-	            'conversation_id' => $conID
-	        ]);
-
-	        if($sendM){
-	            $userMsg = DB::table('messages')
-	                ->leftJoin('users', 'users.id', 'messages.user_from')
-	                ->where('messages.conversation_id', $conID)
-	                ->get();
-	            return $userMsg;
-	        }else{
-	            echo 'not sent';
-	        }
+        // update the status in the prorosals table
+        if($proposal->current_proposal_status == 2){
+            $proposal->current_proposal_status = 6;
+            $proposal->save();
         }
-        
+
+        // save a new contract
+        $id = DB::table('contracts')->insertGetId(
+            ['proposalId'  => $conProposal,
+            'clientId'     => $AuthUser,
+            'freelancerId' => $proposal->freelancer_id,
+            'startTime'    => now(),
+            'paymentTypeId'=> $proposal->payment_type_id,
+            'paymentAmount'=> $proposal->payment_amount
+            ]
+        );
+
+    	// start contract message
+        $sendM = DB::table('messages')->insert([
+            'user_to'         => $userTo,
+            'user_from'       => $AuthUser,
+            'msg'             => 'started the contract',
+            'status'          => 6,
+            'conversation_id' => $conID
+        ]);
+
+        $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select('users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
+                        ->where('messages.conversation_id', $conID)
+                        ->get();
+
+        return $userMsg;   
     }
 
+    /**
+     * Finish Contract
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function finishContract(Request $request) {
-    	$idAuth = Auth::user()->id;
+    	$AuthUser = Session::get('AuthUser');
         $conID = $request->conID;
+        $conProposal = $request->conProposal;
 
-        $fetch_userTo = DB::table('messages')->where('conversation_id', $conID)->get();
+        $fetch_userTo = DB::table('messages')->where('messages.conversation_id', $conID)->get();
 
-        if($fetch_userTo[0]->user_from == $idAuth){
+        if($fetch_userTo[0]->user_from == $AuthUser){
             // fetch user_to
             $userTo = $fetch_userTo[0]->user_to;
         }else {
             // fetch user_to
             $userTo = $fetch_userTo[0]->user_from;
         }
-        // check if you started or not the contract
-        $checkStartContract = DB::table('messages')
-        	->where('conversation_id', $conID)
-        	->where('user_from', $idAuth)
-        	->where('user_to', $userTo)
-        	->where('status', 3)
-        	->get();
 
-        // check if you finished or not the contract
-        $checkFinishContract = DB::table('messages')
-        	->where('conversation_id', $conID)
-        	->where('user_from', $idAuth)
-        	->where('user_to', $userTo)
-        	->where('status', 4)
-        	->get();
+        // find the proposal in the table proposals 
+        $proposal = Proposal::find($conProposal);
 
-        if(count($checkStartContract) == 0 || count($checkFinishContract) != 0) {
-    		$userMsg = DB::table('messages')
-	            ->leftJoin('users', 'users.id', 'messages.user_from')
-	            ->where('messages.conversation_id', $conID)
-	            ->get();
-	        return $userMsg;
-        }else {
-        	// fetch the usert_to row
-        	$userToName = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_to')
-	        	->where('conversation_id', $conID)
-	        	->where('user_from', $idAuth)
-	        	->where('user_to', $userTo)
-	        	->get();
+        // update the status in the prorosals table
+        if($proposal->current_proposal_status == 6){
+            $proposal->current_proposal_status = 7;
+            $proposal->save();
+        }
 
-		    // now send message
-		    $sendM = DB::table('messages')->insert([
-		        'user_from'       => $idAuth,
-		        'user_to'         => $userTo,
-		        'msg'             => 'ended the contract',
-	            /*'msg'             => ucwords(Auth::user()->firstName) . ' ' . ucwords(Auth::user()->lastName) . ' ended the contract with the freelancer '. ucwords($userToName[0]->firstName),*/
-		        'status'          => 4,
-		        'conversation_id' => $conID
-		    ]);
+        // find the contract with in the table proposals 
+        $contractId = DB::table('contracts')->where('contracts.proposalId', '=', $conProposal)
+                                            ->select('contracts.id')->first();
 
-		    if($sendM){
-		        $userMsg = DB::table('messages')
-		            ->leftJoin('users', 'users.id', 'messages.user_from')
-		            ->where('messages.conversation_id', $conID)
-		            ->get();
-		        return $userMsg;
-		    }else{
-		        echo 'not sent';
-		    }
-		}
+        $contract = Contract::find($contractId->id);
+        // Update the endTime 
+        $contract->endTime = now();
+        $contract->save();
+
+	    // end the contract message
+	    $sendM = DB::table('messages')->insert([
+	        'user_from'       => $AuthUser,
+	        'user_to'         => $userTo,
+	        'msg'             => 'ended the contract',
+	        'status'          => 7,
+	        'conversation_id' => $conID
+	    ]);
+
+       $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select('users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
+                        ->where('messages.conversation_id', $conID)
+                        ->get();
+
+        return $userMsg;
     }
 }

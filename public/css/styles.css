@@ -232,6 +232,10 @@ a:active { color: #000000; text-decoration: underline;}
     border-radius:50%;
 }
 
+.margin-left-title {
+    margin-left: 10px;
+}
+
 .top-message {
     margin-top:5px;
 }
