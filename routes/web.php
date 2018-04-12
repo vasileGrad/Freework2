@@ -83,7 +83,8 @@ Route::prefix('freelancer')->group(function() {
     
 });
 
-//Route::resource('jobSaved', 'Freelancer\JobSavedController');
+
+// Profile Freelancer ajax calls
 Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
 Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
 
@@ -96,24 +97,20 @@ Route::prefix('client')->group(function() {
     Route::get('/goBackJobs', 'Client\JobController@goBackJobs')->name('goBackJobs');
     Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
     Route::post('/freelancerSearch', 'Client\SearchFreelancerController@searchFilter')->name('freelancerSearchFilter');
-
 });
 
-
-
+// Messages
 Route::get('newMessage', 'MessagesController@newMessage')->name('newMessage');
 Route::post('sendNewMessage', 'MessagesController@sendNewMessage');
 Route::post('/sendMessage', 'MessagesController@sendMessage');
-
-
-Route::post('/startContract', 'MessagesController@startContract');
-
-Route::post('/finishContract', 'MessagesController@finishContract');
-
-
 Route::get('/messages', 'MessagesController@messages')->name('messages');
 Route::post('/messageProposal/{proposal_id}', 'MessagesController@messageProposal')->name('messageProposal');
-
 Route::get('/getMessages', 'MessagesController@getMessages')->name('getMessages');
 Route::get('/getMessagesId/{id}', 'MessagesController@getMessagesId')->name('getMessagesId');
-//Route::get('/getGuard', 'MessagesController@getGuard')->name('getGuard');
+Route::post('/startContract', 'MessagesController@startContract');
+Route::post('/finishContract', 'MessagesController@finishContract');
+Route::post('/leaveReviewClient', 'MessagesController@leaveReviewClient')->name('leaveReviewClient');
+Route::post('/leaveReviewFreelancer', 'MessagesController@leaveReviewFreelancer')->name('leaveReviewFreelancer');
+Route::post('/leaveTip', 'MessagesController@leaveTip')->name('leaveTip');
+
+

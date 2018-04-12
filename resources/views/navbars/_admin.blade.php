@@ -21,7 +21,7 @@
         <li><a href="#">Delete Client</a></li>
       </ul>
     </li>
-    <li class="dropdown">
+    {{-- <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>RAPORTS</strong></a>
       <ul class="dropdown-menu">
         <li><a href="#">Overview</a></li>
@@ -36,7 +36,7 @@
         <li role="separator" class="divider"></li>
         <li><a href="#">Tests</a></li>
       </ul>
-    </li>
+    </li> --}}
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>JOBS</strong></a>
       <ul class="dropdown-menu">
@@ -49,12 +49,12 @@
     <li class="{{ Request::is('categories/index') ? 'active' : '' }}"><a href="{{route('categories.index')}}"><strong>CATEGORIES</strong></a></li>
     <li class="{{ Request::is('skills/index') ? 'active' : '' }}"><a href="{{route('skills.index')}}"><strong>SKILLS</strong></a></li>
   </ul>
-  <form class="navbar-form navbar-left">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+  {{-- <form class="navbar-form navbar-left">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Search">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+  </form> --}}
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown">
         <ul class="dropdown-menu">

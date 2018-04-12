@@ -48,8 +48,8 @@
                         <hr>
                         <div class="panel panel-danger">
                             <div class="panel-heading color-heading">
-                                <b>@{{singleMsg.firstName}} @{{singleMsg.lastName}}</b> @{{singleMsg.msg}}
-                                <img :src="'../images/profile/' + singleMsg.image" class="pull-right image-privateMsg3" />
+                                <b class="margin-left-title">@{{singleMsg.firstName}} @{{singleMsg.lastName}}</b> @{{singleMsg.msg}}
+                                <img :src="'../images/profile/' + singleMsg.image" class="pull-left image-privateMsg3" />
                             </div>
                             <div class="panel-body">
                                 <h3>@{{jobTitle}}</h3>

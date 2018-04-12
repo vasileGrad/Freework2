@@ -25,7 +25,7 @@
         <li><a href="#">Work Diary</a></li>
       </ul>
     </li>
-    <li class="dropdown">
+    {{-- <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>RAPORTS</strong></a>
       <ul class="dropdown-menu">
         <li><a href="#">Overview</a></li>
@@ -34,16 +34,16 @@
         <li role="separator" class="divider"></li>
         <li><a href="#">Contracts History</a></li>
       </ul>
-    </li>
+    </li> --}}
     <li><a href="{{ route('messages') }}"><strong>MESSAGE</strong></a></li>
     <li id="glyphicon-comment" style="display: none"><h4><a href="#"><i class="glyphicon glyphicon-comment"></i></a></h4></li>
   </ul>
-  <form class="navbar-form navbar-left">
+  {{-- <form class="navbar-form navbar-left">
     <div class="form-group">
       <input type="text" class="form-control" placeholder="Search">
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
-  </form>
+  </form> --}}
   <ul class="nav navbar-nav navbar-right">
     <li class="dropdown">
       <h4><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span></a></h4>

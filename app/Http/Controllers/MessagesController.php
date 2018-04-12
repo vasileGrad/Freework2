@@ -9,6 +9,7 @@ use App\Conversation;
 use App\Message;
 use App\Proposal;
 use App\Contract;
+use App\Review;
 use Session;
 use App\Events\NewMessageEvent;
 
@@ -36,50 +37,6 @@ class MessagesController extends Controller
                                 ->where('users.id', '=', $userId)
                                 ->first();
         }
-
-        /*$AuthUserRole = Session::get('AuthUserRole');
-
-        if($AuthUserRole == 3){
-            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
-                    ->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
-                    ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
-                    ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
-                    ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
-                    ->select('users.firstName', 'users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
-                    ->where('messages.conversation_id', 35)
-                    ->get();
-        }
-
-        if($AuthUserRole == 2){
-            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
-                    ->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
-                    ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
-                    ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
-                    ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
-                    ->select('users.firstName', 'users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
-                    ->where('messages.conversation_id', 35)
-                    ->get();
-        } */
-
-        /*$id = 35;
-        $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
-                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
-                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
-                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
-                        ->select(DB::raw('(SELECT(firstName) FROM proposals
-                            left join freelancers on proposals.freelancer_id = freelancers.id
-                            left join users on freelancers.user_id = users.id
-                            left join conversations on proposals.id = conversations.proposal_id) as firstNameShow'),
-                                DB::raw('(SELECT(lastName) FROM proposals
-                            left join freelancers on proposals.freelancer_id = freelancers.id
-                            left join users on freelancers.user_id = users.id
-                            left join conversations on proposals.id = conversations.proposal_id) as lastNameShow'),
-                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
-                        ->where('messages.conversation_id', $id)
-                        ->get();
-            
-            dd($userMsg);*/
-
         //$userMsg = DB::select('messages_get(?)', array($id));
         //dd($jobs);
         //dd($userMsg);
@@ -94,20 +51,6 @@ class MessagesController extends Controller
      */
     public function getMessages() {
         $AuthUser = Session::get('AuthUser');
-
-        /*// the persons who sent me messages
-        $allUsers1 = DB::table('users') 
-            ->leftJoin('conversations', 'users.id', 'conversations.user_one')
-            ->where('conversations.user_two', $AuthUser)
-            ->get();
-        //dd($allUsers1);
-
-        // the persons to whom I have sent the messages
-        $allUsers2 = DB::table('users') 
-            ->Join('conversations', 'users.id', 'conversations.user_two')
-            ->where('conversations.user_one', $AuthUser)
-            ->get();*/
-
 
         $allUsers1 = DB::table('users') 
             ->leftJoin('conversations', 'users.id', 'conversations.user_two')
@@ -137,33 +80,14 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getMessagesId($id) {
-
-        /*$AuthUserRole = Session::get('AuthUserRole');
-
-        if($AuthUserRole == 3){
-            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
-                    ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
-                    ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
-                    ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
-                    ->select('users.firstName', 'users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
-                    ->where('messages.conversation_id', $id)
-                    ->get();
-        }elseif($AuthUserRole == 2){
-            $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
-                    ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
-                    ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
-                    ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
-                    ->select('users.firstName', 'users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal')
-                    ->where('messages.conversation_id', $id)
-                    ->get();
-        }*/
-
         $AuthUserRole = Session::get('AuthUserRole');
 
         if($AuthUserRole == 2){
             $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
                         ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
                         ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('contracts', 'proposals.id', 'contracts.proposalId')
+                        ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
                         ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
                         ->select(DB::raw("(SELECT(firstName) FROM proposals
                             left join conversations on proposals.id = conversations.proposal_id
@@ -177,7 +101,7 @@ class MessagesController extends Controller
                             left join clients on jobs.clientId = clients.id
                             left join users on clients.user_id = users.id
                             where conversations.id = '$id') as lastNameShow"),
-                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
+                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus','reviews.reviewClient as reviewClient','reviews.rateClient as rateClient')
                         ->where('messages.conversation_id', $id)
                         ->get();
         //dd($userMsg1);
@@ -185,6 +109,8 @@ class MessagesController extends Controller
             $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
                         ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
                         ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('contracts', 'proposals.id', 'contracts.proposalId')
+                        ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
                         ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
                         ->select(DB::raw("(SELECT(firstName) FROM proposals
                             left join freelancers on proposals.freelancer_id = freelancers.id
@@ -194,7 +120,7 @@ class MessagesController extends Controller
                             left join freelancers on proposals.freelancer_id = freelancers.id
                             left join users on freelancers.user_id = users.id
                             left join conversations on proposals.id = conversations.proposal_id where conversations.id = '$id') as lastNameShow"),
-                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
+                            'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus','reviews.reviewFreelancer as reviewFreelancer', 'reviews.rateFreelancer as rateFreelancer')
                         ->where('messages.conversation_id', $id)
                         ->get();
             
@@ -312,15 +238,7 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function newMessage(){
-        //$uid = Auth::user()->id;
-        /*if (Auth::check())
-        {
-            dd(['yes', Auth::user()->id, Auth::user()->firstName, Auth::guard('client')]);
-        }else{
-            dd('no');
-        }*/
 
-        //dd(Auth::user()->id);
         if(Session::get('AuthUserRole') == 3 /*&& Auth::guard('freelancer')*/){
             $users = DB::table('users')->leftJoin('clients', 'users.id', '=', 'clients.user_id')
                                 ->where('role_id', '=', 2)
@@ -335,20 +253,6 @@ class MessagesController extends Controller
         } 
         //dd($users);
         return view('messages.newMessage', compact('users'));
-
-      /*$uid = Auth::user()->id;
-      $friends1 = DB::table('friendships')
-          ->leftJoin('users', 'users.id', 'friendships.user_requested') // who is not logged in but send request to
-          ->where('status', 1)
-          ->where('requester', $uid) // who is loggedin
-          ->get();
-      $friends2 = DB::table('friendships')
-          ->leftJoin('users', 'users.id', 'friendships.requester')
-          ->where('status', 1)
-          ->where('user_requested', $uid)
-          ->get();
-      $friends = array_merge($friends1->toArray(), $friends2->toArray());
-      return view('newMessage', compact('friends', $friends));*/
     }
 
     /**
@@ -492,7 +396,7 @@ class MessagesController extends Controller
             $proposal->save();
         }
 
-        // find the contract with in the table proposals 
+        // find the contract in the table proposals 
         $contractId = DB::table('contracts')->where('contracts.proposalId', '=', $conProposal)
                                             ->select('contracts.id')->first();
 
@@ -519,5 +423,247 @@ class MessagesController extends Controller
                         ->get();
 
         return $userMsg;
+    }
+
+    /**
+     * Leave Review Client
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function leaveReviewClient(Request $request) {
+        $conID = $request->conID;
+        $proposalId = $request->conProposal;
+        $reviewClient = $request->reviewClient;
+        $rateClient = $request->rateClient;
+
+        // find the contract id in the table proposals 
+        $contractId = DB::table('contracts')->where('contracts.proposalId', '=', $proposalId)
+                                            ->select('contracts.id')->first();
+        // Save the review
+        DB::table('reviews')->insert([
+            'contractId'    => $contractId->id,
+            'reviewClient'  => $reviewClient,
+            'rateClient'    => $rateClient 
+        ]);
+
+        // find the proposal in the table proposals 
+        $proposal = Proposal::find($proposalId);
+
+        // update the status in the proposals table - review for Freelancer
+        if($proposal->current_proposal_status == 7){
+            $proposal->current_proposal_status = 9;
+            $proposal->save();
+        }
+
+        $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('contracts', 'proposals.id', 'contracts.proposalId')
+                        ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select('users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus', 'reviews.reviewClient as reviewClient', 'reviews.rateClient as reviewClient')
+                        ->where('messages.conversation_id', $conID)
+                        ->get();
+
+        return $userMsg;
+    }
+
+    /**
+     * Leave Review Freelancer
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function leaveReviewFreelancer(Request $request) {
+        $conID = $request->conID;
+        $proposalId = $request->conProposal;
+        $reviewFreelancer = $request->reviewFreelancer;
+        $rateFreelancer = $request->rateFreelancer;
+
+        // find the contract id in the table contracts
+        $contractId = DB::table('contracts')->where('contracts.proposalId', '=', $proposalId)
+                                            ->select('contracts.id')->first();
+
+        // find the review
+        $reviewId = DB::table('reviews')->where('reviews.contractId', '=', $contractId->id)
+                                      ->select('reviews.id')->first();
+        $review = Review::find($reviewId->id);
+    
+        // Update the review
+        $review->reviewFreelancer = $reviewFreelancer;
+        $review->rateFreelancer = $rateFreelancer;
+        $review->save();
+
+        // find the proposal in the table proposals 
+        $proposal = Proposal::find($proposalId);
+
+        // update the status in the proposals table - review for Client
+        if($proposal->current_proposal_status == 9){
+            $proposal->current_proposal_status = 10;
+            $proposal->save();
+        }
+
+        $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('contracts', 'proposals.id', 'contracts.proposalId')
+                        ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select('users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus', 'reviews.reviewClient as reviewClient', 'reviews.rateClient as rateClient','reviews.reviewFreelancer as reviewFreelancer', 'reviews.rateFreelancer as rateFreelancer')
+                        ->where('messages.conversation_id', $conID)
+                        ->get();
+
+        return $userMsg;
+    }
+
+    /**
+     * Leave Tip for a freelancer
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function leaveTip(Request $request) {
+        $conID = $request->conID;
+        $proposalId = $request->conProposal;
+        $valueTip = $request->valueTip;
+        $customTip = $request->customTip;
+
+        // 1. Validate the data
+        $this->validate($request, array(
+            // rules 
+            'customTip'  => 'required|integer|min:1|max:500'
+        ));
+    
+        // Find the contract with the given proposal id 
+        $contractId = DB::table('contracts')->where('contracts.proposalId', '=', $proposalId)
+                                            ->select('contracts.id')->first();
+        $contract = Contract::find($contractId->id);
+        // Update the tipAmount 
+        $contract->tipAmount = $customTip;
+        $contract->save();
+
+        // find the proposal in the table proposals 
+        $proposal = Proposal::find($proposalId);
+
+        echo 'proposal->current_proposal_status= ';
+        echo $proposal->current_proposal_status;
+        echo ' aaaaaaaaaaaaaaaaaa';
+        // update the status in the proposals table - review for Client
+        if($proposal->current_proposal_status == 9){
+            $proposal->current_proposal_status = 11;
+            $proposal->save();
+        }
+
+
+        $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select('users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
+                        ->where('messages.conversation_id', $conID)
+                        ->get();
+
+        return $userMsg;
+
+        echo 'conID=';
+        echo $conID;
+        echo 'eeeeeeeeee';
+
+        echo 'proposalId=';
+        echo $proposalId;
+        echo 'eeeeeeeeee';
+
+        echo 'valueTip=';
+        echo $valueTip;
+        echo 'eeeeeeeeee';
+        echo 'customTip=';
+        echo $customTip;
+        echo 'eeeeeeeeee';
+        //echo $userMsg;
+        echo 'eeeeeeeeee';
+        //die();
+
+        //return $userMsg;
+
+        if ($valueTip == '' && $customTip != ''){
+            try {
+                // 1. Validate the data
+                $this->validate($request, array(
+                    // rules 
+                    'customTip'  => 'required|integer|min:1|max:500'
+                ));
+            } catch (\Exception $e) {
+                return $userMsg;
+            } 
+
+                $contract = Contract::find($contractId->id);
+                // Update the tipAmount 
+                $contract->tipAmount = $customTip;
+                $contract->save();
+
+                // find the proposal in the table proposals 
+                $proposal = Proposal::find($proposalId);
+
+                echo 'proposal->current_proposal_status= ';
+                echo $proposal->current_proposal_status;
+                echo ' aaaaaaaaaaaaaaaaaa';
+                // update the status in the proposals table - review for Client
+                if($proposal->current_proposal_status == 9){
+                    $proposal->current_proposal_status = 11;
+                    $proposal->save();
+                }
+
+                echo 'customTip=  ';
+                echo $customTip;
+                echo ' aaaaaaaaaaaaaaa';
+                //die();
+                /*$userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
+                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
+                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
+                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                        ->select('users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
+                        ->where('messages.conversation_id', $conID)
+                        ->get();
+
+                return $userMsg;*/
+            
+            
+        } 
+        elseif ($valueTip != ''){
+            $contract = Contract::find($contractId->id);
+            // Update the tipAmount 
+            $contract->tipAmount = $valueTip;
+            $contract->save();
+
+            // find the proposal in the table proposals 
+            $proposal = Proposal::find($proposalId);
+
+            // update the status in the proposals table - review for Client
+            if($proposal->current_proposal_status == 9){
+                $proposal->current_proposal_status = 11;
+                $proposal->save();
+            }
+
+            echo 'valueTip == ';
+            echo $valueTip;
+            echo ' bbbbbbbbbbbbbbb';
+            //die();
+
+            return $userMsg;
+        }elseif ( $valueTip == '' && $customTip == ''){
+            echo 'OOOOOOOOOOOOOOOOOOOOOOOOO = ';
+            echo 'die ';
+            //die();
+
+            return $userMsg;
+        }
+
+        return $userMsg;
+
+        //echo 'userMsg=';
+        //echo $userMsg;
+        //echo 'eeeeeeeeee';
+        //die();                
     }
 }
