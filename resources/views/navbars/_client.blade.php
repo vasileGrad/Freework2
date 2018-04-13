@@ -1,28 +1,29 @@
 <!-- Collect the nav links, forms, and other content for toggling -->
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-  <ul class="nav navbar-nav">
-    <li class="dropdown">
+
+  <ul class="nav navbar-nav space_nav">
+    <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>JOBS</strong></a>
       <ul class="dropdown-menu">
         <li><a href="{{ route('jobs.index') }}">My Jobs</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">All Job Posting</a></li>
+        <li><a href="{{ route('workProgress', Session::get('AuthUser')) }}">Work in progress</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Contracts</a></li>
+        <li><a href="{{ route('contracts', Session::get('AuthUser')) }}">Contracts</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('jobs.create') }}">Post a Job</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Profile</a></li>
       </ul>
     </li>
-    <li class="dropdown">
+    <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>FREELANCERS</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="#">My Freelancers</a></li>
+        <li><a href="{{ route('myFreelancers', Session::get('AuthUser')) }}">My Freelancers</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('freelancerSearch.index') }}">Find Freelancers</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Work Diary</a></li>
+        {{-- <li role="separator" class="divider"></li>
+         <li><a href="#">Work Diary</a></li> --}}
       </ul>
     </li>
     {{-- <li class="dropdown">
@@ -35,7 +36,7 @@
         <li><a href="#">Contracts History</a></li>
       </ul>
     </li> --}}
-    <li><a href="{{ route('messages') }}"><strong>MESSAGE</strong></a></li>
+    <li class="space_nav_options"><a href="{{ route('messages') }}"><strong>MESSAGES</strong></a></li>
     <li id="glyphicon-comment" style="display: none"><h4><a href="#"><i class="glyphicon glyphicon-comment"></i></a></h4></li>
   </ul>
   {{-- <form class="navbar-form navbar-left">

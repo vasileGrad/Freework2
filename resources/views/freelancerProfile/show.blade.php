@@ -11,12 +11,16 @@
 		</div>
 	    <div class="panel-body" id="items"> 
 	    	<div class="row">
-	    		<div class="col-md-3">
+	    		<div class="col-md-3 col-sm-3">
 	    			<img src="{{ asset('images/profile/' . $freelancer->image) }}" alt="" class="image-radius-freelancer" height="120" width="120"/>
 	    		</div>
-	    		<div class="col-md-6">
+	    		<div class="col-md-6 col-sm-6">
 	    			<h2><b>{{ $freelancer->firstName }} {{ $freelancer->lastName }}<b></h2>
 					<h5><span class="glyphicon glyphicon-map-marker"></span><b> {{ $freelancer->location }}, {{ $freelancer->country }}<b></h5>
+	    		</div>
+	    		<div class="col-md-3 col-sm-3">
+    				<img src="/images/trophy.png" alt="trophy" class="imageSearchJob" width="60" height="60"/>	
+    			 	<h3 class="center-text valueFreelancer"><b>{{ $valueFreelancer}}</b></h3>
 	    		</div>
 	    		<div class="col-md-12">
 	    			<h3 class="editTitle"><a href="#" data-toggle="modal" data-target="#myModal1"><b>{{ $freelancer->title }} <b><input type="hidden" id="itemId2" value="{{$freelancer->id}}"><i class="glyphicon glyphicon-edit"></i></a></h3><br> 
@@ -29,9 +33,11 @@
 	    			<h4>Hourly Rate</h4>
 	    		</div>
 	    		<div class="col-sm-3">
+	    			<h4><b>&#36;{{ $freelancer->totalEarnings }}<b></h4>
 	    			<h4>Total earned</h4>
 	    		</div>
 	    		<div class="col-sm-3">
+	    			<h4><b>{{ $freelancer->countJobs }}<b></h4>
 	    			<h4>Jobs</h4>
 	    		</div>
 	    	</div>
@@ -84,14 +90,33 @@
 	  			<div class="col-md-10">
 	  				<h3>Work History and Feedback</h3>
 	  			</div>
-	  			<div class="col-md-2">
-	  				<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#myModal"><b>+ Edit<b></button>
-	  			</div>
 	  		</div>
 		</div>
 	  	<div class="panel-body">
-		    Panel content
+		    @foreach($contracts as $contract)
+            	<div class="row padding-left">
+            		<div class="col-md-9 col-sm-9 mainUser">
+            			<a href="#"{{-- data-toggle="modal" data-target="#jobTitle" --}}><h4 id="jobTitle">{{ $contract->title}}</h4></a>
+            			@php
+							$rate = "$contract->rateClient"
+						@endphp
+            			@for ($i = 1; $i <=$rate; $i++)
+							<span class="glyphicon glyphicon-star star_review_color"></span>
+            			@endfor
+            			<h5 class="inline">&nbsp;&nbsp;&nbsp; {{ date('M j, Y', strtotime($contract->endTime)) }} </h5><br><br>
+            			<h5><i>{{ $contract->reviewClient}}</i></h5>
+            		</div>
+            		<div class="col-md-3 col-sm-3 mainUser">
+            			<h5><b>${{ $contract->paymentAmount}}</b></h5>
+            			<h5>{{ $contract->paymentName}}</h5>
+            		</div>
+            	</div><br><hr>
+            @endforeach
+            @if(count($contracts) > 1)
+            	<div class="row center-text">
+            		<a href="{{ route('contractsFinish', Auth::user()->id) }}"><h5><b>See all the contracts</b></h5></a>
+            	</div>
+    		@endif
 		</div>
 	</div>
 
@@ -121,7 +146,15 @@
 
 	<div class="panel panel-default">
 	  	<div class="panel-heading">
-	    	<h3 class="panel-title"><h3>Portfolio</h3></h3>
+	  		<div class="row">
+	  			<div class="col-md-10">
+	  				<h3>Portfolio</h3>
+	  			</div>
+	  			<div class="col-md-2">
+	  				<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#myModal"><b>+ Edit</b></button>
+	  			</div>
+	  		</div>
 	  	</div>
 	  	<div class="panel-body">
 	    	Panel content
@@ -133,8 +166,8 @@
 	    	<h3 class="panel-title"><h3>Skills</h3></h3>
 	  	</div>
 	  	<div class="panel-body">
-	    	@foreach($freelancer->skills as $skill)
-			<h3><span class="label label-info">{{ $skill->skillName }}</span></h3>
+	    	@foreach($skills as $skill)
+			<h3 class="inline"><span class="label label-info">{{ $skill->skillName }}</span></h3>&nbsp;&nbsp; 
 		@endforeach
 	  	</div>
 	</div>

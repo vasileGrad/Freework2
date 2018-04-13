@@ -1,7 +1,7 @@
 
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-  <ul class="nav navbar-nav">
-    <li class="dropdown">
+  <ul class="nav navbar-nav space_nav">
+    <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>FIND WORK</strong></a>
       <ul class="dropdown-menu">
         <li><a href="{{ route('home') }}">Find Work</a></li>
@@ -11,20 +11,20 @@
         <li><a href="{{ route('freelancerProposal.index') }}">Proposals</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('freelancerProfile.show', Auth::user()->id) }}">Profile</a></li>
-        <li role="separator" class="divider"></li>
+        {{-- <li role="separator" class="divider"></li>
         <li><a href="#">My Stats</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Tests</a></li>
+        <li><a href="#">Tests</a></li> --}}
       </ul>
     </li>
-    <li class="dropdown">
+    <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>MY JOBS</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="#">My Jobs</a></li>
+        <li><a href="{{ route('contractsNow', Auth::user()->id) }}">Jobs in progress</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">All Contracts</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Work Diary</a></li>
+        <li><a href="{{ route('contractsFinish', Auth::user()->id) }}">All Contracts</a></li>
+        {{-- <li role="separator" class="divider"></li>
+        <li><a href="#">Work Diary</a></li> --}}
       </ul>
     </li>
     {{-- <li class="dropdown">
@@ -43,7 +43,7 @@
         <li><a href="#">Tests</a></li>
       </ul>
     </li> --}}
-    <li><a href="{{ route('messages') }}"><strong>MESSAGE</strong></a></li>
+    <li class="space_nav_options"><a href="{{ route('messages') }}"><strong>MESSAGES</strong></a></li>
     <li id="glyphicon-comment" style="display: none"><h4><a href="{{ url('messages') }}"><i class="glyphicon glyphicon-comment"></i></a></h4></li>
   </ul>
   

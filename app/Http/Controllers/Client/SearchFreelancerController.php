@@ -79,6 +79,36 @@ class SearchFreelancerController extends Controller
     }
 
     /**
+     * Display all the freelancers that workd for a Client
+     *
+     * @param  int  $id - user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function myFreelancers($id) {
+
+       /* $clientId = DB::table('users')->leftJoin('clients', 'users.id', 'clients.user_id')
+                ->select('clients.id')
+                ->where('users.id', '=', $id)
+                ->first();*/
+
+        // all the contracts finished
+        $contracts = DB::table('contracts')->leftJoin('proposals', 'contracts.proposalId', 'proposals.id')
+                ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                ->rightJoin('freelancers', 'proposals.freelancer_id', 'freelancers.id')
+                ->rightJoin('users', 'freelancers.user_id', 'users.id')
+                ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
+                ->select('jobs.title', 'users.firstName', 'users.lastName', 'users.image','contracts.id','contracts.startTime', 'contracts.endTime', 'contracts.paymentAmount','reviews.reviewFreelancer','rateFreelancer')
+                ->where([
+                    ['contracts.clientId', '=', $id],
+                    ['contracts.endTime', '!=', '']
+                ])
+                ->orderBy('contracts.endtime', 'desc')
+                ->paginate(5);
+
+        return view('clientPages.freelancers.myFreelancers', compact('contracts'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

@@ -24,12 +24,12 @@
         	</div>
 
         	<div class="col-lg-6 col-sm-4 messages">
-                <h3><strong>@{{firstNameShow}} @{{lastNameShow}}</strong></h3>
-                <h5>@{{jobTitle}}</h5><hr>
+                <h3><b>@{{firstNameShow}} @{{lastNameShow}}</b></h3>
+                <h5><b>@{{jobTitle}}</b></h5><hr>
 
         		@include('messages.messenger')
 
-                <input type="text" v-model="conID">
+                {{-- <input type="text" v-model="conID"> --}}
                 <textarea class="col-md-12 form-control top-textarea" placeholder="Type a message..." v-model="msgFrom" @keydown="inputHandler"></textarea>
         	</div>
 
@@ -98,7 +98,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="title">Leave Review for Client</h4>
+                                <h4 class="modal-title" id="title">Leave Review for Freelancer</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="bodyTitle">
@@ -114,7 +114,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="Tell us more">What was it like working with this Client?</label>
+                                        <label for="Tell us more">What was it like working with this Freelancer?</label>
                                         <textarea rows="4" class="form-control" id="review" v-model="reviewClient">
                                         </textarea>
                                     </div>
@@ -133,7 +133,7 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="title">Leave Review for Freelancer</h4>
+                                <h4 class="modal-title" id="title">Leave Review for Client</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="bodyTitle">
@@ -149,7 +149,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="Tell us more">What was it like working with this Freelancer?</label>
+                                        <label for="Tell us more">What was it like working with this Client?</label>
                                         <textarea rows="4" class="form-control" id="review" minlength="10" v-model="reviewFreelancer">
                                         </textarea>
                                     </div>

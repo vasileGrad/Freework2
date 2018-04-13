@@ -25,7 +25,9 @@
             </form>
             
             <div class="panel panel-default">
-                <div class="panel-heading">FREELANCER Dashboard</div>
+                <div class="panel-heading">
+                    <h3 class="padding-left">My jobs</h3>
+                </div><br>
 
                 <div class="panel-body"> 
                     @if (session('status'))
@@ -33,8 +35,15 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in as FREELANCER!
+                    
+                    <img src="/images/jobSearch.jpg" alt="jobSearch" class="imageSearchJob" width="140" height="140"/>
+                    <br><br> 
+                    <h3 class="mottoSearchJob">Find projects more quickly and easily</h3>
+                    <h3 class="mottoSearchJob">See interesting projects here</h3> 
+                    <br><br><br>
+                </div>
+                <div class="panel-footer">
+                    <br><br>
                 </div>
             </div>
         </div>

@@ -1,24 +1,24 @@
 <!-- Collect the nav links, forms, and other content for toggling -->
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-  <ul class="nav navbar-nav">
-    <li class="dropdown">
+  <ul class="nav navbar-nav space_nav">
+    <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>FREELANCERS</strong></a>
       <ul class="dropdown-menu">
         <li><a href="#">Find Freelancer</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Block Freelancer</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Delete Freelancer</a></li>
+        <li><a href="#">Blocked Freelancers</a></li>
       </ul>
     </li>
-    <li class="dropdown">
+    <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>CLIENTS</strong></a>
       <ul class="dropdown-menu">
         <li><a href="#">Find Client</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Block Client</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Delete Client</a></li>
+        <li><a href="#">Blocked Clients</a></li>
       </ul>
     </li>
     {{-- <li class="dropdown">
@@ -37,7 +37,7 @@
         <li><a href="#">Tests</a></li>
       </ul>
     </li> --}}
-    <li class="dropdown">
+    <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>JOBS</strong></a>
       <ul class="dropdown-menu">
         <li><a href="{{route('findJob')}}">Find Job</strong></a></li>
@@ -46,8 +46,8 @@
       </ul>
     </li>
 
-    <li class="{{ Request::is('categories/index') ? 'active' : '' }}"><a href="{{route('categories.index')}}"><strong>CATEGORIES</strong></a></li>
-    <li class="{{ Request::is('skills/index') ? 'active' : '' }}"><a href="{{route('skills.index')}}"><strong>SKILLS</strong></a></li>
+    <li class="{{ Request::is('categories/index') ? 'active' : '' }} space_nav_options"><a href="{{route('categories.index')}}"><strong>CATEGORIES</strong></a></li>
+    <li class="{{ Request::is('skills/index') ? 'active' : '' }} space_nav_options"><a href="{{route('skills.index')}}"><strong>SKILLS</strong></a></li>
   </ul>
   {{-- <form class="navbar-form navbar-left">
     <div class="form-group">

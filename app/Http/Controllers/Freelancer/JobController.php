@@ -188,4 +188,67 @@ class JobController extends Controller
         return view('freelancerPages.jobShow')->withCount($count)->withJob($job);
     }
 
+    /**
+     * Display the contracts for the that freelancer
+     *
+     * @param  int  $id - user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function contractsFinish($id) {
+
+        $freelancerId = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
+                ->select('freelancers.id')
+                ->where('users.id', '=', $id)
+                ->first();
+
+        // all the contracts finished
+        $contracts = DB::table('contracts')->leftJoin('proposals', 'contracts.proposalId', 'proposals.id')
+                ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                ->leftJoin('clients', 'jobs.clientId', 'clients.id')
+                ->leftJoin('users', 'clients.user_id', 'users.id')
+                ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
+                ->select('jobs.title', 'users.firstName', 'users.lastName', 'users.image','contracts.id','contracts.startTime', 'contracts.endTime', 'contracts.paymentAmount', 'reviews.rateClient', 'reviews.reviewClient'
+                    )
+                ->where([
+                    ['contracts.freelancerId', '=', $freelancerId->id],
+                    ['contracts.endTime', '!=', '']
+                ])
+                ->orderBy('contracts.endtime', 'desc')
+                ->paginate(5);
+
+        //dd($contracts);
+
+        return view('freelancerPages.myJobs.contractsFinish', compact('contracts'));
+    }
+
+    /**
+     * Display the jobs in progress
+     *
+     * @param  int  $id - user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function contractsNow($id) {
+        $freelancerId = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
+                ->select('freelancers.id')
+                ->where('users.id', '=', $id)
+                ->first();
+
+        // all the contracts finished
+        $contracts = DB::table('contracts')->leftJoin('proposals', 'contracts.proposalId', 'proposals.id')
+                ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                ->leftJoin('clients', 'jobs.clientId', 'clients.id')
+                ->leftJoin('users', 'clients.user_id', 'users.id')
+                ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
+                ->select('jobs.title', 'users.firstName', 'users.lastName', 'users.image','contracts.id','contracts.startTime', 'contracts.endTime', 'contracts.paymentAmount')
+                ->where([
+                    ['contracts.freelancerId', '=', $freelancerId->id],
+                    ['contracts.endTime', '=', null]
+                ])
+                ->orderBy('contracts.endtime', 'desc')
+                ->paginate(5);
+
+        //dd($contracts);
+
+        return view('freelancerPages.myJobs.contractsNow', compact('contracts'));
+    }
 }

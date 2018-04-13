@@ -143,7 +143,7 @@ class JobController extends Controller
     public function blockJob(Request $request, $id)
     {   
         $job = Job::find($id);
-        $job->status = 0;
+        $job->statusActiv = 0;
         $job->save();
 
         // Set flash data with success message
@@ -162,7 +162,7 @@ class JobController extends Controller
     public function unblockJob(Request $request, $id)
     {   
         $job = Job::find($id);
-        $job->status = 1;
+        $job->statusActiv = 1;
         $job->save();
 
         // Set flash data with success message

@@ -99,7 +99,7 @@
 	                    						<h4>&#36;{{$freelancer->hourlyRate}} / hr</h4>
 	                    					</div>
 	                    					<div class="col-sm-4">
-	                    						<h4>&#36; XXX / earned</h4>
+	                    						<h4>&#36; XXX  earned</h4>
 	                    					</div>
 	                    					<div class="col-sm-4">
 	                    						<h5><b><span class="glyphicon glyphicon-map-marker"></span> {{ $freelancer->country }}</b></h5>

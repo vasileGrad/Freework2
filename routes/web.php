@@ -80,6 +80,8 @@ Route::prefix('freelancer')->group(function() {
     Route::get('/jobSearchFilter', 'Freelancer\SearchController@searchFilters')->name('jobSearchFilter');
     Route::get('/jobShow/{id}', 'Freelancer\SearchController@jobShow')->name('jobShow');
     
+    Route::get('/contractsFinish/{user_id}', 'Freelancer\JobController@contractsFinish')->name('contractsFinish');
+    Route::get('contractsNow/{user_id}', 'Freelancer\JobController@contractsNow')->name('contractsNow');
     
 });
 
@@ -97,6 +99,9 @@ Route::prefix('client')->group(function() {
     Route::get('/goBackJobs', 'Client\JobController@goBackJobs')->name('goBackJobs');
     Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
     Route::post('/freelancerSearch', 'Client\SearchFreelancerController@searchFilter')->name('freelancerSearchFilter');
+    Route::get('myFreelancers/{user_id}', 'Client\SearchFreelancerController@myFreelancers')->name('myFreelancers');
+    Route::get('workProgress/{user_id}', 'Client\JobController@workProgress')->name('workProgress');
+    Route::get('contracts/{user_id}', 'Client\JobController@contracts')->name('contracts');
 });
 
 // Messages

@@ -50,4 +50,10 @@ class User extends Authenticatable
                 //user_id - is the column that represents the User Model
                 //job_id  - is the column that represents the foreign key
     }
+
+    // One User belongs to many contracts
+    public function contracts()
+    {
+        return $this->belongsToMany('\App\Contract');
+    }
 }

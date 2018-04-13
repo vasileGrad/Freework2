@@ -282,6 +282,54 @@ class JobController extends Controller
     }
 
     /**
+     * Display all the jobs that are in progress
+     *
+     * @param  int  $id - user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function workProgress($id) {
+        // all the contracts finished
+        $contracts = DB::table('contracts')->leftJoin('proposals', 'contracts.proposalId', 'proposals.id')
+                ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                ->rightJoin('freelancers', 'proposals.freelancer_id', 'freelancers.id')
+                ->rightJoin('users', 'freelancers.user_id', 'users.id')
+                ->select('jobs.title', 'users.firstName', 'users.lastName', 'users.image','contracts.id','contracts.startTime', 'contracts.paymentAmount')
+                ->where([
+                    ['contracts.clientId', '=', $id],
+                    ['contracts.endTime', '=', null]
+                ])
+                ->orderBy('contracts.startTime', 'desc')
+                ->paginate(5);
+
+        //dd($contracts);
+        return view('clientPages.jobs.workProgress', compact('contracts'));
+    }
+
+    /**
+     * Display all the jobs done
+     *
+     * @param  int  $id - user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function contracts($id) {
+        // all the contracts finished
+        $contracts = DB::table('contracts')->leftJoin('proposals', 'contracts.proposalId', 'proposals.id')
+                ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
+                ->rightJoin('freelancers', 'proposals.freelancer_id', 'freelancers.id')
+                ->rightJoin('users', 'freelancers.user_id', 'users.id')
+                ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
+                ->select('jobs.title', 'users.firstName', 'users.lastName', 'users.image','contracts.id','contracts.startTime', 'contracts.endTime', 'contracts.paymentAmount','reviews.reviewClient','rateClient')
+                ->where([
+                    ['contracts.clientId', '=', $id],
+                    ['contracts.endTime', '!=', '']
+                ])
+                ->orderBy('contracts.endtime', 'desc')
+                ->paginate(5);
+
+        return view('clientPages.jobs.contracts', compact('contracts'));
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
