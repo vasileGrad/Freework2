@@ -54,9 +54,9 @@
 				</tbody>
 			</table>
 			
-			{{-- <div class="text-center">
+			<div class="text-center">
 				{!! $jobs->links(); !!}
-			</div> --}}
+			</div>
 		</div>
 	</div>
 

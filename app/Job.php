@@ -63,4 +63,10 @@ class Job extends Model
                 //job_id - is the column that represents the Job Model
                 //user_id  - is the column that represents the foreign key
     }
+
+    // One Job has many uploads
+    public function uploads()
+    {
+        return $this->hasMany('\App\Upload');
+    } 
 }

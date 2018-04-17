@@ -69,7 +69,7 @@ class JobController extends Controller
                                     ])
                                     ->count('jobId'); 
 
-        return view('freelancerPages.jobShow')->withCount($count)->withJob($job);
+        return view('freelancerPages.jobShow', compact('count','job'));
     }
 
     /**

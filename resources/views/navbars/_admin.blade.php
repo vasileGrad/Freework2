@@ -4,7 +4,7 @@
     <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>FREELANCERS</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="#">Find Freelancer</a></li>
+        <li><a href="{{ route('findFreelancers') }}">Find Freelancer</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Block Freelancer</a></li>
         <li role="separator" class="divider"></li>

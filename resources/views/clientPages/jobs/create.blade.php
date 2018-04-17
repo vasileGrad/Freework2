@@ -86,10 +86,19 @@
 						   	</select>
 						<hr>
 						{{ Form::label('nrFreelancers', 'Ho many freelancers do you need to hire for this job?') }}
-				    	{{ Form::text('nrFreelancers', null, array('class' => 'form-control', 'required' => '', 'numeric', 'min' => '1', 'max' => '10')) }}
+						<select name="nrFreelancers" id="nrFreelancers" class="form-control" >
+                            <option value="1"> 1 </option>
+                            <option value="2"> 2 </option>
+                            <option value="3"> 3 </option>
+                            <option value="4"> 4 </option>
+                            <option value="5"> 5 </option>
+                        </select>
 				    	<hr>
 				    	{{ Form::label('paymentAmount', 'Estimated Budget') }}
-				    	{{ Form::text('paymentAmount', null, array('class' => 'form-control', 'required' => '', 'numeric', 'min' => '5', 'max' => '1000000')) }}
+				    	{{ Form::text('paymentAmount', null, array('class' => 'form-control', 'required' => '', 'numeric', 'min' => '5', 'max' => '1000000')) }}<br>
+
+			   			{{ Form::label('files', 'Upload Files:') }}
+			   			{{ Form::file('files[]', array('multiple'=>true)) }}<br><br>
 
 						<div class="col-md-6 col-md-offset-3">
 					    	{{ Form::submit('Create Post', array('class' => 'btn btn-success btn-lg btn-block', 'style' => 'margin-top: 20px;')) }}

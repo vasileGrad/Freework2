@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes(); 
+Auth::routes();  
 Route::get('/', 'PagesController@getIndex')->name('main');
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -41,9 +41,10 @@ Route::prefix('freelancer')->group(function() {
 
 // Admin Profile
 Route::prefix('admin')->group(function() {
-    Route::get('/findFreelancers', 'AdminController@findFreelancers')->name('findFreelancers');
-    Route::get('/findClients', 'AdminController@findClients')->name('findClients');
-    Route::get('/findJobs', 'AdminController@findJobs')->name('findJobs');
+    Route::get('/findFreelancers', 'Admin\FreelancerController@findFreelancers')->name('findFreelancers');
+    Route::get('/findFreelancerFilter', 'Admin\FreelancerController@findFreelancerFilter')->name('findFreelancerFilter');/*
+    Route::get('/findClients', 'Admin\AdminController@findClients')->name('findClients');
+    Route::get('/findJobs', 'Admin\AdminController@findJobs')->name('findJobs');*/
     Route::resource('skills', 'Admin\SkillController');
     Route::get('/findSkill', 'Admin\SkillController@findSkill')->name('findSkill');
     Route::get('/showSkills', 'Admin\SkillController@showSkills')->name('showSkills');
@@ -82,6 +83,7 @@ Route::prefix('freelancer')->group(function() {
     
     Route::get('/contractsFinish/{user_id}', 'Freelancer\JobController@contractsFinish')->name('contractsFinish');
     Route::get('contractsNow/{user_id}', 'Freelancer\JobController@contractsNow')->name('contractsNow');
+    Route::get('/downloadFileFreelancer/{file_name}', 'Freelancer\SearchController@downloadFileFreelancer')->name('downloadFileFreelancer');
     
 });
 
@@ -102,6 +104,7 @@ Route::prefix('client')->group(function() {
     Route::get('myFreelancers/{user_id}', 'Client\SearchFreelancerController@myFreelancers')->name('myFreelancers');
     Route::get('workProgress/{user_id}', 'Client\JobController@workProgress')->name('workProgress');
     Route::get('contracts/{user_id}', 'Client\JobController@contracts')->name('contracts');
+    Route::get('/downloadFileClient/{file_name}', 'Client\JobController@downloadFileClient')->name('downloadFileClient');
 });
 
 // Messages

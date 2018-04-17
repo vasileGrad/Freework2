@@ -23,7 +23,6 @@ class JobController extends Controller
     /**
      * Find specific job.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function findJob()
@@ -45,7 +44,7 @@ class JobController extends Controller
     /**
      * Find specific job.
      *
-     * @param  int  $id
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function findJobFilter(Request $request)

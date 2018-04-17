@@ -11,8 +11,11 @@ use App\PaymentType;
 use App\Level;
 use App\Skill;
 use App\Job;
+use App\Upload;
+use Storage;
 use Session;
 use Purifier;
+use File;
 use Auth;
 use DB;
 
@@ -120,6 +123,12 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
+        $clientId = DB::table('users')->leftJoin('clients', 'users.id', 'clients.user_id')
+                                      ->where([
+                                            ['users.id', Session::get('AuthUser')],
+                                            ['users.role_id', 3]
+                                        ])->first();
+
         // 1. Validate the data
         $this->validate($request, array(
             // rules 
@@ -131,12 +140,14 @@ class JobController extends Controller
             'expectedDurationId'    => 'required|integer',
             'paymentTypeId'         => 'required|integer',
             'paymentAmount'         => 'required|integer|min:5|max:1000000',
-            'levelId'               => 'required|integer'
+            'levelId'               => 'required|integer',
+           'files.*'                 => 'sometimes|required|mimes:pdf,png,jpg,jpeg,gif,doc,docx,ods,sql,txt,zip|max:4000'
         )); // validate the request
+
         // if the data is not valid what it does? Jumps back to the Create() action and will post the errors
 
         // 2. store in the database
-
+        
         // create a new instance of a Job Model
         $job = new Job;
 
@@ -146,7 +157,7 @@ class JobController extends Controller
         $job->nrFreelancers = $request->nrFreelancers;
         $job->categoryId = $request->categoryId;
         $job->complexityId = $request->complexityId;
-        $job->clientId = Auth::user()->id;
+        $job->clientId = $clientId->id;
         $job->expectedDurationId = $request->expectedDurationId;
         $job->paymentTypeId = $request->paymentTypeId;
         $job->paymentAmount = $request->paymentAmount;
@@ -159,8 +170,26 @@ class JobController extends Controller
         // save the new item into the Database
         // this job it's gonna give us an id number
         //dd(count($request->skills) !=0);
+
         $job->skills()->sync($request->skills, false);
 
+        $files = $request->file('files');
+        if(!empty($files)){
+            foreach ($files as $file){
+                //dd($file);
+                $filename = time() . '.' . $file->getClientOriginalName();
+                //$location = public_path('uploads/' . $filename);
+                $location = 'uploads';
+                //$file->move($location, $filename);
+                Storage::put($filename, file_get_contents($file));
+
+                DB::table('uploads')->insert([
+                    'job_id' => $job->id, 
+                    'fileName' => $filename,
+                ]);
+            } 
+        }
+        
         // $request->tags - is the id of the post
         // false - telling to overide the existing association. If you forget to write false it will delete all and set these as a new association. We want to add them !!!!!!
         // sync - creates that relationship and sync it up
@@ -172,8 +201,19 @@ class JobController extends Controller
         Session::flash('success', 'The job was successfully saved!');
 
         // 3. redirect to another page : show() or index()
-        return redirect()->route('clientPages.jobs.show', $job->id); // redirect to the named post called posts.show
+        return redirect()->route('jobs.show', $job->id); // redirect to the named post called posts.show
         // grab the id from the $post->id of the post object
+    }
+
+    /**
+     * Download a specific file_name
+     *
+     * @param  int  $file_name
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadFileClient($file_name) {
+        //dd($file_name);
+        return Storage::download($file_name);
     }
 
     /**
@@ -208,10 +248,12 @@ class JobController extends Controller
                                         ->select('users.firstName', 'users.lastName', 'proposals.created_at','proposals.id')
                                         ->where('proposals.job_id', '=', $id)
                                          ->get();
+        $uploads = DB::table('uploads')->where('uploads.job_id', $job->id)
+                                       ->select('uploads.fileName')->get();
 
-        //dd([count($job_skills),$job_skills,$id,$freelancer_proposals]);
+        //dd([count($job_skills),$job_skills,$id,$freelancer_proposals,$uploads]);
 
-        return view('clientPages.jobs.show', compact('job','job_skills','freelancer_proposals'));
+        return view('clientPages.jobs.show', compact('job','job_skills','freelancer_proposals','uploads'));
     }
 
     /**

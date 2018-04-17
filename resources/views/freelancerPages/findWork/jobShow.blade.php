@@ -15,6 +15,16 @@
 						  		<br><h3 class="list-group-item-heading"><strong>{{$job->title}}</strong></h3><br><br>
 						  		<span class="label label-default label-skill">{{$job->categoryName}}</span>    Posted {{ date( 'M j, Y h', strtotime($job->created_at)) }} <br>
 					    		<br><h4 class="list-group-item-text">{{ strip_tags($job->description) }}</h4>
+					    		<br>
+					    		@if(count($uploads))
+						    		<h4><b>Attachments ({{ count($uploads) }})</b></h4>
+									@foreach($uploads as $upload)
+										@php 
+											{{ $fileName = "$upload->fileName"; }}
+										@endphp
+										<a href="{{ route('downloadFileFreelancer', $fileName) }}"><span class="glyphicon glyphicon-paperclip">&nbsp;</span><b>{{ $upload->fileName }}</b></a><br>
+									@endforeach
+								@endif
 						    </div>
 						    <div class="col-md-3 col-sm-3 pull-right">
 						    	<br><br><br><br>

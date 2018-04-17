@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use App\Job;
+use Storage;
 use Auth;
 use DB;
 
@@ -263,8 +264,22 @@ class SearchController extends Controller
                                             ['job_saved.freelancer_id', '=', $user_id]
                                         ])->count();
 
+        $uploads = DB::table('uploads')->where('uploads.job_id', $job->id)
+                                       ->select('uploads.fileName')->get();
+        //dd($uploads);
         //dd([$job,$job_skills,$proposal, $job_saved, $id, $user_id]);                                                     
-        return view('freelancerPages.findWork.jobShow', compact('job','job_skills','proposal','job_saved'));
+        return view('freelancerPages.findWork.jobShow', compact('job','job_skills','proposal','job_saved','uploads'));
+    }
+
+    /**
+     * Download a specific file_name
+     *
+     * @param  int  $file_name
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadFileFreelancer($file_name) {
+        //dd($file_name);
+        return Storage::download($file_name);
     }
 
     /**
