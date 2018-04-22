@@ -36,7 +36,7 @@
 	                			<h5>{{ date('M j, Y', strtotime($proposal->created_at)) }}</h5>
 	                		</div>
 	                		<div class="col-md-8 col-sm-8 mainUser">
-	                			<a href="{{route('freelancerProposal.show', $proposal->id)}}"><h5><strong>{{$proposal->title}}</strong></h5></a>
+	                			<a href="{{route('freelancerProposal.show', $proposal->id)}}"><h5 class="color-link"><strong>{{$proposal->title}}</strong></h5></a>
 	                		</div>
 	                	</div><br><hr>
 	                @endforeach

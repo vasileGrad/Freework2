@@ -85,7 +85,7 @@
                 </div>
                 @foreach ($freelancers as $freelancer)
 	                <div class="list-group">
-	                    <a href=" {{ route('freelancerSearch.show', $freelancer->id)}}" class="list-group-item"><br>
+	                    <a href="{{ route('freelancerSearch.show', $freelancer->id)}}" class="list-group-item"><br>
                     		<span class="list-group-item-text">
 	                    		<div class="row">
 	                    			<div class="col-sm-2">

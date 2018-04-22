@@ -38,7 +38,7 @@ class SearchFreelancerController extends Controller
      */
     public function searchFilter(Request $request) 
     {
-        $keyword_search = $request->input('search');
+        $keyword_search = $request->input('search'); 
         $country = $request->input('country');
         $id_skill = $request->input('skill');
         $earn_amount = Input::get('earn_amount');
@@ -58,13 +58,13 @@ class SearchFreelancerController extends Controller
                                             ->leftJoin('skills', 'freelancer_skill.skill_id', '=', 'skills.id')
                                             ->select('users.id','users.firstName','users.lastName','users.image','users.title','users.country','description','freelancers.hourlyRate')
                                             ->where([
-                                                ['users.role_id', '=', 2], 
-                                                ['skills.skillName', 'LIKE', '%'.$skill_name->skillName.'%']
-                                            ])
-                                            ->orWhere([
                                                 ['users.firstName', 'LIKE', '%'.$keyword_search.'%'],
                                                 ['users.lastName', 'LIKE', '%'.$keyword_search.'%'],
-                                                ['users.country', '=', $keyword_country]
+                                                ['users.role_id', '=', 2]
+                                            ])
+                                            ->orWhere([
+                                                ['users.country', '=', $keyword_country], 
+                                                ['skills.skillName', 'LIKE', '%'.$skill_name->skillName.'%']
                                             ])
                                             ->orderBy('freelancers.id','desc')->distinct()->paginate(3);
         //dd($freelancers);

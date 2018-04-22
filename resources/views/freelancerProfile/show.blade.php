@@ -183,15 +183,6 @@
 
 	<div class="panel panel-default">
 	  	<div class="panel-heading">
-	    	<h3 class="panel-title"><h3>Tests</h3></h3>
-	  	</div>
-	  	<div class="panel-body">
-	    	No items to display.
-	  	</div>
-	</div>
-
-	<div class="panel panel-default">
-	  	<div class="panel-heading">
 	    	<h3 class="panel-title"><h3>Employment History</h3></h3>
 	  	</div>
 	  	<div class="panel-body">

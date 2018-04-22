@@ -36,7 +36,7 @@
         @endif
 
         <li class="nav-height">
-          <a href="">
+          <a href="#">
             <img class="navProfilePicture" src="/images/profile/{{Session::get('UserImage')}}"/><br><br>
           </a>
         </li>

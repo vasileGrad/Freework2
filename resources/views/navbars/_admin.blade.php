@@ -6,17 +6,13 @@
       <ul class="dropdown-menu">
         <li><a href="{{ route('findFreelancers') }}">Find Freelancer</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Block Freelancer</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Blocked Freelancers</a></li>
+        <li><a href="{{ route('blockedFreelancers') }}">Blocked Freelancers</a></li>
       </ul>
     </li>
     <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>CLIENTS</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="#">Find Client</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="#">Block Client</a></li>
+        <li><a href="{{ route('findClients') }}">Find Client</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="#">Blocked Clients</a></li>
       </ul>

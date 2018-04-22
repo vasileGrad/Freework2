@@ -22,7 +22,7 @@
 										@php 
 											{{ $fileName = "$upload->fileName"; }}
 										@endphp
-										<a href="{{ route('downloadFileClient', $fileName) }}"><span class="glyphicon glyphicon-paperclip">&nbsp;</span><b>{{ $upload->fileName }}</b></a><br>
+										<a href="{{ route('downloadFileClient', $fileName) }}"><span class="glyphicon glyphicon-paperclip color-link">&nbsp;</span><b class="color-link">{{ $upload->fileName }}</b></a><br>
 									@endforeach
 								@endif
 						    </div>

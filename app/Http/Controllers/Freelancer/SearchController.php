@@ -66,6 +66,15 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input('search');
+        //dd($keyword);
+        if(isset($keyword)){
+            $job = DB::table('job_search_history')->select('job_search_history.jobTitle')->orderBy('job_search_history.created_at', 'desc')->first();
+            //dd($job->jobTitle);
+            if($keyword != $job->jobTitle){
+                DB::table('job_search_history')->insert(
+            ['jobTitle' => $keyword]);
+            }
+        }
 
         $jobs = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
                                 ->leftJoin('users', 'clients.user_id', '=', 'users.id')
@@ -75,7 +84,7 @@ class SearchController extends Controller
                                 ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
                                 ->select('users.firstName', 'users.country', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.statusActiv', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
-                                ->where([
+                                ->where([ 
                                     ['jobs.title', 'LIKE', '%'.$keyword.'%'],
                                     ['jobs.statusActiv', '=', 1]
                                 ])
@@ -120,6 +129,10 @@ class SearchController extends Controller
         $budget = Input::get('budget');
         $project_length = Input::get('project_length');
         //dd([$job_type,$experience_level,$nr_proposals,$client_history,$budget,$project_length]);
+        if(isset($keyword)){
+            DB::table('job_search_history')->insert(
+            ['jobTitle' => $keyword]);
+        }
 
         if($job_type != 'Any')
             $keyword_job_type = $job_type;
@@ -181,10 +194,10 @@ class SearchController extends Controller
                                     ['levels.levelName', 'LIKE', '%'.$keyword_experience_level.'%'],
                                     ['expected_duration.durationName', 'LIKE', '%'.$keyword_project_length.'%']
                                 ])
-                                ->whereBetween('jobs.paymentAmount', array($keyword_budget1, $keyword_budget2))
+                                //->whereBetween('jobs.paymentAmount', array($keyword_budget1, $keyword_budget2))
                                 ->orderBy('jobs.id','desc')
                                 ->paginate(5);
-
+        //dd([$keyword_budget1,$keyword_budget2]);
         $hourly = DB::table('jobs')->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')->where('payment_type.paymentName', 'Hourly')->count();
 
 

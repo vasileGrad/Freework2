@@ -205,8 +205,9 @@
         </div>
     </div>
 </div><hr>
+
 @endsection
-	
+
 @section('scripts')
 	{{ Html::script('js/moment.min.js') }}
     {{ Html::script('js/selectedUser.js') }}

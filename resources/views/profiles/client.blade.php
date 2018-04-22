@@ -15,7 +15,7 @@
                         <div class="alert alert-success">
                             {{ session('status') }}
                         </div>
-                    @endif
+                    @endif 
 
                     <br><img src="/images/searchFreelancers.jpg" alt="jobSearch" class="imageSearchJob" width="140" height="140"/>
                     <br><br>

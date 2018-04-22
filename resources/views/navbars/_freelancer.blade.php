@@ -4,7 +4,7 @@
     <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>FIND WORK</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="{{ route('home') }}">Find Work</a></li>
+        <li><a href="{{ route('freelancer.dashboard') }}">Find Work</a></li> 
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('jobSaved') }}">Saved Jobs</a></li>
         <li role="separator" class="divider"></li>
@@ -20,9 +20,9 @@
     <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>MY JOBS</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="{{ route('contractsNow', Auth::user()->id) }}">Jobs in progress</a></li>
+        <li><a href="{{ route('contractsNow', Auth::user()->id) }}">Contracts in progress</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="{{ route('contractsFinish', Auth::user()->id) }}">All Contracts</a></li>
+        <li><a href="{{ route('contractsFinish', Auth::user()->id) }}">Contracts finished</a></li>
         {{-- <li role="separator" class="divider"></li>
         <li><a href="#">Work Diary</a></li> --}}
       </ul>

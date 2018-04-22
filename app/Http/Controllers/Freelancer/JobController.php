@@ -216,7 +216,7 @@ class JobController extends Controller
                 ->orderBy('contracts.endtime', 'desc')
                 ->paginate(5);
 
-        //dd($contracts);
+        //dd([$contracts,$freelancerId->id]);
 
         return view('freelancerPages.myJobs.contractsFinish', compact('contracts'));
     }

@@ -43,11 +43,10 @@
 			</div><br>
 			<div class="panel panel-default mainUser">
 				{!! Form::open(['route' => ['storeProposal', $job->id], 'data-parsley-validate' => '', 'method' => 'POST']) !!}
-            		<div class="panel-heading"><h2>Additional information</h2></div>
 	                <div class="panel-body">
 	        			<div class="row">
 	        				<div class="col-md-12 col-sm-12">
-		        				{{ Form::label('body', 'Cover Leter', ['class' => 'margin-top-nav'])}}
+		        				{{ Form::label('body', 'Cover Letter', ['class' => 'margin-top-nav'])}}<br><br>
 		        				{{ Form::textarea('body', null, array('class' => 'form-control','required' => '', 'minlength' => '5', 'maxlength' => '2000')) }}
 		        			</div>
 						</div>

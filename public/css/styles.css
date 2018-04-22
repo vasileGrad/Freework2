@@ -4,6 +4,10 @@ a:visited { color: #2f2e2f; text-decoration: none}
 a:hover { color: blue; text-decoration: underline;}
 a:active { color: #000000; text-decoration: underline;}
 
+.color-link {
+    color:#1a8fef;
+}
+
 .body-image {
 	background-image: url("/images/Freework_3.jpg");
 	background-repeat: no-repeat;

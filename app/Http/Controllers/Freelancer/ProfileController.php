@@ -85,9 +85,10 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $valueFreelancer = $this->calculateValueFreelancer();
+        //$valueFreelancer = $this->calculateValueFreelancer();
+        $valueFreelancer = DB::select("CALL calculateValueFreelancer(Auth::user->id)");
 
-        //dd($valueFreelancer);
+        dd($valueFreelancer);
 
         $freelancerId = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
                 ->select('freelancers.id')

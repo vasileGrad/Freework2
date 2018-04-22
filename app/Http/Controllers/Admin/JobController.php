@@ -64,11 +64,12 @@ class JobController extends Controller
                                 ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
                                 ->select('users.firstName', 'users.country', 'users.location', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
                                 ->where([
-                                	['jobs.statusActiv', '=', 1],
-                                	['jobs.title', 'LIKE', '%'.$keyword_job.'%']
+                                	['jobs.title', 'LIKE', '%'.$keyword_job.'%'],
+                                    ['jobs.statusActiv', '=', 1]
                                 ])
                                 ->orderBy('jobs.id','desc')
                                 ->paginate(5); 
+
         return view('adminPages.Jobs.findJob', compact('jobs'));
     }
 

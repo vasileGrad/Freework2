@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-	<a href="{{route('goBack')}}"><h4><span class="glyphicon glyphicon-menu-left"></span> <strong>Back to jobs list</strong></h4></a>
+	<a href="{{route('goBack')}}"><h4 class="color-link"><span class="glyphicon glyphicon-menu-left"></span> <strong>Back to jobs list</strong></h4></a>
     <div class="row">
         <div class="col-md-8 mainUser">
             <div class="panel panel-default">
@@ -22,7 +22,7 @@
 										@php 
 											{{ $fileName = "$upload->fileName"; }}
 										@endphp
-										<a href="{{ route('downloadFileFreelancer', $fileName) }}"><span class="glyphicon glyphicon-paperclip">&nbsp;</span><b>{{ $upload->fileName }}</b></a><br>
+										<a href="{{ route('downloadFileFreelancer', $fileName) }}"><span class="glyphicon glyphicon-paperclip color-link">&nbsp;</span><b class="color-link">{{ $upload->fileName }}</b></a><br>
 									@endforeach
 								@endif
 						    </div>

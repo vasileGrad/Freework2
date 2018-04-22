@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9 col-offset-md-1 col-sm-9">
-        	<a href="{{route('goBackProposals')}}"><h5><span class="glyphicon glyphicon-menu-left"></span> <strong> Back to proposals list</strong></h5></a><br>
+        	<a href="{{route('goBackProposals')}}"><h5 class="color-link"><span class="glyphicon glyphicon-menu-left"></span> <strong> Back to proposals list</strong></h5></a><br>
 			<h2>{{$job->title}}</h2><br>
 			<h4><span class="label label-default label-skill">{{$job->categoryName}}</span> &nbsp;&nbsp;Posted {{ date('M j, Y', strtotime($job->created_at)) }}</h4><br>
 			<div class="row">

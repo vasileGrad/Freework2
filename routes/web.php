@@ -42,9 +42,9 @@ Route::prefix('freelancer')->group(function() {
 // Admin Profile
 Route::prefix('admin')->group(function() {
     Route::get('/findFreelancers', 'Admin\FreelancerController@findFreelancers')->name('findFreelancers');
-    Route::get('/findFreelancerFilter', 'Admin\FreelancerController@findFreelancerFilter')->name('findFreelancerFilter');/*
-    Route::get('/findClients', 'Admin\AdminController@findClients')->name('findClients');
-    Route::get('/findJobs', 'Admin\AdminController@findJobs')->name('findJobs');*/
+    Route::get('/findFreelancerFilter', 'Admin\FreelancerController@findFreelancerFilter')->name('findFreelancerFilter');
+    Route::get('/findClients', 'Admin\ClientController@findClients')->name('findClients');
+    Route::get('/findClientFilter', 'Admin\ClientController@findClientFilter')->name('findClientFilter');
     Route::resource('skills', 'Admin\SkillController');
     Route::get('/findSkill', 'Admin\SkillController@findSkill')->name('findSkill');
     Route::get('/showSkills', 'Admin\SkillController@showSkills')->name('showSkills');
@@ -53,12 +53,23 @@ Route::prefix('admin')->group(function() {
     Route::get('/showCategories', 'Admin\CategoryController@showCategories')->name('showCategories');
     Route::get('/findJob', 'Admin\JobController@findJob')->name('findJob');
     Route::get('/findJobFilter', 'Admin\JobController@findJobFilter')->name('findJobFilter');
+
     Route::get('/showJob/{id}', 'Admin\JobController@showJob')->name('showJob');
     Route::get('/showBlockedJob/{id}', 'Admin\JobController@showBlockedJob')->name('showBlockedJob');
+    
+    Route::get('/showFreelancer/{id}', 'Admin\FreelancerController@showFreelancer')->name('showFreelancer');
+    Route::get('/showBlockedFreelancer/{id}', 'Admin\FreelancerController@showBlockedFreelancer')->name('showBlockedFreelancer');
+
     Route::put('/blockJob/{id}', 'Admin\JobController@blockJob')->name('blockJob');
     Route::get('/blockedJobs', 'Admin\JobController@blockedJobs')->name('blockedJobs');
     Route::get('/blockedJobsFilter', 'Admin\JobController@blockedJobsFilter')->name('blockedJobsFilter');
     Route::put('/unblockJob/{id}', 'Admin\JobController@unblockJob')->name('unblockJob');
+
+
+    Route::post('/blockFreelancer/{id}', 'Admin\FreelancerController@blockFreelancer')->name('blockFreelancer');
+    Route::get('/blockedFreelancers', 'Admin\FreelancerController@blockedFreelancers')->name('blockedFreelancers');
+    Route::get('/blockedFreelancersFilter', 'Admin\FreelancerController@blockedFreelancersFilter')->name('blockedFreelancersFilter');
+    Route::post('/unblockFreelancer/{id}', 'Admin\FreelancerController@unblockFreelancer')->name('unblockFreelancer');
 
 });
 

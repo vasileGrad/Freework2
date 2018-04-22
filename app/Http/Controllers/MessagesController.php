@@ -92,7 +92,7 @@ class MessagesController extends Controller
                         ->select(DB::raw("(SELECT(firstName) FROM proposals
                             left join conversations on proposals.id = conversations.proposal_id
                             left join jobs on proposals.job_id = jobs.id
-                            left join clients on jobs.clientId = clients.id
+                            left join clients on jobs.clientId = clients.id 
                             left join users on clients.user_id = users.id
                             where conversations.id = '$id') as firstNameShow"),
                                 DB::raw("(SELECT(lastName) FROM proposals
