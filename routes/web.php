@@ -60,6 +60,9 @@ Route::prefix('admin')->group(function() {
     Route::get('/showFreelancer/{id}', 'Admin\FreelancerController@showFreelancer')->name('showFreelancer');
     Route::get('/showBlockedFreelancer/{id}', 'Admin\FreelancerController@showBlockedFreelancer')->name('showBlockedFreelancer');
 
+    Route::get('/showClient/{id}', 'Admin\ClientController@showClient')->name('showClient');
+    Route::get('/showBlockedClient/{id}', 'Admin\ClientController@showBlockedClient')->name('showBlockedClient');
+
     Route::put('/blockJob/{id}', 'Admin\JobController@blockJob')->name('blockJob');
     Route::get('/blockedJobs', 'Admin\JobController@blockedJobs')->name('blockedJobs');
     Route::get('/blockedJobsFilter', 'Admin\JobController@blockedJobsFilter')->name('blockedJobsFilter');
@@ -70,6 +73,11 @@ Route::prefix('admin')->group(function() {
     Route::get('/blockedFreelancers', 'Admin\FreelancerController@blockedFreelancers')->name('blockedFreelancers');
     Route::get('/blockedFreelancersFilter', 'Admin\FreelancerController@blockedFreelancersFilter')->name('blockedFreelancersFilter');
     Route::post('/unblockFreelancer/{id}', 'Admin\FreelancerController@unblockFreelancer')->name('unblockFreelancer');
+
+    Route::post('/blockClient/{id}', 'Admin\ClientController@blockClient')->name('blockClient');
+    Route::get('/blockedClients', 'Admin\ClientController@blockedClients')->name('blockedClients');
+    Route::get('/blockedClientsFilter', 'Admin\ClientController@blockedClientsFilter')->name('blockedClientsFilter');
+    Route::post('/unblockClient/{id}', 'Admin\ClientController@unblockClient')->name('unblockClient');
 
 });
 
@@ -86,7 +94,6 @@ Route::prefix('freelancer')->group(function() {
     Route::get('/goBack', 'Freelancer\SearchController@goBack')->name('goBack');
     Route::get('/goBackProposals', 'Freelancer\ProposalController@goBackProposals')->name('goBackProposals');
     
-
 
     Route::get('/jobSearch', 'Freelancer\SearchController@search')->name('jobSearch');
     Route::get('/jobSearchFilter', 'Freelancer\SearchController@searchFilters')->name('jobSearchFilter');

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
 use App\User;
-use DB;
+use DB; 
 
 class FreelancerController extends Controller
 {
