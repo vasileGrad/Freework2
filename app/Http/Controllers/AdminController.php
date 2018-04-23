@@ -17,7 +17,7 @@ class AdminController extends Controller
         $this->middleware('auth:admin');
     }
 
-    /**
+    /** 
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
@@ -26,35 +26,4 @@ class AdminController extends Controller
     {
         return view('profiles.admin');
     }
-
-    /**
-     * Find freelancers
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function findFreelancers()
-    {
-        return view('adminPages.findFreelancers');
-    }
-
-    /**
-     * Find clients
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function findClients()
-    {
-        return view('adminPages.findClients');
-    }
-
-    /**
-     * Find jobs
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function findJobs()
-    {
-        return view('adminPages.findJobs');
-    }
-
 }

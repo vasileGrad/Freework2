@@ -10,6 +10,8 @@ use DB;
 
 class ClientController extends Controller
 {
+    
+    
     /**
      * Create a new controller instance.
      *
