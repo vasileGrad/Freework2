@@ -12,7 +12,7 @@
         				<div class="col-md-12">
 		                	<form method="POST" action="{{ route("freelancerSearchFilter") }}">
 				            	{{ csrf_field() }}
-								<div class="input-group col-md-8 col-sm-8">
+								<div class="input-group col-md-8 col-sm-8 top-textarea">
 				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Jobs">
 				                    <div class="input-group-btn">
 				                        <button type="submit" class="btn btn-default">Submit</button>
@@ -84,7 +84,7 @@
                 	</div>
                 </div>
                 @foreach ($freelancers as $freelancer)
-	                <div class="list-group">
+	                <div class="list-group"> 
 	                    <a href="{{ route('freelancerSearch.show', $freelancer->id)}}" class="list-group-item"><br>
                     		<span class="list-group-item-text">
 	                    		<div class="row">
@@ -125,7 +125,6 @@
     </div>
 </div>
 @endsection
-
 
 @section('scripts')
 	{{ Html::script('js/filtersButton.js') }}

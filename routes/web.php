@@ -78,12 +78,12 @@ Route::prefix('admin')->group(function() {
     Route::get('/blockedClients', 'Admin\ClientController@blockedClients')->name('blockedClients');
     Route::get('/blockedClientsFilter', 'Admin\ClientController@blockedClientsFilter')->name('blockedClientsFilter');
     Route::post('/unblockClient/{id}', 'Admin\ClientController@unblockClient')->name('unblockClient');
-
 });
 
 // Freelancer pages
 Route::prefix('freelancer')->group(function() {
-    Route::resource('freelancerProfile', 'Freelancer\ProfileController');
+    //Route::resource('freelancerProfile', 'Freelancer\ProfileController');
+    Route::get('freelancerProfile/{id}', 'Freelancer\ProfileController@freelancerProfile')->name('freelancerProfile');
     Route::post('/saveJob/{id}', 'Freelancer\JobController@saveJob')->name('saveJob');
     Route::post('/unsaveJob/{id}', 'Freelancer\JobController@unsaveJob')->name('unsaveJob');
     Route::get('/jobSaved', 'Freelancer\JobController@jobSaved')->name('jobSaved');
@@ -102,6 +102,7 @@ Route::prefix('freelancer')->group(function() {
     Route::get('/contractsFinish/{user_id}', 'Freelancer\JobController@contractsFinish')->name('contractsFinish');
     Route::get('contractsNow/{user_id}', 'Freelancer\JobController@contractsNow')->name('contractsNow');
     Route::get('/downloadFileFreelancer/{file_name}', 'Freelancer\SearchController@downloadFileFreelancer')->name('downloadFileFreelancer');
+    Route::get('/earnings/{user_id}', 'Freelancer\JobController@earnings')->name('earnings');
     
 });
 
@@ -114,6 +115,7 @@ Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
 // Client pages
 Route::prefix('client')->group(function() {
     Route::resource('jobs', 'Client\JobController');
+    Route::get('clientProfile/{id}', 'Client\ProfileController@clientProfile')->name('clientProfile');
     Route::get('/showProposal/{freelancer_id}', 'Client\JobController@showProposal')->name('showProposal');
     Route::get('goBackProposal/{id}', 'Client\JobController@goBackProposal')->name('goBackProposal');
     Route::get('/goBackJobs', 'Client\JobController@goBackJobs')->name('goBackJobs');

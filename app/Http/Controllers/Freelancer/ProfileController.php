@@ -22,13 +22,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        /*$freelancer = DB::table('users')->leftJoin('freelancer_skill', 'users.id', '=', 'freelancer_skill.freelancer_id')
-                                        ->leftJoin('skills', 'freelancer_skill.skill_id', '=', 'skills.id')
-                                        ->select('users.firstName', 'users.lastName', 'users.location', 'users.hourlyRate', 'skills.skillName')
-                                        ->where('users.id', Auth::user()->id)->get();*/
-    
-        //dd($freelancer);
-        //return view('freelancerProfile.index', compact('freelancer'));      
+              
     }
 
     /**
@@ -83,12 +77,28 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function freelancerProfile($id)
     {
-        //$valueFreelancer = $this->calculateValueFreelancer();
-        $valueFreelancer = DB::select("CALL calculateValueFreelancer(Auth::user->id)");
+        $valueFreelancer = $this->calculateValueFreelancer();
+        //$valueFreelancer = DB::statement('select calculateValueFreelancer()');
+        //$value = DB::table('users')->select('users.firstName')->where('users.id','=',1)->first();
+        //dd($value);
 
-        dd($valueFreelancer);
+        //$valueFreelancer = DB::raw(DB::select('select calculateValueFreelancer()'));
+        //dd(DB::raw(DB::select('select calculateValueFreelancer()')));
+        //echo $valueFreelancer;
+        //die();
+
+        //$param1 = 2;
+        //$param2 = 3;
+        //dd(DB::select('exec maxim(?,?)', array($param1,$param2)));
+        //dd(DB::select('bla'));
+        //dd(DB::select()->from(DB::raw('"bla"()')));
+        //dd(DB::statement('select maxim(?,?)', array($param1,$param2)));
+
+        //$valueFreelancer=DB::select('SELECT public."bla"()');
+        //$valueFreelancer=DB::statement('select bla()');
+        //dd($valueFreelancer);
 
         $freelancerId = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
                 ->select('freelancers.id')
@@ -107,6 +117,7 @@ class ProfileController extends Controller
                             ['users.role_id', '=', 2]
                         ])
                         ->first();
+
         $skills = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
                 ->leftJoin('freelancer_skill', 'freelancers.id','freelancer_skill.freelancer_id')
                 ->leftJoin('skills', 'freelancer_skill.skill_id', 'skills.id')
@@ -126,13 +137,13 @@ class ProfileController extends Controller
                     ['users.role_id', '=', 2],
                     ['contracts.endTime', '!=', '']
                 ])
-                ->take(2)->get();
-                
+                ->take(2)
+                ->get();    
         //dd($contracts);
         //$freelancer = User::find($id);
-
         //dd($freelancer);
-        return view('freelancerProfile.show',compact(['freelancer','skills','contracts','valueFreelancer']));
+                
+        return view('freelancerPages.Profile.show', compact(['freelancer','skills','contracts','valueFreelancer']));
     }
 
     /**

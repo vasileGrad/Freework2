@@ -57,7 +57,7 @@
         </div>
 
         <div class="col-md-2 mainUserLeft"><br><br><br>
-            <a href="{{ route('freelancerProfile.show', Auth::user()->id) }}"><h4 class="color-link"><b>View Profile</b></h4><br><br></a>
+            <a href="{{ route('freelancerProfile', Auth::user()->id) }}"><h4 class="color-link"><b>View Profile</b></h4><br><br></a>
             <h4><b>Proposals</b></h4>
             <a href="{{ route('freelancerProposal.index') }}"><h5 class="color-link"><b>{{ $proposals }} submitted proposals</b></h5></a><br>
             <h4><b>Contracts</b></h4>

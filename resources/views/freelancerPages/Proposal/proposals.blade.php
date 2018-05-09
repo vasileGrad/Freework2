@@ -27,7 +27,7 @@
                 			<h5><strong>DATE INITIATED</strong></h5>
                 		</div>
                 		<div class="col-md-8 col-sm-8 mainUser">
-                			<h5><strong>JOB</strong></h5>
+                			<h5><strong>JOB TITLE</strong></h5>
                 		</div>
                 	</div><br><hr>
                 	@foreach($proposals as $proposal)

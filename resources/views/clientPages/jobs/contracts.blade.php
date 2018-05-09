@@ -24,10 +24,15 @@
                 <div class="panel-body">
                 	@foreach($contracts as $contract)
 	                	<div class="row padding-left">
-	                		<div class="col-md-8 col-sm-8 mainUser">
-	                			<a href="#"{{-- data-toggle="modal" data-target="#jobTitle" --}}><h4 id="jobTitle">{{ $contract->title}}</h4></a>
-	                			<h4><b>{{ $contract->firstName}} {{ $contract->lastName}}</b></h4>
-	                			<h5>{{ date('M j, Y', strtotime($contract->startTime)) }} - {{ date('M j, Y', strtotime($contract->endTime)) }} </h5>
+	                		<div class="col-md-1 col-sm-2 mainUser">
+	                			<img src="{{ asset('images/profile/' . $contract->image) }}" alt="" style="border-radius: 50%" height="90" width="90" />
+	                		</div> 
+	                		<div class="col-md-7 col-sm-6 mainUser">
+	                			<div class="row padding-left">
+		                			<a href="#"{{-- data-toggle="modal" data-target="#jobTitle" --}}><h4 id="jobTitle">{{ $contract->title}}</h4></a>
+		                			<h4><b>{{ $contract->firstName}} {{ $contract->lastName}}</b></h4>
+		                			<h5>{{ date('M j, Y', strtotime($contract->startTime)) }} - {{ date('M j, Y', strtotime($contract->endTime)) }} </h5>
+		                		</div>
 	                		</div>
 	                		<div class="col-md-4 col-sm-4 mainUser">
 	                			<h4><b>${{ $contract->paymentAmount}}</b> Budget</h4>
@@ -36,9 +41,13 @@
 									$rate = "$contract->rateClient"
 								@endphp
 	                			<h4>Feedback &nbsp;&nbsp;&nbsp;
-	                			@for ($i = 1; $i <=$rate; $i++)
-									<span class="glyphicon glyphicon-star star_review_color"></span>
-	                			@endfor
+		                			@for ($i = 1; $i <=$rate; $i++)
+										<span class="glyphicon glyphicon-star star_review_color"></span>
+		                			@endfor
+
+		                			@for ($i = $rate; $i <5; $i++)
+										<span class="glyphicon glyphicon-star-empty star_review_color_empty"></span>
+		                			@endfor
 	                			</h4>
 	                		</div>
 	                	</div><br><hr>

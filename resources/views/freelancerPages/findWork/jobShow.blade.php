@@ -30,7 +30,7 @@
 						    	<br><br><br><br>
 						    	<h4>&#36;{{ $job->paymentAmount }}</h4>
 						    	<h4>{{ $job->paymentName}}</h4><hr>
-						    	<h4>{{$job->levelName}} Level</h4>
+						    	<h4>{{$job->levelName}}</h4>
 						    </div>
         				</div>
 					</div><hr>

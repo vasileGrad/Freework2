@@ -93,14 +93,14 @@
                 			<div class="row">
 							  	<a href="{{ route('jobShow', $job->id)}}" class="list-group-item">
 							  		<span>
-								  		<h4 class="list-group-item-heading"><strong>{{$job->title}}</strong>
+								  		<h4 class="list-group-item-heading padding-left top-textarea"><strong>{{$job->title}}</strong>
 								    	<button type="button" class="btn btn-sm btn-circle pull-right glyphicon glyphicon-heart-empty"></button></h4><br>
 							  		</span>
 							    	
-							    	<h4 class="list-group-item-text"><strong>{{$job->paymentName}}</strong> - {{$job->levelName}} - Budget: &#36;{{ $job->paymentAmount }} - Posted: {{ $job->created_at }}</h4><br>
-							    	<h4 class="list-group-item-text">{{ substr(strip_tags($job->description), 0, 30) }}{{ strlen(strip_tags($job->description)) > 30 ? "..." : ""}}</h4><br>
+							    	<h4 class="list-group-item-text padding-left"><strong>{{$job->paymentName}}</strong> - {{$job->levelName}} - Budget: &#36;{{ $job->paymentAmount }} - Posted: {{ $job->created_at }}</h4><br>
+							    	<h4 class="list-group-item-text padding-left">{{ substr(strip_tags($job->description), 0, 30) }}{{ strlen(strip_tags($job->description)) > 30 ? "..." : ""}}</h4><br>
 							    	<small>
-							    		<h5 class="list-group-item-text"><strong>Client: {!! $job->firstName !!}</strong> <span class="glyphicon glyphicon-map-marker">{!! $job->country !!}</span></h5>
+							    		<h5 class="list-group-item-text padding-left"><strong>Client: {!! $job->firstName !!}</strong> <span class="glyphicon glyphicon-map-marker">{!! $job->country !!}</span></h5>
 							    	</small><br>
 							  	</a>
 							</div>

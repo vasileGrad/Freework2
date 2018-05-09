@@ -44,7 +44,9 @@ class JobController extends Controller
                                  ->leftJoin('levels', 'levels.id', '=', 'jobs.levelId')
                                  ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
                                  ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName')
-                                 ->where('users.id', Auth::user()->id)->paginate(5); // 5 is the number of
+                                 ->where('users.id', Auth::user()->id)
+                                 ->orderBy('jobs.created_at', 'desc')
+                                 ->paginate(5); // 5 is the number of
         // 1. Selecteaza toate joburile salvate de freelancerul cu id= 4
         //$user_id = Auth::user()->id;
         //$jobs = DB::select('call saved_jobs_freelancer(?)', [$user_id]);

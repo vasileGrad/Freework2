@@ -152,7 +152,6 @@ a:active { color: #000000; text-decoration: underline;}
 }
 */
 
-
 .freework-img {
     margin-top: -8px;
     height: 35px;
@@ -306,7 +305,11 @@ a:active { color: #000000; text-decoration: underline;}
 }
 
 .padding-row {
-    padding:10px;
+    padding:15px;
+}
+
+.padding-table {
+    padding-left: 130px;
 }
 
 #myScroll {
@@ -345,6 +348,10 @@ a:active { color: #000000; text-decoration: underline;}
 
 .star_review_color {
     color: #04a1db;
+}
+
+.star_review_color_empty {
+     color: #e0e1e2;
 }
 
 .imageSearchJob {

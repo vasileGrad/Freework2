@@ -13,7 +13,7 @@
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('jobs.create') }}">Post a Job</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="#">Profile</a></li> 
+        <li><a href="{{ route('clientProfile', Auth::user()->id) }}">Profile</a></li> 
       </ul>
     </li>
     <li class="dropdown space_nav_options">

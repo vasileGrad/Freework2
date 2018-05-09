@@ -123,15 +123,8 @@ class MessagesController extends Controller
                             'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus','reviews.reviewFreelancer as reviewFreelancer', 'reviews.rateFreelancer as rateFreelancer')
                         ->where('messages.conversation_id', $id)
                         ->get();
-            
             //dd($userMsg);
         }
-
-        //$userMsg = DB::select('messages_get(?)', [$conv_id]);
-        //dd($jobs);
-        //dd($userMsg);
-
-        //dd($userMsg);
         return $userMsg;
     }
 
@@ -171,7 +164,6 @@ class MessagesController extends Controller
             'conversation_id' => $conId_new
         ]);
         //dd($sendM);
-
         return redirect()->route('messages');
     }
 

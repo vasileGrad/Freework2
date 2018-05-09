@@ -175,8 +175,12 @@ class JobController extends Controller
                                      ->leftJoin('jobs', 'jobs.id', '=', 'job_saved.jobId')
                                      ->leftJoin('clients', 'clients.id', '=', 'jobs.clientId')
                                      ->leftJoin('payment_type', 'payment_type.id', '=', 'jobs.paymentTypeId')
-                                     ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'clients.firstName', 'clients.country')
-                                     ->where('users.id', Auth::user()->id)->get(); // 5 is the number of
+                                     ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
+                                     ->leftJoin('category', 'jobs.categoryId', '=', 'categoryName')
+                                     ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.complexityName')
+                                     ->select('jobs.id', 'jobs.title', 'jobs.description', 'jobs.paymentAmount', 'jobs.created_at', 'payment_type.paymentName', 'clients.firstName', 'clients.country','expected_duration.durationName','category.categoryName', 'complexity.complexityName')
+                                     ->where('users.id', Auth::user()->id)
+                                     ->get(); // 5 is the number of
 
         $count = DB::table('job_saved')->leftJoin('users', 'job_saved.userId', '=', 'users.id')
                                     ->where([
@@ -199,7 +203,7 @@ class JobController extends Controller
         $freelancerId = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
                 ->select('freelancers.id')
                 ->where('users.id', '=', $id)
-                ->first();
+                ->first(); 
 
         // all the contracts finished
         $contracts = DB::table('contracts')->leftJoin('proposals', 'contracts.proposalId', 'proposals.id')
@@ -248,7 +252,16 @@ class JobController extends Controller
                 ->paginate(5);
 
         //dd($contracts);
-
         return view('freelancerPages.myJobs.contractsNow', compact('contracts'));
+    }
+
+    /**
+     * Display business reports
+     *
+     * @param  int  $id - user_id
+     * @return \Illuminate\Http\Response
+     */
+    public function earnings($id) {
+        return view('freelancerPages.myJobs.earnings');
     }
 }
