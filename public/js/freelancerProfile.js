@@ -8,7 +8,7 @@ $.ajaxSetup({
     }
 });
 
-$(document).ready(function() {
+$(document).ready(function() { 
 	$(document).on('click', '.editTitle', function(event) {
 		var text = $(this).text();
 		$('#title').text('Edit Job Title');

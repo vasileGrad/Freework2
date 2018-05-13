@@ -31,11 +31,20 @@ class ProposalController extends Controller
 
         $proposals = DB::table('proposals')->leftJoin('jobs', 'proposals.job_id', '=', 'jobs.id')
                                     ->select('jobs.title', 'proposals.id', 'proposals.created_at')
+                                    ->whereNull('proposals.client_id')
                                     ->where('proposals.freelancer_id','=', $freelancer->id)
                                     ->get();
+
+        $invitations = DB::table('proposals')->leftJoin('jobs', 'proposals.job_id', '=', 'jobs.id')
+                                    ->select('jobs.title', 'proposals.id', 'proposals.created_at')
+                                    ->where([
+                                        ['proposals.freelancer_id','=', $freelancer->id],
+                                        ['proposals.client_id','!=','']
+                                    ])
+                                    ->get();
                                     
-        //dd($proposals);  
-        return view('freelancerPages.Proposal.proposals', compact('proposals'));                              
+        //dd([$proposals,$invitations]);  
+        return view('freelancerPages.Proposal.proposals', compact('proposals','invitations'));                              
     }
 
     /**
@@ -133,7 +142,7 @@ class ProposalController extends Controller
                                     ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                     ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
                                     ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id', 'proposals.payment_amount', 'proposals.freelancer_comment', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
+                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id','proposals.client_id', 'proposals.payment_amount', 'proposals.freelancer_comment','proposals.client_comment', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
                                     ->where('proposals.id','=', $id)
                                     ->first();
 
@@ -167,7 +176,6 @@ class ProposalController extends Controller
     /**
      * Redirect back.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function goBackProposals() {

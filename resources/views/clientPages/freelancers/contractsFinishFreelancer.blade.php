@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-	<h2 class="padding-left">My Contracts</h2><br>
+	<h2 class="padding-left">Contracts Freelancer</h2><br>
 	<div class="row">
         <div class="col-md-12 mainUser">
             <div class="panel panel-default">
@@ -98,8 +98,8 @@
 						{!! $contracts->links(); !!}
 					</div>
                 </div>
-            </div>
+            </div><br><br>
         </div>
     </div>
-</div><br><br>
+</div>
 @endsection

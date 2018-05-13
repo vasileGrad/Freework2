@@ -13,7 +13,7 @@
 			plugins: 'link code lists image',
 			menubar: false
 		});
-	</script>
+	</script> 
 
 @endsection
 
@@ -71,7 +71,5 @@
 @endsection
 
 @section('scripts')
-
 	{!! Html::script('js/parsley.min.js') !!}
-
 @endsection

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Input;
 use App\Job;
 use Storage;
 use Auth;
-use DB;
+use DB; 
 
 class SearchController extends Controller
 {

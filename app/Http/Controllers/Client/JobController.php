@@ -143,7 +143,7 @@ class JobController extends Controller
             'paymentTypeId'         => 'required|integer',
             'paymentAmount'         => 'required|integer|min:5|max:1000000',
             'levelId'               => 'required|integer',
-           'files.*'                 => 'sometimes|required|mimes:pdf,png,jpg,jpeg,gif,doc,docx,ods,sql,txt,zip|max:4000'
+            'files.*'               => 'sometimes|required|mimes:pdf,png,jpg,jpeg,gif,doc,docx,ods,sql,txt,zip|max:4000'
         )); // validate the request
 
         // if the data is not valid what it does? Jumps back to the Create() action and will post the errors
@@ -203,8 +203,52 @@ class JobController extends Controller
         Session::flash('success', 'The job was successfully saved!');
 
         // 3. redirect to another page : show() or index()
-        return redirect()->route('jobs.show', $job->id); // redirect to the named post called posts.show
+        //return redirect()->route('inviteFreelancers');  
+        //dd($job->id);
+        return Redirect()->route('inviteFreelancers', ['id' => $job->id]); // invite Freelancers
+        //return redirect()->route('jobs.show', $job->id); // redirect to the named post called posts.show
         // grab the id from the $post->id of the post object
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  int  $job_id
+     * @return \Illuminate\Http\Response
+     */
+    public function inviteFreelancers($job_id)
+    {
+        $job = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
+                                ->leftJoin('users', 'clients.user_id', '=', 'users.id')
+                                ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
+                                ->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')
+                                ->leftJoin('category', 'jobs.categoryId', '=', 'category.id')
+                                ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
+                                ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
+                                ->leftJoin('job_skill', 'jobs.id', '=', 'job_skill.job_id')
+                                ->leftJoin('skills', 'job_skill.skill_id', '=', 'skills.id')
+                                ->select('users.firstName','users.country', 'users.location', 'jobs.id as jobId', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.paymentAmount', 'jobs.clientId', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName', 'payment_type.paymentName','skills.skillName')
+                                ->where('jobs.id', $job_id)
+                                ->first();
+
+        $freelancers = DB::table('users')->leftJoin('freelancers','users.id','freelancers.user_id')
+                                ->leftJoin('freelancer_skill','freelancers.id','freelancer_skill.freelancer_id')
+                                ->leftJoin('skills','freelancer_skill.skill_id','skills.id')
+                                ->select('users.id','users.firstName', 'users.lastName','users.image','users.title','users.description','freelancers.hourlyRate','users.location','users.country')
+                                ->where([
+                                    ['users.role_id',2],
+                                    ['skills.skillName','=',$job->skillName]
+                                ])
+                                ->orderBy('freelancers.id','desc')
+                                ->paginate(3);
+
+        $skills = DB::table('skills')->leftJoin('job_skill','skills.id','job_skill.skill_id')
+                                     ->select('skills.id','skills.skillName')
+                                     ->where('job_skill.job_id',$job_id)
+                                     ->get();
+
+       //dd([$job,$freelancers]);
+        return view('clientPages.jobs.inviteFreelancers', compact('job_id','freelancers','skills'));
     }
 
     /**
@@ -248,14 +292,25 @@ class JobController extends Controller
 
         $freelancer_proposals = DB::table('proposals')->leftJoin('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
                                         ->select('users.firstName', 'users.lastName', 'proposals.created_at','proposals.id')
+                                        ->whereNull('proposals.client_id')
                                         ->where('proposals.job_id', '=', $id)
+                                         ->get(); 
+
+        $freelancer_invitations = DB::table('proposals')->leftJoin('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
+                                        ->select('users.firstName', 'users.lastName', 'proposals.created_at','proposals.id')
+                                        ->where([
+                                            ['proposals.job_id', '=', $id],
+                                            ['proposals.client_id','!=','']
+                                        ])
                                          ->get();
+        //dd([$freelancer_proposals,$freelancer_invitations]);
+                                       
         $uploads = DB::table('uploads')->where('uploads.job_id', $job->id)
                                        ->select('uploads.fileName')->get();
 
         //dd([count($job_skills),$job_skills,$id,$freelancer_proposals,$uploads]);
 
-        return view('clientPages.jobs.show', compact('job','job_skills','freelancer_proposals','uploads'));
+        return view('clientPages.jobs.show', compact('job','job_skills','freelancer_proposals','freelancer_invitations','uploads'));
     }
 
     /**

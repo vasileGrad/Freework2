@@ -59,16 +59,20 @@
                 			<h5><strong>JOB</strong></h5>
                 		</div>
                 	</div><br><hr>
-                	{{-- @foreach($proposals as $proposal)
-	                	<div class="row padding-left">
-	                		<div class="col-md-4 col-sm-4 mainUser">
-	                			<h5>{{ date('M j, Y', strtotime($proposal->created_at)) }}</h5>
-	                		</div>
-	                		<div class="col-md-8 col-sm-8 mainUser">
-	                			<a href="{{route('freelancerProposal.show', $proposal->id)}}"><h5><strong>{{$proposal->title}}</strong></h5></a>
-	                		</div>
-	                	</div><br><hr>
-	                @endforeach --}}
+                    @if(count($invitations) > 0)
+                    	@foreach($invitations as $invitation)
+    	                	<div class="row padding-left">
+    	                		<div class="col-md-4 col-sm-4 mainUser">
+    	                			<h5>{{ date('M j, Y', strtotime($invitation->created_at)) }}</h5>
+    	                		</div>
+    	                		<div class="col-md-8 col-sm-8 mainUser">
+    	                			<a href="{{route('freelancerProposal.show', $invitation->id)}}"><h5 class="color-link"><strong>{{$invitation->title}}</strong></h5></a>
+    	                		</div>
+    	                	</div><br><hr>
+    	                @endforeach
+                    @else
+                        <h3 class="center-text">No invitations</h3>
+                    @endif
                 </div>
             </div>
         </div>

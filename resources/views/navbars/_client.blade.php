@@ -1,7 +1,7 @@
 <!-- Collect the nav links, forms, and other content for toggling -->
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-  <ul class="nav navbar-nav space_nav">
+  <ul class="nav navbar-nav space_nav"> 
     <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>JOBS</strong></a>
       <ul class="dropdown-menu">
@@ -13,8 +13,8 @@
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('jobs.create') }}">Post a Job</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="{{ route('clientProfile', Auth::user()->id) }}">Profile</a></li> 
-      </ul>
+        <li><a href="{{ route('clientProfile', Session::get('AuthUser')) }}">Profile</a></li> 
+      </ul> 
     </li>
     <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>FREELANCERS</strong></a>
@@ -37,7 +37,7 @@
       </ul>
     </li> --}}
     <li class="space_nav_options"><a href="{{ route('messages') }}"><strong>MESSAGES</strong></a></li>
-    <li id="glyphicon-comment" style="display: none"><h4><a href="#"><i class="glyphicon glyphicon-comment"></i></a></h4></li>
+    <li id="glyphicon-comment"><h4><a href="#" style="display: none"><i class="glyphicon glyphicon-comment color-link"></i></a></h4></li>
   </ul>
   {{-- <form class="navbar-form navbar-left">
     <div class="form-group">

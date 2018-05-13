@@ -94,7 +94,6 @@ Route::prefix('freelancer')->group(function() {
     Route::get('/goBack', 'Freelancer\SearchController@goBack')->name('goBack');
     Route::get('/goBackProposals', 'Freelancer\ProposalController@goBackProposals')->name('goBackProposals');
     
-
     Route::get('/jobSearch', 'Freelancer\SearchController@search')->name('jobSearch');
     Route::get('/jobSearchFilter', 'Freelancer\SearchController@searchFilters')->name('jobSearchFilter');
     Route::get('/jobShow/{id}', 'Freelancer\SearchController@jobShow')->name('jobShow');
@@ -106,11 +105,9 @@ Route::prefix('freelancer')->group(function() {
     
 });
 
-
 // Profile Freelancer ajax calls
 Route::post('/updateTitle', 'Freelancer\ProfileController@updateTitle');
 Route::post('/updateOverview', 'Freelancer\ProfileController@updateOverview');
-
 
 // Client pages
 Route::prefix('client')->group(function() {
@@ -121,10 +118,17 @@ Route::prefix('client')->group(function() {
     Route::get('/goBackJobs', 'Client\JobController@goBackJobs')->name('goBackJobs');
     Route::resource('freelancerSearch', 'Client\SearchFreelancerController');
     Route::post('/freelancerSearch', 'Client\SearchFreelancerController@searchFilter')->name('freelancerSearchFilter');
+    
+    Route::post('/searchInviteFreelancers', 'Client\SearchFreelancerController@searchInviteFreelancers')->name('searchInviteFreelancers');
     Route::get('myFreelancers/{user_id}', 'Client\SearchFreelancerController@myFreelancers')->name('myFreelancers');
     Route::get('workProgress/{user_id}', 'Client\JobController@workProgress')->name('workProgress');
     Route::get('contracts/{user_id}', 'Client\JobController@contracts')->name('contracts');
     Route::get('/downloadFileClient/{file_name}', 'Client\JobController@downloadFileClient')->name('downloadFileClient');
+    Route::get('inviteFreelancers/{job_id}', 'Client\JobController@inviteFreelancers')->name('inviteFreelancers');
+    Route::get('inviteFreelancer/{user_id}/{job_id}', 'Client\SearchFreelancerController@inviteFreelancer')->name('inviteFreelancer');
+    Route::get('contractsFinishFreelancer/{user_id}', 'Client\SearchFreelancerController@contractsFinishFreelancer')->name('contractsFinishFreelancer');
+    Route::get('createInvitation/{user_id}/{job_id}', 'Client\InviteFreelancerController@createInvitation')->name('createInvitation');
+    Route::post('saveInvitation/{user_id}/{job_id}', 'Client\InviteFreelancerController@saveInvitation')->name('saveInvitation');
 });
 
 // Messages

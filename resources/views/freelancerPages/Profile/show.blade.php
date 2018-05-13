@@ -16,7 +16,7 @@
 		    		</div>
 		    		<div class="col-md-6 col-sm-6">
 		    			<h2><b>{{ $freelancer->firstName }} {{ $freelancer->lastName }}<b></h2>
-						<h5><span class="glyphicon glyphicon-map-marker"></span><b> {{ $freelancer->location }}, {{ $freelancer->country }}<b></h5>
+						<h5 class="editLocation"><span class="glyphicon glyphicon-map-marker"></span> <a href="#" data-toggle="modal" data-target="#myModalLocation"><b> {{ $freelancer->location }}, {{ $freelancer->country }} <b><input type="hidden" id="itemId3" value="{{$freelancer->id}}"><i class="glyphicon glyphicon-edit"></i></a></h5>
 		    		</div>
 		    		<div class="col-md-3 col-sm-3">
 	    				<img src="/images/trophy.png" alt="trophy" class="imageSearchJob" width="60" height="60"/>	
@@ -81,6 +81,34 @@
 			  	</div>
 			</div>
 
+
+			<!-- Modal for Location and Country-->
+			<div class="modal fade" id="myModalLocation" tabindex="-3" role="dialog" aria-labelledby="myModalLabel">
+			  	<div class="modal-dialog" role="document">
+			    	<div class="modal-content">
+			      		<div class="modal-header">
+			        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        		<h4 class="modal-title" id="title">Location and Country</h4>
+			      		</div>
+			      		<div class="modal-body">
+					      	<div class="bodyTitle">
+					      		<label>Location</label>
+					          	<input type="hidden" id="idLocation">
+					          	<p><input type="text" placeholder="Write Location Here" id="addItem1" class="form-control"></p>
+					      	</div>
+					      	<div class="bodyTitle">
+					      		<label>Country</label>
+					          	<input type="hidden" id="idCountry">
+					          	<p><input type="text" placeholder="Write Country Here" id="addItem2" class="form-control"></p>
+					      	</div>
+				  		</div>
+				     	<div class="modal-footer">
+				        	<button type="button" class="btn btn-warning" id="delete" data-dismiss="modal">Cancel</button>
+				        	<button type="button" class="btn btn-primary" id="saveChanges" data-dismiss="modal">Save changes</button>
+				      	</div>
+			    	</div>
+			  	</div>
+			</div>
 		</div>
 
 		<div class="panel panel-default">
@@ -146,6 +174,17 @@
 
 		<div class="panel panel-default">
 		  	<div class="panel-heading">
+		    	<h3 class="panel-title"><h3 class="padding-left">Skills</h3></h3>
+		  	</div>
+		  	<div class="panel-body">
+		    	@foreach($skills as $skill)
+					<h3 class="inline padding-left"><span class="label label-info">{{ $skill->skillName }}</span></h3>&nbsp;&nbsp;
+			@endforeach
+		  	</div><br>
+		</div>
+
+		{{-- <div class="panel panel-default">
+		  	<div class="panel-heading">
 		  		<div class="row">
 		  			<div class="col-md-10 col-sm-10">
 		  				<h3 class="padding-left">Portfolio</h3>
@@ -161,20 +200,9 @@
 		    		<h5>Panel content</h5>
 		    	</div>
 		  	</div>
-		</div>
+		</div> --}}
 
-		<div class="panel panel-default">
-		  	<div class="panel-heading">
-		    	<h3 class="panel-title"><h3 class="padding-left">Skills</h3></h3>
-		  	</div>
-		  	<div class="panel-body">
-		    	@foreach($skills as $skill)
-					<h3 class="inline padding-left"><span class="label label-info">{{ $skill->skillName }}</span></h3>&nbsp;&nbsp;
-			@endforeach
-		  	</div>
-		</div>
-
-		<div class="panel panel-default">
+		{{-- <div class="panel panel-default">
 		  	<div class="panel-heading">
 		    	<h3 class="panel-title"><h3 class="padding-left">Certifications</h3></h3>
 		  	</div>
@@ -184,9 +212,9 @@
 		  		</div>
 		    	
 		  	</div>
-		</div>
+		</div> --}}
 
-		<div class="panel panel-default">
+		{{-- <div class="panel panel-default">
 		  	<div class="panel-heading">
 		    	<h3 class="panel-title"><h3 class="padding-left">Employment History</h3></h3>
 		  	</div>
@@ -195,9 +223,9 @@
 		  			<h5>Informations</h5>
 		  		</div>
 		  	</div>
-		</div>
+		</div> --}}
 
-		<div class="panel panel-default">
+		{{-- <div class="panel panel-default">
 		  	<div class="panel-heading">
 		    	<h3 class="panel-title"><h3 class="padding-left">Education</h3></h3>
 		  	</div>
@@ -206,7 +234,7 @@
 		  			<h5>Degrees and certifications</h5>
 		  		</div>
 		  	</div>
-		</div>
+		</div> --}}
 	</div> <!-- end of .col-md-8 -->
 </div>
 </div>
@@ -215,4 +243,5 @@
 	
 @section('scripts')
 	{{ Html::script('js/freelancerProfile.js') }}
+	{{ Html::script('js/freelancerLocation.js') }}
 @endsection

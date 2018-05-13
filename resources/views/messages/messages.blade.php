@@ -203,9 +203,8 @@
                 </div>
         	</div>
         </div>
-    </div>
-</div><hr>
-
+    </div><hr>
+</div>
 @endsection
 
 @section('scripts')

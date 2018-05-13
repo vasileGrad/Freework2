@@ -7,9 +7,17 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
 			<div class="panel panel-default">
-			    <div class="panel-heading">
-			    	<h3 class="padding-left">Profile</h3>
-				</div>
+				<div class="panel-heading">
+                	<div class="row padding-left">
+        				<div class="col-md-9 top-textarea">
+        					<h3 class="padding-left">Profile</h3>
+				        </div>
+		                <div class="col-md-3 padding-right mainUser">
+				            <a href="{{ route('createInvitation', [$freelancer->id, $job_id]) }}" class="btn btn-primary btn-lg btn-block"><b>Invite to work</b></a>
+						</div>
+				    </div> 
+                </div> 
+
 			    <div class="panel-body" id="items"> 
 			    	<div class="row padding-left">
 			    		<div class="col-md-3 col-sm-3">
@@ -17,7 +25,7 @@
 			    		</div>
 			    		<div class="col-md-6 col-sm-6">
 			    			<h2><b>{{ $freelancer->firstName }} {{ $freelancer->lastName }}<b></h2>
-							<h5 class="editLocation"><span class="glyphicon glyphicon-map-marker"></span> <a href="#" data-toggle="modal" data-target="#myModalLocation"><b> {{ $freelancer->location }}, {{ $freelancer->country }} <b></a></h5>
+							<h5 class="editLocation"><span class="glyphicon glyphicon-map-marker"></span> <b> {{ $freelancer->location }}, {{ $freelancer->country }} <b></h5>
 			    		</div>
 			    		<div class="col-md-3 col-sm-3">
 		    				<img src="/images/trophy.png" alt="trophy" class="imageSearchJob" width="60" height="60"/>	

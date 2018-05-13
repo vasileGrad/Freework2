@@ -60,7 +60,11 @@
         			<div class="row">
         				<div class="col-md-12 col-sm-12 padding-left">
 					  		<br><h3 class="list-group-item-heading"><strong>Cover Letter</strong></h3><br><br>
-					  		<h4 class="list-group-item-text">{!! $job->freelancer_comment !!}</h4><br>
+					  		@if($job->freelancer_comment != '')
+					  			<h4 class="list-group-item-text">{!! $job->freelancer_comment !!}</h4><br>
+					  		@elseif($job->client_comment != '')
+					  			<h4 class="list-group-item-text">{!! $job->client_comment !!}</h4><br>
+					  		@endif
         				</div>
 					</div>
                 </div>
@@ -68,12 +72,16 @@
     	</div>
     	<div class="col-md-3 col-sm-3 top-proposal">
 			<div class="col-md-12 col-sm-12"><br>
-				<h5><strong>Submitted Proposals</strong></h5><br>
-				<h5><strong>Your proposed terms:</strong></h5><br>
+				@if($job->client_id != '')
+					<h4><strong>Client Invitation</strong></h4><br>
+				@else
+					<h4><strong>Submitted Proposals</strong></h4><br>
+				@endif
+				<h5><strong>Your proposed terms:</strong></h5>
 				@if($job->paymentName == 'Hourly')
-					<h5>Rate: ${{$job->payment_amount}}/hr</h5>
+					<h5>Rate: <b>${{$job->payment_amount}}</b>/hr</h5>
 				@elseif($job->paymentName == 'Fixed price')
-					<h5>Budget: ${{$job->payment_amount}}</h5>
+					<h5>Budget: <b>${{$job->payment_amount}}</b></h5>
 				@endif
 				<br><hr>
 			  	<h5><strong>About the Client</strong></h5><br>
