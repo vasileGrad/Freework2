@@ -206,6 +206,10 @@ a:active { color: #000000; text-decoration: underline;}
     font-size: 18px;
 }
 
+.label-bottom {
+    display: inline-block;
+    margin-bottom: 5px;
+}
 
 /* Freelancer */
 .inline {

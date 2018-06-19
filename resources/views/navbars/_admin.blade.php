@@ -4,7 +4,7 @@
     <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>FREELANCERS</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="{{ route('findFreelancers') }}">Find Freelancer</a></li>
+        <li><a href="{{ route('findFreelancers') }}">Find Freelancers</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('blockedFreelancers') }}">Blocked Freelancers</a></li>
       </ul> 
@@ -12,7 +12,7 @@
     <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>CLIENTS</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="{{ route('findClients') }}">Find Client</a></li>
+        <li><a href="{{ route('findClients') }}">Find Clients</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('blockedClients') }}">Blocked Clients</a></li>
       </ul>
@@ -36,7 +36,7 @@
     <li class="dropdown space_nav_options">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>JOBS</strong></a>
       <ul class="dropdown-menu">
-        <li><a href="{{route('findJob')}}">Find Job</strong></a></li>
+        <li><a href="{{route('findJob')}}">Find Jobs</strong></a></li>
         <li role="separator" class="divider"></li>
         <li><a href="{{route('blockedJobs')}}">Blocked Jobs</strong></a></li>
       </ul>

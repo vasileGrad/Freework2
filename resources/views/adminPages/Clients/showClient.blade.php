@@ -59,7 +59,7 @@
 						@elseif($client->statusActiv == 0)
 							<form method="POST" action="{{ route('unblockClient', $client->id) }}">
 				            	{{ csrf_field() }}
-				                <button type="submit" class="btn btn-danger btn-block">Unblock Client</button>
+				                <button type="submit" class="btn btn-success btn-block">Unblock Client</button>
 				            </form>
 						@endif
 						<br><hr>

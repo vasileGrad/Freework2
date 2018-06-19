@@ -19,17 +19,17 @@
 						    	<br><br><br><br>
 						    	<h4>&#36;{{ $job->paymentAmount }}</h4>
 						    	<h4>{{ $job->paymentName}}</h4><hr>
-						    	<h4>{{$job->levelName}} Level</h4>
+						    	<h4>{{$job->levelName}}</h4>
 						    </div>
         				</div>
 					</div><hr>
 					<div class="row">
 						<div class="col-md-12 col-sm-12 padding-left">
-							<h4><strong>Skills and Expertise</strong></h4><br>
 							@if(count($job_skills) != 0)
 								<div class="row padding-left">
+									<h4><strong>Skills and Expertise</strong></h4>
 									@foreach($job_skills as $skill)
-										<span class="label label-info label-skill">{{ $skill->skillName }}</span>
+										<span class="label label-info label-skill label-bottom">{{ $skill->skillName }}</span>
 									@endforeach
 								</div>
 							@else

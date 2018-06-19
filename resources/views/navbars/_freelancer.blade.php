@@ -22,7 +22,7 @@
       <ul class="dropdown-menu">
         <li><a href="{{ route('contractsNow', Auth::user()->id) }}">Contracts in progress</a></li>
         <li role="separator" class="divider"></li>
-        <li><a href="{{ route('contractsFinish', Auth::user()->id) }}">Contracts finished</a></li>
+        <li><a href="{{ route('contractsFinish', Auth::user()->id) }}">Finished Contracts</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('earnings', Auth::user()->id) }}">Business Reports</a></li>
       </ul>

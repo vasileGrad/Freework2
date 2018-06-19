@@ -39,7 +39,7 @@
 		                	<div class="list-group center-title">
 		                		<span class="list-group-item-text">
 		                			<div class="col-sm-12">
-		                				<h3 class="list-group-item-text"><strong>No freelancers blocked</strong></h3>
+		                				<h3 class="list-group-item-text"><strong>No freelancer blocked</strong></h3>
 		                			</div>
 		                		</span><br><br><br>
 			                </div>

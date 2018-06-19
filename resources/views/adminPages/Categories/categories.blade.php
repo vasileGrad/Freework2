@@ -18,7 +18,7 @@
 									<br><a class="btn btn-primary btn-md" href="{{ route('categories.create') }}" role="button"><strong>Add category</strong></a>
 								</div>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<br><a class="btn btn-success btn-md" href="{{ route('showCategories') }}" role="button"><strong>Find category</strong></a>
+									<br><a class="btn btn-info btn-md" href="{{ route('showCategories') }}" role="button"><strong>Find category</strong></a>
 								</div>
 							</div>
 						</div>

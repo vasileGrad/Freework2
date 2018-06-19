@@ -18,7 +18,7 @@
 									<br><a class="btn btn-primary btn-md" href="{{ route('skills.create') }}" role="button"><strong>Add skill</strong></a>
 								</div>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<br><a class="btn btn-success btn-md" href="{{ route('showSkills') }}" role="button"><strong>Find skill</strong></a>
+									<br><a class="btn btn-info btn-md" href="{{ route('showSkills') }}" role="button"><strong>Find skill</strong></a>
 								</div>
 							</div>
 						</div>

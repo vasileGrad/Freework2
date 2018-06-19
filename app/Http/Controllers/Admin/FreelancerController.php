@@ -104,8 +104,10 @@ class FreelancerController extends Controller
                             ->leftJoin('freelancer_skill', 'freelancers.id','freelancer_skill.freelancer_id')
                             ->leftJoin('skills', 'freelancer_skill.skill_id', '=', 'skills.id')
                             ->select('skills.skillName')
-                            ->where('users.id', '=', $id)
-                            ->get();                                                       
+                            ->where('freelancers.id', '=', $freelancerId)
+                            ->get();  
+        //dd($freelancer_skills); 
+
         return view('adminPages.Freelancers.showFreelancer', compact('freelancer','freelancer_skills'));
     }
 

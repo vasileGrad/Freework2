@@ -34,12 +34,12 @@
         				</div>
 					</div><hr>
 					<div class="row">
-						<div class="col-md-12 col-sm-12 padding-left">
-							<h4><strong>Skills of the freelancer</strong></h4><br>
-							@if(!$freelancer_skills)
+						<div class="col-md-11 col-sm-11 padding-left">
+							@if($freelancer_skills)
 								<div class="row padding-left">
+									<h4><strong>Skills: </strong></h4>
 									@foreach($freelancer_skills as $skill)
-										<span class="label label-info label-skill">{{ $skill->skillName }}</span>
+										<span class="label label-info label-skill label-bottom">{{ $skill->skillName }}</span>
 									@endforeach
 								</div>
 							@else
@@ -62,7 +62,7 @@
 						@elseif($freelancer->statusActiv == 0)
 							<form method="POST" action="{{ route('unblockFreelancer', $freelancer->id) }}">
 				            	{{ csrf_field() }}
-				                <button type="submit" class="btn btn-danger btn-block">Unblock Freelancer</button>
+				                <button type="submit" class="btn btn-success btn-block">Unblock Freelancer</button>
 				            </form>
 						@endif
 						<br><hr>
