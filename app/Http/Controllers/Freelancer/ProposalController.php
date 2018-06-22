@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Freelancer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redirect;
+use App\Freelancer;
 use App\Proposal;
 use Purifier;
+use Session;
 use App\Job;
 use Auth;
 use DB;
@@ -142,7 +144,7 @@ class ProposalController extends Controller
                                     ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                     ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
                                     ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id','proposals.client_id', 'proposals.payment_amount', 'proposals.freelancer_comment','proposals.client_comment', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
+                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id','proposals.client_id', 'proposals.payment_amount', 'proposals.freelancer_comment','proposals.client_comment', 'proposals.current_proposal_status', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
                                     ->where('proposals.id','=', $id)
                                     ->first();
 
@@ -157,10 +159,20 @@ class ProposalController extends Controller
         
         $client = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
                                 ->leftJoin('users', 'clients.user_id', '=', 'users.id')
-                                ->select('clients.id','users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.created_at')
+                                ->leftJoin('proposals','clients.id','proposals.client_id')
+                                ->select('users.id','users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.created_at','proposals.id as proposalId')
                                 ->where('jobs.id', '=', $job->job_id)
                                 ->first();
-        //dd($client);
+
+        $userId = Session::get('AuthUser');
+        $freelancerId = DB::table('users')->leftJoin('freelancers','users.id','freelancers.user_id')->select('freelancers.id')->where('users.id',$userId)->first();
+        $invitation = Proposal::where([
+                            ['proposals.job_id',$job->job_id],
+                            ['proposals.freelancer_id',$freelancerId->id]
+                        ])
+                        ->select('proposals.id')
+                        ->first();
+
         $count_jobs = DB::table('jobs')->where([
                                         ['jobs.clientId', '=', $client->id],
                                         ['jobs.statusActiv', '=', 1]
@@ -168,8 +180,9 @@ class ProposalController extends Controller
                                     ->count();
         $proposals_job = DB::table('proposals')->where('proposals.job_id', '=', $job->job_id)
                                                 ->count();
-        //dd([$job,$client,$count_jobs]); 
-         return view('freelancerPages.Proposal.showProposal', compact(['job','client','count_jobs','job_skills','proposals_job']));
+        $invitationId = $id;
+        //dd([$job,$client,$count_jobs,$proposals_job]); 
+         return view('freelancerPages.Proposal.showProposal', compact(['invitationId','invitation','job','client','count_jobs','job_skills','proposals_job']));
     }
 
 
@@ -213,6 +226,11 @@ class ProposalController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //dd($id);
+        $invitation = Proposal::find($id);
+        $invitation->delete();
+
+        Session::flash('success', 'Invitation Refused!');
+        return Redirect()->route('freelancerProposal.index');
     }
 }

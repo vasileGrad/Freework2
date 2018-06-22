@@ -91,7 +91,7 @@
 			    @foreach($contracts as $contract)
 	            	<div class="row padding-left">
 	            		<div class="col-md-9 col-sm-9 mainUser">
-	            			<a href="#"><h4 id="jobTitle" class="color-link">{{ $contract->title}}</h4></a>
+	            			<h4><b><a href="{{ route('jobs.show', $contract->jobId)}}">{{ $contract->title}}</h4></a>
 	            			
 	            			<div class="col-md-1 col-sm-1 top-textarea">
 	            				<img src="{{ asset('images/profile/' . $contract->freelancerImage) }}" alt="" class="image-radius-freelancer" height="35" width="35"/>

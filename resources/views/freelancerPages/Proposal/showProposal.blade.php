@@ -3,7 +3,7 @@
 @section('title', '| Show Proposal Job Page')
 
 @section('content')
-<div class="container">
+<div class="container"> 
     <div class="row">
         <div class="col-md-9 col-offset-md-1 col-sm-9">
         	<a href="{{route('goBackProposals')}}"><h5 class="color-link"><span class="glyphicon glyphicon-menu-left"></span> <strong> Back to proposals list</strong></h5></a><br>
@@ -59,7 +59,7 @@
                 <div class="panel-body">
         			<div class="row">
         				<div class="col-md-12 col-sm-12 padding-left">
-					  		<br><h3 class="list-group-item-heading"><strong>Cover Letter</strong></h3><br><br>
+					  		<br><h3 class="list-group-item-heading"><strong>Cover Letter - {{ $client->firstName}} {{ $client->lastName}}</strong></h3><br><br>
 					  		@if($job->freelancer_comment != '')
 					  			<h4 class="list-group-item-text">{!! $job->freelancer_comment !!}</h4><br>
 					  		@elseif($job->client_comment != '')
@@ -73,20 +73,41 @@
     	<div class="col-md-3 col-sm-3 top-proposal">
 			<div class="col-md-12 col-sm-12"><br>
 				@if($job->client_id != '')
-					<h4><strong>Client Invitation</strong></h4><br>
+					<div class="col-md-6 col-sm-6">
+						@if($job->current_proposal_status == 1)
+							{!! Form::open(['route' => ['messageProposal', $invitation->id], 'method' => 'POST']) !!}
+								{!! Form::button('<strong>Accept</strong>', array('type' => 'submit', 'class' => 'btn btn-info btn-block')) !!}
+				            {!! Form::close() !!}<br>
+			            @elseif($job->current_proposal_status == 2)
+			            	<a href="{{ route('messages') }}" class="btn btn-info btn-block">Accept</a>
+			            @endif
+					</div>
+					<div class="col-md-6 col-sm-6">
+						@if($job->current_proposal_status == 1)
+							{!! Form::open(['route' => ['freelancerProposal.destroy', $invitationId],'method' => 'DELETE'] ) !!}
+								{!! Form::submit('Refuse', ['class' => 'btn btn-danger btn-block']) !!}
+							{!! Form::close() !!}
+						@endif
+					</div><br>
+
+					@if($job->current_proposal_status != 3)
+						<h4><strong>Invitation Accepted</strong></h4>
+					@endif
+					<h4 class="col-md-12 col-sm-12"><strong>Client Invitation</strong></h4>
 				@else
 					<h4><strong>Submitted Proposals</strong></h4><br>
-				@endif
-				<h5><strong>Your proposed terms:</strong></h5>
+				@endif 	
+				<br>
+				<br><br><h5><strong>Your proposed terms:</strong></h5>
 				@if($job->paymentName == 'Hourly')
 					<h5>Rate: <b>${{$job->payment_amount}}</b>/hr</h5>
 				@elseif($job->paymentName == 'Fixed price')
 					<h5>Budget: <b>${{$job->payment_amount}}</b></h5>
-				@endif
-				<br><hr>
-			  	<h5><strong>About the Client</strong></h5><br>
+				@endif<hr>
+			  	<h5><strong>About the Client</strong></h5>
+			  	<h5><b>{{ $client->firstName }} {{ $client->lastName }}</b></h5><br>
 			  	<h5><span class="glyphicon glyphicon-map-marker"><strong>{{ $client->country }}</strong></span></h5>
-			  	<h6>&nbsp;&nbsp;&nbsp;&nbsp;{{$client->location}}</h6><br>
+			  	<h6>&nbsp;&nbsp;&nbsp;&nbsp;<b>{{$client->location}}</b></h6><br>
 			  	@if ($count_jobs == 1)
 			  		<h5>{{$count_jobs}} Job Posted</h5><br>
 			  	@elseif($count_jobs > 1)

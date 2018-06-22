@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-8 col-md-offset-2 col-sm-12">
+	<div class="col-md-10 col-md-offset-1 col-sm-12">
 		@if (Session::has('success'))
 
 			<div class="alert alert-success" role="alert">

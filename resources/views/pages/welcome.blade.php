@@ -27,7 +27,7 @@
         </div>
     </div>
     <div class="row">   
-        <div class="col-md-8 col-sm-8 marginPage">   
+        <div class="col-md-8 col-sm-8 marginPage ">   
             <h1><strong>Join Our Growing Freelance Community</strong></h1><br>
         </div>
     </div> 

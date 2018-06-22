@@ -47,7 +47,7 @@ class ProfileController extends Controller
                 	DB::raw("(SELECT users.firstName FROM contracts left join proposals on contracts.proposalId = proposals.id left join freelancers on proposals.freelancer_id = freelancers.id left join users on freelancers.user_id = users.id where (contracts.clientId = '$id' && contracts.endTime != '' && proposals.job_id = jobId)) as freelancerFirstName"),
                 	DB::raw("(SELECT users.lastName FROM contracts left join proposals on contracts.proposalId = proposals.id left join freelancers on proposals.freelancer_id = freelancers.id left join users on freelancers.user_id = users.id where (contracts.clientId = '$id' && contracts.endTime != '' && proposals.job_id = jobId)) as freelancerLastName"),
                 	DB::raw("(SELECT users.image FROM contracts left join proposals on contracts.proposalId = proposals.id left join freelancers on proposals.freelancer_id = freelancers.id left join users on freelancers.user_id = users.id where (contracts.clientId = '$id' && contracts.endTime != '' && proposals.job_id = jobId)) as freelancerImage"))
-                ->where([
+                ->where([ 
                     ['users.id', '=', $id],
                     ['users.role_id', '=', 3],
                     ['contracts.endTime', '!=', '']

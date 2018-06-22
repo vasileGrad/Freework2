@@ -27,7 +27,7 @@
                 	</p>
                 </div>
                 <div v-else-if="singleMsg.status == 6">
-                    <div class="col-md-12 margin-top-bottom">
+                    <div class="col-md-12 col-sm-12 col-xs-12 margin-top-bottom">
                         <hr>
                         <div class="panel panel-info">
                             <div class="panel-heading color-heading">
@@ -36,7 +36,7 @@
                             </div>
                             <div class="panel-body">
                                 <h3>@{{jobTitle}}</h3><br>
-                                <h5><b>Price: &#36;@{{singleMsg.payment_amount}}</b></h5>
+                                <h5><b>Price: &#36;@{{singleMsg.payment_amount}} /hr</b></h5>
                                 <p class="pull-right">@{{ singleMsg.created_at }}</p>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div v-else="singleMsg.status == 7">
-                    <div class="col-md-12 margin-top-bottom">
+                    <div class="col-md-12 col-sm-12 col-xs-12 margin-top-bottom">
                         <hr>
                         <div class="panel panel-danger">
                             <div class="panel-heading color-heading">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="panel-body">
                                 <h3>@{{jobTitle}}</h3>
-                                <h5><b>Amount paid: &#36;@{{singleMsg.payment_amount}}</b></h5>
+                                <h5><b>Amount paid: &#36;@{{singleMsg.payment_amount}} /hr</b></h5>
                                 <p class="pull-right">@{{ singleMsg.created_at }}</p>
                             </div>
                         </div>
@@ -85,7 +85,7 @@
                     </p>
                 </div>
                 <div v-else-if="singleMsg.status == 6">
-                    <div class="col-md-12 margin-top-bottom">
+                    <div class="col-md-12 col-sm-12 col-xs-12 margin-top-bottom">
                         <hr>
                         <div class="panel panel-info">
                             <div class="panel-heading color-heading">
@@ -94,15 +94,15 @@
                             </div>
                             <div class="panel-body">
                                 <h3>@{{jobTitle}}</h3><br>
-                                <h5><b>Price: &#36;@{{singleMsg.payment_amount}}</b></h5>
+                                <h5><b>Price: &#36;@{{singleMsg.payment_amount}} /hr</b></h5>
                                 <p class="pull-right">@{{ singleMsg.created_at }}</p>
-                            </div>
+                            </div> 
                         </div>
                         <hr>
                     </div>
                 </div>
                 <div v-else="singleMsg.status == 7">
-                    <div class="col-md-12 margin-top-bottom">
+                    <div class="col-md-12 col-sm-12 col-xs-12 margin-top-bottom">
                         <hr>
                         <div class="panel panel-danger">
                             <div class="panel-heading color-heading">
@@ -110,8 +110,8 @@
                                 <img :src="'../images/profile/' + singleMsg.image" class="pull-right image-privateMsg3" />
                             </div>
                             <div class="panel-body">
-                                <h3>@{{jobTitle}}</h3><br>
-                                <h5><b>Amount paid: &#36;@{{singleMsg.payment_amount}}</b></h5>
+                                <h3>@{{jobTitle}}</h3><br> 
+                                <h5><b>Amount paid: &#36;@{{singleMsg.payment_amount}} /hr</b></h5>
                                 <p class="pull-right">@{{ singleMsg.created_at }}</p>
                             </div>
                         </div>

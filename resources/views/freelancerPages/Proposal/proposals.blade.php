@@ -1,10 +1,10 @@
 @extends('main')
 
-@section('title', '| Freelancer Job Saved Page')
+@section('title', '| Freelancer Proposals Page')
 
 @section('content')
 <div class="container">
-	<h2>My Proposals</h2><br><hr>
+	<h2>My Proposals</h2>
 	<div class="row">
         <div class="col-md-12 mainUser">
             <div class="panel panel-default">
@@ -41,7 +41,7 @@
 	                	</div><br><hr>
 	                @endforeach
                 </div>
-            </div><br><br>
+            </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                 	<div class="row padding-left">

@@ -26,11 +26,11 @@
 	                	<div class="row padding-left">
 	                		<div class="col-md-1 col-sm-2 mainUser">
 	                			<img src="{{ asset('images/profile/' . $contract->image) }}" alt="" style="border-radius: 50%" height="90" width="90" />
-	                		</div> 
+	                		</div>  
 	                		<div class="col-md-7 col-sm-6 mainUser">
 	                			<div class="row padding-left">
-		                			<a href="#"{{-- data-toggle="modal" data-target="#jobTitle" --}}><h4 id="jobTitle">{{ $contract->title}}</h4></a>
-		                			<h4><b>{{ $contract->firstName}} {{ $contract->lastName}}</b></h4>
+		                			<h4><b><a href="{{ route('jobs.show', $contract->jobId)}}">{{ $contract->title}}</h4></a>
+		                			<h4><b><a href="{{ route('freelancerSearch.show', $contract->userId)}}">{{ucwords($contract->firstName)}} {{ucwords($contract->lastName)}}</a></b></h4>
 		                			<h5>{{ date('M j, Y', strtotime($contract->startTime)) }} - <b>In progress</b> </h5>
 		                		</div>
 	                		</div>

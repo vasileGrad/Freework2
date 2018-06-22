@@ -4,15 +4,19 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row"> 
         <div class="col-md-9 col-offset-md-1 col-sm-9">
         	<a href="{{route('goBackProposal', [$job->id])}}"><h5><span class="glyphicon glyphicon-menu-left"></span> <strong> Back to proposal</strong></h5></a><br>
 			<div class="panel panel-default">
-                <div class="panel-body">
-        			<div class="row">
+                <div class="panel-body"> 
+        			<div class="row"> 
         				<div class="col-md-12 col-sm-12 padding-left">
-					  		<br><h3 class="list-group-item-heading"><strong>Cover Letter - <a href="">{{ucwords($freelancer->firstName)}} {{ucwords($freelancer->lastName)}}</a></strong></h3><br><br>
-					  		<h4 class="list-group-item-text">{!! $job->freelancer_comment !!}</h4><br>
+					  		<br><h3 class="list-group-item-heading"><strong>Cover Letter - <a href="{{ route('freelancerSearch.show', $freelancer->userId)}}">{{ucwords($freelancer->firstName)}} {{ucwords($freelancer->lastName)}}</a></strong></h3><br><br>
+					  		@if($job->freelancer_comment)
+					  			<h4 class="list-group-item-text">{!! $job->freelancer_comment !!}</h4><br>
+					  		@elseif($job->client_comment)
+					  			<h4 class="list-group-item-text">{!! $job->client_comment !!}</h4><br>
+					  		@endif
         				</div>
 					</div>
                 </div>
@@ -68,13 +72,16 @@
     	</div>
     	<div class="col-md-3 col-sm-3 top-proposal">
 			<div class="col-md-12 col-sm-12">
-				@if($job->current_proposal_status == 1)
-					{!! Form::open(['route' => ['messageProposal', $freelancer->id], 'method' => 'POST']) !!}
-						{!! Form::button('<strong>Write a Message</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg')) !!}
-		            {!! Form::close() !!}<br><br>
-	            @elseif($job->current_proposal_status == 2)
-	            	<a href="{{ route('messages') }}" class="btn btn-success btn-lg">Write a Message</a>
-	            @endif
+				@if(!$job->client_id)
+					@if($job->current_proposal_status == 1)
+						{{-- $freelancer->id = proposal.id for that freelancer --}}
+						{!! Form::open(['route' => ['messageProposal', $freelancer->proposalId], 'method' => 'POST']) !!}
+							{!! Form::button('<strong>Write a Message</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg')) !!}
+			            {!! Form::close() !!}<br><br>
+		            @elseif($job->current_proposal_status == 2)
+		            	<a href="{{ route('messages') }}" class="btn btn-success btn-lg">Write a Message</a>
+		            @endif
+		        @endif
 				<h5><strong>Submitted Proposals</strong></h5><br>
 				<h5><strong>Your proposed terms:</strong></h5><br>
 				@if($job->paymentName == 'Hourly')
@@ -83,7 +90,8 @@
 					<h5>Budget: ${{$job->payment_amount}}</h5>
 				@endif
 				<br><hr>
-			  	<h5><strong>About the Freelancer</strong></h5><br>
+			  	<h5><strong>About the Freelancer</strong></h5>
+			  	<h5><strong>{{ $freelancer->firstName }} {{ $freelancer->lastName }}</strong></h5>
 			  	<h5><span class="glyphicon glyphicon-map-marker"><strong>{{ $freelancer->country }}</strong></span></h5>
 			  	<h6>&nbsp;&nbsp;&nbsp;&nbsp;{{$freelancer->location}}</h6><br>
 			  	<small>Member since: {{ date('M j, Y', strtotime($freelancer->created_at)) }}</small><br><hr>

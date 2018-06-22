@@ -9,12 +9,12 @@
         <div class="col-md-8 mainUser">
             <div class="panel panel-default">
                 <div class="panel-body">
-        			<div class="row">
+        			<div class="row"> 
         				<div class="col-md-12 col-sm-12">
         					<div class="col-md-8 col-sm-8 padding-left">
 						  		<br><h3 class="list-group-item-heading"><strong>{{$job->title}}</strong></h3><br><br>
 						  		<span class="label label-default label-skill">{{$job->categoryName}}</span>    Posted {{ date( 'M j, Y h', strtotime($job->created_at)) }} <br>
-					    		<br><h4 class="list-group-item-text">{{ strip_tags($job->description) }}</h4>
+					    		<br><h4 class="list-group-item-text">{!! $job->description!!}</h4>
 					    		<br>
 					    		@if(count($uploads))
 						    		<h4><b>Attachments ({{ count($uploads) }})</b></h4>
@@ -40,7 +40,7 @@
 							@if(count($job_skills) != 0)
 								<div class="row padding-left">
 									@foreach($job_skills as $skill)
-										<span class="label label-info label-skill">{{ $skill->skillName }}</span>
+										<span class="label label-info label-skill label-bottom">{{ $skill->skillName }}</span>
 									@endforeach
 								</div>
 							@else
@@ -55,12 +55,12 @@
     		<div class="panel panel-default">
                 <div class="panel-body">
 					<div class="col-md-10 col-sm-11"><br>
-						@if($proposal == 0)
+						@if($proposalCount == 0)
 							{!! Form::open(['route' => ['createProposal', $job->id], 'method' => 'POST']) !!}
 								{!! Form::button('<strong>Submit a Proposal</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg btn-block')) !!}
 				            {!! Form::close() !!}<br><br>
-				        @elseif($proposal == 1) 
-							<h4>Proposal submitted</h4>
+				        @elseif($proposalCount == 1) 
+							<h4><b>Proposal submitted</b></h4><br>
 						@endif
 							
 						@if($job_saved == 0)

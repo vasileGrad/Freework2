@@ -19,7 +19,7 @@
 				                        <button type="submit" class="btn btn-default">Submit</button>
 				                    </div>
 				                	<div class="col-md-4 col-sm-4">
-						        		<button type="button" class="btn btn-success" id="filterButton">Filters</button>
+						        		{{-- <button type="button" class="btn btn-success" id="filterButton">Filters</button> --}}
 						        	</div>
 				            	</div>
 				                

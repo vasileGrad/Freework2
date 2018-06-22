@@ -13,7 +13,7 @@
         					<h3 class="padding-left">Profile</h3>
 				        </div>
 		                <div class="col-md-3 padding-right mainUser">
-				            <a href="{{ route('createInvitation', [$freelancer->id, $job_id]) }}" class="btn btn-primary btn-lg btn-block"><b>Invite to work</b></a>
+				            <a href="{{ route('createInvitation', [$freelancer->id, $job_id]) }}" class="btn btn-info btn-lg btn-block"><b>Invite to work</b></a>
 						</div>
 				    </div> 
                 </div> 

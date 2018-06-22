@@ -49,12 +49,12 @@
 						</div>	
 					</div><hr>
                 </div>
-        	</div><br><br>
+        	</div>
         	<div class="panel panel-default">
         	    <div class="panel-heading">
         	    	<div class="row padding-left">
         				<div class="col-md-6">
-        		            <h2>Submitted Proposal</h2>
+        		            <h2>Submitted Proposals</h2>
         		        </div>
         		    </div><br>
         	    </div>
@@ -82,7 +82,7 @@
 		            	<h4 class="center-text"><b>No Proposals</b></h4>
 		            @endif
         	    </div>
-        	</div><br><br>
+        	</div>
         	<div class="panel panel-default">
         	    <div class="panel-heading">
         	    	<div class="row padding-left">

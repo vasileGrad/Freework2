@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-	<h2 class="padding-left">My Contracts</h2><br>
+	<h2 class="padding-left">My Freelancers</h2><br>
 	<div class="row">
         <div class="col-md-12 mainUser">
             <div class="panel panel-default">
@@ -29,8 +29,8 @@
 	                		</div> 
 	                		<div class="col-md-7 col-sm-6 mainUser">
 	                			<div class="row padding-left">
-		                			<a href="#"{{-- data-toggle="modal" data-target="#jobTitle" --}}><h4 id="jobTitle">{{ $contract->title}}</h4></a>
-		                			<h4><b>{{ $contract->firstName}} {{ $contract->lastName}}</b></h4>
+		                			<h4><b><a href="{{ route('jobs.show', $contract->jobId)}}">{{ $contract->title}}</h4></a>
+		                			<h4><b><a href="{{ route('freelancerSearch.show', $contract->userId)}}">{{ucwords($contract->firstName)}} {{ucwords($contract->lastName)}}</a></b></h4>
 		                			<h5>{{ date('M j, Y', strtotime($contract->startTime)) }} - {{ date('M j, Y', strtotime($contract->endTime)) }} </h5>
 		                			<h5><i>{{ $contract->reviewFreelancer }}</i></h5>
 	                			</div>

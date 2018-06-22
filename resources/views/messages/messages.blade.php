@@ -7,12 +7,12 @@
 <div class="container col-md-12">
     <div class="row" id="app">
     	<div class="col-md-12 col-sm-12">
-        	<div id="navigation" class="col-md-3 col-sm-3 mess-color ">
+        	<div id="navigation" class="col-md-3 col-sm-3 col-xs-3 mess-color ">
         		<h3 align="center">Messenger<abbr title="Create New Conversation"><a href="{{ route('newMessage') }}"><i class="glyphicon glyphicon-edit pull-right"></i></a></abbr></h3><br>
                 <ul v-for="privateMsg in privateMsgs">
                     <li @click="messages(privateMsg.id)" class="row privateMsg">
                         <div class="col-md-3 pull-left">
-                            <img :src="'../images/profile/' + privateMsg.image" class="image-privateMsg"/>
+                            <img :src="'../images/profile/' + privateMsg.image" class="image-privateMsg"/> 
                         </div>
 
                         <div class="col-md-9 pull-left top-message">
@@ -23,7 +23,7 @@
                 </ul>
         	</div>
 
-        	<div class="col-lg-6 col-sm-4 messages">
+        	<div class="col-lg-6 col-sm-6 col-xs-6 messages">
                 <h3><b>@{{firstNameShow}} @{{lastNameShow}}</b></h3>
                 <h5><b>@{{jobTitle}}</b></h5><hr>
 
@@ -33,7 +33,7 @@
                 <textarea class="col-md-12 form-control top-textarea" placeholder="Type a message..." v-model="msgFrom" @keydown="inputHandler"></textarea>
         	</div>
 
-        	<div class="col-md-3 col-sm-3 mess-color">
+        	<div class="col-md-3 col-sm-3 col-xs-3 mess-color">
         		<h3 align="center">User Information</h3>
         		<br><hr>
 

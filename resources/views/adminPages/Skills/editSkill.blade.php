@@ -16,7 +16,7 @@
 				</div><br><br>
 				<div class="form-group">
 					<div class="row">
-						<div class="col-md-10 col-md-offset-1">
+						<div class="col-md-12 ">
 							{!! Form::model($skill, ['route' => ['skills.update', $skill->id], 'method' => 'PUT']) !!}
 							<div class="col-md-6 col-sm-6">
 								{{ Form::label('title', "Skill:") }}

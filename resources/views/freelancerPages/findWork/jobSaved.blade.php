@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-12 mainUser">
             <div class="panel panel-default">
-                <div class="panel-heading"><h1>Jobs Saved</h1><br>
+                <div class="panel-heading"><h1>Saved Jobs</h1><br>
                 	<h5>Keep track of jobs you're interested in. Once a job is closed, it will automatically be removed from your list. </h5>
                 	<div class="row">
         				<div class="col-md-6">

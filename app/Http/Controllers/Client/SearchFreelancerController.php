@@ -25,14 +25,20 @@ class SearchFreelancerController extends Controller
     {
         $skills = DB::table('skills')->get();
 
-        $freelancersCount = DB::table('freelancers')->leftJoin('users', 'freelancers.user_id', '=', 'users.id')->where('users.role_id', '=', 2)
-            ->count();
+        $freelancersCount = DB::table('freelancers')->leftJoin('users', 'freelancers.user_id', '=', 'users.id')->where([
+                                                        ['users.role_id', '=', 2],
+                                                        ['users.statusActiv', '!=', 0]
+                                                    ])
+                                                ->count();
         $freelancers = DB::table('freelancers')->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
             ->select('users.id','users.firstName','users.lastName', 'users.image', 'users.location','users.country','users.title','users.description','freelancers.hourlyRate',
                 DB::raw("(SELECT sum(contracts.paymentAmount) FROM contracts
                             where (contracts.freelancerId = 'id' && contracts.endTime != '')) as totalEarnings")
             )
-            ->where('users.role_id', '=', 2)
+            ->where([
+                ['users.role_id', '=', 2],
+                ['users.statusActiv', '!=', 0]
+            ])
             ->orderBy('freelancers.id','desc')->paginate(3);
 
         //dd($freelancers);
@@ -107,7 +113,7 @@ class SearchFreelancerController extends Controller
                 ->rightJoin('freelancers', 'proposals.freelancer_id', 'freelancers.id')
                 ->rightJoin('users', 'freelancers.user_id', 'users.id')
                 ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
-                ->select('jobs.title', 'users.firstName', 'users.lastName', 'users.image','contracts.id','contracts.startTime', 'contracts.endTime', 'contracts.paymentAmount','reviews.reviewFreelancer','rateFreelancer')
+                ->select('jobs.id as jobId','jobs.title', 'users.id as userId','users.firstName', 'users.lastName', 'users.image','contracts.id as constractId','contracts.startTime', 'contracts.endTime', 'contracts.paymentAmount','reviews.reviewFreelancer','rateFreelancer')
                 ->where([
                     ['contracts.clientId', '=', $id],
                     ['contracts.endTime', '!=', '']
@@ -127,39 +133,64 @@ class SearchFreelancerController extends Controller
     public function searchInviteFreelancers(Request $request) 
     {
         $keyword_search = $request->input('search'); 
-        $country = $request->input('country');
-        $id_skill = $request->input('skill');
+        //$country = $request->input('country');
+        //$id_skill = $request->input('skill');
         $job_id = $request->input('job_id');
         //dd($job_id);
 
-        $skill_name = DB::table('skills')->where('skills.id', '=', $id_skill)
-                                        ->select('skills.skillName')->first();
-        if($country != null)
+        //$skill_name = DB::table('skills')->where('skills.id', '=', $id_skill)
+                                        //->select('skills.skillName')->first();
+
+        /*if($country != null)
             $keyword_country = $country;
         else
-            $keyword_country = '';
+            $keyword_country = '';*/
 
         $freelancers = DB::table('freelancers')->leftJoin('users','freelancers.user_id', '=', 'users.id')
-                    ->leftJoin('freelancer_skill', 'freelancers.id', '=', 'freelancer_skill.freelancer_id')
-                    ->leftJoin('skills', 'freelancer_skill.skill_id', '=', 'skills.id')
                     ->select('users.id','users.firstName','users.lastName','users.image','users.title','users.location','users.country','description','freelancers.hourlyRate')
-                    ->where([
+                    ->Where([
                         ['users.firstName', 'LIKE', '%'.$keyword_search.'%'],
-                        ['users.lastName', 'LIKE', '%'.$keyword_search.'%'],
-                        ['users.role_id', '=', 2]
+                        ['users.role_id', '=', 2],
+                        ['users.statusActiv', '!=', 0]
                     ])
                     ->orWhere([
-                        ['users.country', '=', $keyword_country], 
-                        ['skills.skillName', 'LIKE', '%'.$skill_name->skillName.'%']
+                        ['users.lastName', 'LIKE', '%'.$keyword_search.'%'],
+                        ['users.role_id', '=', 2],
+                        ['users.statusActiv', '!=', 0] 
                     ])
-                    ->orderBy('freelancers.id','desc')->distinct()
+                    ->orderBy('freelancers.id','desc')
+                    ->distinct()
                     ->paginate(3);
+
+                    /*->orWhere([
+                        ['users.country', '=', $keyword_country], 
+                        ['users.role_id', '=', 2],
+                        ['users.statusActiv', '!=', 0] 
+                    ])
+                    ->orWhere([
+                        ['skills.skillName', 'LIKE', '%'.$skill_name->skillName.'%'],
+                        ['users.role_id', '=', 2],
+                        ['users.statusActiv', '!=', 0]
+                    ])*/
+                    
+
+        //dd($freelancers->total());
+
+        /*$countFreelancers = 0;
+        foreach ($freelancers as $freelancer) {
+            if($freelancer->id)
+                $countFreelancers++;
+        }*/
+
         //dd($freelancers);
 
-        $skills = DB::table('skills')->get();
+        $skills = DB::table('skills')->leftJoin('job_skill','skills.id','job_skill.skill_id')
+                                     ->select('skills.id','skills.skillName')
+                                     ->where('job_skill.job_id',$job_id)
+                                     ->get();
 
-        //dd($freelancers);
-        return view('clientPages.inviteFreelancers', compact('job_id'));
+        //dd($skills);
+        return view('clientPages.jobs.inviteFreelancers', compact('job_id','freelancers','skills'));
     }
 
     /**
@@ -281,6 +312,7 @@ class SearchFreelancerController extends Controller
      */
     public function show($id)
     {
+        //dd($id);
         $valueFreelancer = $this->calculateValueFreelancer($id);
         //$valueFreelancer = DB::statement('select calculateValueFreelancer()');
         //$value = DB::table('users')->select('users.firstName')->where('users.id','=',1)->first();

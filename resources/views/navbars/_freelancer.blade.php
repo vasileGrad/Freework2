@@ -63,7 +63,7 @@
     </li> --}}
 
   <ul class="nav navbar-nav navbar-right">
-    <li class="dropdown">
+    {{-- <li class="dropdown">
       <h4><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell bell-top-margin"></span></a></h4>
       <ul class="dropdown-menu" role="menu">
         <li class="notification-style">
@@ -82,4 +82,4 @@
           <hr>
         </li>
       </ul>
-    </li>
+    </li> --}}

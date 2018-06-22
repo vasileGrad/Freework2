@@ -47,5 +47,5 @@
   </form> --}}
   <ul class="nav navbar-nav navbar-right">
     <li class="dropdown">
-      <h4><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span></a></h4>
+      {{-- <h4><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span></a></h4> --}}
     </li>

@@ -10,6 +10,7 @@ use App\Message;
 use App\Proposal;
 use App\Contract;
 use App\Review;
+use App\Job;
 use Session;
 use App\Events\NewMessageEvent;
 
@@ -21,7 +22,6 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function messages() {
-
         $userId = Session::get('AuthUser');
         $AuthUserRole = Session::get('AuthUserRole');
         //dd($AuthUserRole);
@@ -43,7 +43,7 @@ class MessagesController extends Controller
         //dd([$user, $userId]);
         return view('messages.messages', compact('user','userId'));
     }
-
+ 
     /**
      * Get Messages
      *
@@ -136,10 +136,13 @@ class MessagesController extends Controller
      */
     public function messageProposal($proposal_id) {
         $AuthUser = Session::get('AuthUser');
+        $AuthUserRole = Session::get('AuthUserRole');
+        
         $proposal_id = (int)$proposal_id;
-
+        //dd($proposal_id);
         $proposal = Proposal::find($proposal_id);
-        $proposal->current_proposal_status = 2;
+        //dd($proposal);
+        $proposal->current_proposal_status = 2; // 2 = negociation phase
         $proposal->save();
 
         $freelancer_id = DB::table('proposals')->join('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')
@@ -147,23 +150,52 @@ class MessagesController extends Controller
                                                 ->where('proposals.id', '=', $proposal_id)
                                                 ->first();
 
-        //dd([$AuthUser, $freelancer_id->user_id, $proposal_id]);
-        // new conversation for a new Job
-        $conId_new = DB::table('conversations')->insertGetId([
-            'user_one'    => $AuthUser,
-            'user_two'    => $freelancer_id->user_id,
-            'proposal_id' => $proposal_id
-        ]);
 
-        // Client send Message
-        $sendM = DB::table('messages')->insert([
-            'user_from'       => $AuthUser,
-            'user_to'         => $freelancer_id->user_id,
-            'msg'             => 'Started the conversation',
-            'status'          => 1,
-            'conversation_id' => $conId_new
-        ]);
-        //dd($sendM);
+        $client = DB::table('proposals')->select('proposals.client_id')
+                                            ->where('proposals.id', '=', $proposal_id)
+                                            ->first();
+        //dd($client_id);
+        //dd($freelancer_id);
+
+        //dd([$AuthUser, $freelancer_id->user_id, $proposal_id]);
+
+        //dd($AuthUserRole);
+        if($AuthUserRole == 3){ //Client starts a new conversation
+            // new conversation for a new Job
+            $conId_new = DB::table('conversations')->insertGetId([
+                'user_one'    => $AuthUser,
+                'user_two'    => $freelancer_id->user_id,
+                'proposal_id' => $proposal_id
+            ]);
+
+            // Client send Message
+            $sendM = DB::table('messages')->insert([
+                'user_from'       => $AuthUser,
+                'user_to'         => $freelancer_id->user_id,
+                'msg'             => 'Started the conversation',
+                'status'          => 1,
+                'conversation_id' => $conId_new
+            ]);
+            //dd($sendM);
+        }elseif($AuthUserRole == 2) {// Freelancer starts a new conversation
+            // new conversation for a new Job
+            $conId_new = DB::table('conversations')->insertGetId([
+                'user_one'    => $AuthUser,
+                'user_two'    => $client->client_id,
+                'proposal_id' => $proposal_id
+            ]);
+
+            // Client send Message
+            $sendM = DB::table('messages')->insert([
+                'user_from'       => $AuthUser,
+                'user_to'         => $client->client_id,
+                'msg'             => 'Started accepted the invitation',
+                'status'          => 1,
+                'conversation_id' => $conId_new
+            ]);
+            //dd($sendM);
+        }
+
         return redirect()->route('messages');
     }
 
@@ -321,6 +353,10 @@ class MessagesController extends Controller
         // find the proposal in the table proposals 
         $proposal = Proposal::find($conProposal);
 
+        $job = Job::find($proposal->job_id);
+        $job->statusActiv = 2;
+        $job->save();
+
         // update the status in the prorosals table
         if($proposal->current_proposal_status == 2){
             $proposal->current_proposal_status = 6;
@@ -381,6 +417,10 @@ class MessagesController extends Controller
 
         // find the proposal in the table proposals 
         $proposal = Proposal::find($conProposal);
+
+        $job = Job::find($proposal->job_id);
+        $job->statusActiv = 3;
+        $job->save();
 
         // update the status in the prorosals table
         if($proposal->current_proposal_status == 6){

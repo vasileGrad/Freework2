@@ -28,8 +28,7 @@
         			<div class="row">
         				<div class="col-md-9 col-sm-9">
         					<h4><strong>{{ $job->title }}</strong></h4><br>
-							<h4>{{ strip_tags($job->description) }}</h4><br>
-							<a href="{{ route('jobShow',['job_id' => $job->id])}}"><h5>View Job Post</h5></a>
+							<h4>{!! $job->description !!}</h4><br>
         				</div>
         				<div class="col-md-3 col-sm-3">
         					<span class="glyphicon glyphicon-usd"></span> {{$job->levelName}}<br><br>

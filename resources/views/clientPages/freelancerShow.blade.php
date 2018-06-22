@@ -24,7 +24,7 @@
 		    			 	<h3 class="center-text valueFreelancer"><b>{{ $valueFreelancer}}</b></h3>
 			    		</div>
 			    		<div class="col-md-12 col-sm-12">
-			    			<h3 class="editTitle"><a href="#" data-toggle="modal" data-target="#myModal1"><b>{{ $freelancer->title }} <b><input type="hidden" id="itemId2" value="{{$freelancer->id}}"></a></h3><br> 
+			    			<h3 class="editTitle"><b>{{ $freelancer->title }}</b></h3><br> 
 
 			    			<h4 class="editDescription"><a href="#" class="pull-right" data-toggle="modal" data-target="#myModal1"><h3></i></h3></a>{{ $freelancer->description }}<input type="hidden" id="id" value=""></h4><br> 
 			    			<hr>
@@ -101,7 +101,7 @@
 			  	<div class="panel-body">
 			  		@if(!is_null($skills))
 				    	@foreach($skills as $skill)
-							<h3 class="inline padding-left"><span class="label label-info">{{ $skill->skillName }}</span></h3>&nbsp;&nbsp;
+							<h3 class="inline padding-left"><span class="label label-info label-bottom">{{ $skill->skillName }}</span></h3>&nbsp;&nbsp;
 						@endforeach
 					@else
 						<h3 class="center-text">No Skills</h3>

@@ -217,7 +217,7 @@ class JobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function inviteFreelancers($job_id)
-    {
+    {   
         $job = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
                                 ->leftJoin('users', 'clients.user_id', '=', 'users.id')
                                 ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
@@ -237,16 +237,35 @@ class JobController extends Controller
                                 ->select('users.id','users.firstName', 'users.lastName','users.image','users.title','users.description','freelancers.hourlyRate','users.location','users.country')
                                 ->where([
                                     ['users.role_id',2],
-                                    ['skills.skillName','=',$job->skillName]
+                                    ['users.statusActiv','!=',0],
+                                    ['skills.skillName','=','$job->skillName']
                                 ])
                                 ->orderBy('freelancers.id','desc')
                                 ->paginate(3);
+        $countFreelancers = 0;
+        foreach ($freelancers as $freelancer) {
+            if($freelancer->id)
+                $countFreelancers++;
+        }
+
+        if($countFreelancers == 0){
+            $freelancers = DB::table('users')->leftJoin('freelancers','users.id','freelancers.user_id')
+                                ->select('users.id','users.firstName', 'users.lastName','users.image','users.title','users.description','freelancers.hourlyRate','users.location','users.country')
+                                ->where([
+                                    ['users.role_id',2],
+                                    ['users.statusActiv','!=',0]
+                                ])
+                                ->orderBy('freelancers.id','desc')
+                                ->distinct()
+                                ->paginate(3);
+        }
 
         $skills = DB::table('skills')->leftJoin('job_skill','skills.id','job_skill.skill_id')
                                      ->select('skills.id','skills.skillName')
                                      ->where('job_skill.job_id',$job_id)
                                      ->get();
 
+        //dd($countFreelancers);
        //dd([$job,$freelancers]);
         return view('clientPages.jobs.inviteFreelancers', compact('job_id','freelancers','skills'));
     }
@@ -291,25 +310,22 @@ class JobController extends Controller
                                     ])->get();
 
         $freelancer_proposals = DB::table('proposals')->leftJoin('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
-                                        ->select('users.firstName', 'users.lastName', 'proposals.created_at','proposals.id')
+                                        ->select('users.id as userId','users.firstName', 'users.lastName', 'proposals.created_at','proposals.id')
                                         ->whereNull('proposals.client_id')
                                         ->where('proposals.job_id', '=', $id)
                                          ->get(); 
 
         $freelancer_invitations = DB::table('proposals')->leftJoin('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
-                                        ->select('users.firstName', 'users.lastName', 'proposals.created_at','proposals.id')
+                                        ->select('users.id as userId','users.firstName', 'users.lastName', 'proposals.created_at','proposals.id')
                                         ->where([
                                             ['proposals.job_id', '=', $id],
                                             ['proposals.client_id','!=','']
                                         ])
                                          ->get();
-        //dd([$freelancer_proposals,$freelancer_invitations]);
-                                       
+        //dd([$freelancer_proposals,$freelancer_invitations]);   
         $uploads = DB::table('uploads')->where('uploads.job_id', $job->id)
                                        ->select('uploads.fileName')->get();
-
         //dd([count($job_skills),$job_skills,$id,$freelancer_proposals,$uploads]);
-
         return view('clientPages.jobs.show', compact('job','job_skills','freelancer_proposals','freelancer_invitations','uploads'));
     }
 
@@ -328,7 +344,7 @@ class JobController extends Controller
                                     ->leftJoin('complexity', 'jobs.complexityId', '=', 'complexity.id')
                                     ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
                                     ->leftJoin('levels', 'jobs.levelId', '=', 'levels.id')
-                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id', 'proposals.payment_amount', 'proposals.current_proposal_status', 'proposals.freelancer_comment', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
+                                    ->select('proposal_status_catalog.statusName', 'payment_type.paymentName', 'proposals.job_id', 'proposals.payment_amount', 'proposals.current_proposal_status', 'proposals.freelancer_comment', 'proposals.client_comment', 'proposals.client_id', 'jobs.id', 'jobs.title', 'jobs.description', 'jobs.nrFreelancers', 'jobs.created_at', 'category.categoryName', 'complexity.complexityName', 'expected_duration.durationName', 'levels.levelName')
                                     ->where('proposals.id','=', $id)
                                     ->first();
 
@@ -343,7 +359,7 @@ class JobController extends Controller
         
         $freelancer = DB::table('proposals')->leftJoin('freelancers', 'proposals.freelancer_id', '=', 'freelancers.id')
                                 ->leftJoin('users', 'freelancers.user_id', '=', 'users.id')
-                                ->select('freelancers.id','users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.created_at','proposals.id')
+                                ->select('users.id as userId','users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.created_at','proposals.id as proposalId')
                                 ->where('proposals.id', '=', $id)
                                 ->first();
 
@@ -356,7 +372,6 @@ class JobController extends Controller
 */
         $proposals_job = DB::table('proposals')->where('proposals.job_id', '=', $job->job_id)
                                                 ->count();
-
         //dd([$job,$job_skills,$freelancer]);
 
         return view('clientPages.jobs.showProposal', compact('job','job_skills','freelancer','proposals_job'));
@@ -392,7 +407,7 @@ class JobController extends Controller
                 ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
                 ->rightJoin('freelancers', 'proposals.freelancer_id', 'freelancers.id')
                 ->rightJoin('users', 'freelancers.user_id', 'users.id')
-                ->select('jobs.title', 'users.firstName', 'users.lastName', 'users.image','contracts.id','contracts.startTime', 'contracts.paymentAmount')
+                ->select('jobs.id as jobId','jobs.title', 'users.id as userId','users.firstName', 'users.lastName', 'users.image','contracts.id as contractId','contracts.startTime', 'contracts.paymentAmount')
                 ->where([
                     ['contracts.clientId', '=', $id],
                     ['contracts.endTime', '=', null]
@@ -417,7 +432,7 @@ class JobController extends Controller
                 ->rightJoin('freelancers', 'proposals.freelancer_id', 'freelancers.id')
                 ->rightJoin('users', 'freelancers.user_id', 'users.id')
                 ->leftJoin('reviews', 'contracts.id', 'reviews.contractId')
-                ->select('jobs.title', 'users.firstName', 'users.lastName', 'users.image','contracts.id','contracts.startTime', 'contracts.endTime', 'contracts.paymentAmount','reviews.reviewClient','rateClient')
+                ->select('jobs.id as jobId','jobs.title','users.id as userId', 'users.firstName', 'users.lastName', 'users.image','contracts.id as contractId','contracts.startTime', 'contracts.endTime', 'contracts.paymentAmount','reviews.reviewClient','rateClient')
                 ->where([
                     ['contracts.clientId', '=', $id],
                     ['contracts.endTime', '!=', '']
@@ -459,6 +474,11 @@ class JobController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+        $job = Job::find($id);
+        $job->delete();
+
+        Session::flash('success', 'Job Deleted Successfully!');
+        return Redirect()->route('jobs.index');
     }
 }

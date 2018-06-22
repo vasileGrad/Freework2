@@ -178,7 +178,7 @@
 		  	</div>
 		  	<div class="panel-body">
 		    	@foreach($skills as $skill)
-					<h3 class="inline padding-left"><span class="label label-info">{{ $skill->skillName }}</span></h3>&nbsp;&nbsp;
+					<h3 class="inline"><span class="label label-info label-bottom">{{ $skill->skillName }}</span></h3>&nbsp;&nbsp;
 			@endforeach
 		  	</div><br>
 		</div>

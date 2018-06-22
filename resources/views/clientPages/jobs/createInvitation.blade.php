@@ -38,7 +38,7 @@
 								<div class="row ">
 									<div class="col-md-6 col-sm-6">
 										<div class="col-md-7 col-offset-md-1 col-sm-7 col-offset-sm-1">
-											{!! Form::button('<strong>Submit a Proposal</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg btn-block')) !!}
+											{!! Form::button('<strong>Submit Invitation</strong>', array('type' => 'submit', 'class' => 'btn btn-success btn-lg btn-block')) !!}
 											{!! Form::close() !!}
 										</div>
 										<div class="col-md-5 col-offset-md-1 col-sm-5 col-offset-sm-2">

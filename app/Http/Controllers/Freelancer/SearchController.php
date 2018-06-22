@@ -112,7 +112,7 @@ class SearchController extends Controller
 
         $less_one_week = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', 'Less then 1 week')->count();
         $less_one_month = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', 'Less then 1 month')->count();
-        $one_three_months = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', '1 to 3 months')->count();
+        $one_three_months = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', '1 to 3 months')->count(); 
         $three_six_months = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', '3 to 6 months')->count();
         $more_six_months = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', 'More than 6 months')->count();
 
@@ -267,11 +267,21 @@ class SearchController extends Controller
                                         ->where('jobs.id', '=', $id)
                                         ->get();  
 
-        $proposal = DB::table('proposals')->where([
+       /* $proposal = DB::table('proposals')->where([
                                             ['proposals.job_id', '=', $id],
                                             ['proposals.freelancer_id', '=', $user_id]
-                                        ])->count(); 
+                                        ])->count();*/ 
 
+        $freelancer = DB::table('users')->leftJoin('freelancers','users.id','freelancers.user_id')->select('freelancers.id')
+                                ->where('users.id',$user_id)
+                                ->first();
+        $proposalCount = DB::table('proposals')->select('proposals.id')
+                                        ->where([
+                                            ['proposals.job_id', '=', $id],
+                                            ['proposals.freelancer_id', '=', $freelancer->id]
+                                        ])
+                                        ->count();
+        //dd($proposalCount);
         $job_saved = DB::table('job_saved')->where([
                                             ['job_saved.job_id', '=', $id],
                                             ['job_saved.freelancer_id', '=', $user_id]
@@ -281,7 +291,7 @@ class SearchController extends Controller
                                        ->select('uploads.fileName')->get();
         //dd($uploads);
         //dd([$job,$job_skills,$proposal, $job_saved, $id, $user_id]);                                                     
-        return view('freelancerPages.findWork.jobShow', compact('job','job_skills','proposal','job_saved','uploads'));
+        return view('freelancerPages.findWork.jobShow', compact('job','job_skills','proposalCount','job_saved','uploads'));
     }
 
     /**

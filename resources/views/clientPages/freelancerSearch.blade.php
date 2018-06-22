@@ -13,7 +13,7 @@
 		                	<form method="POST" action="{{ route("freelancerSearchFilter") }}">
 				            	{{ csrf_field() }}
 								<div class="input-group col-md-8 col-sm-8 top-textarea">
-				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Jobs">
+				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Freelancers">
 				                    <div class="input-group-btn">
 				                        <button type="submit" class="btn btn-default">Submit</button>
 				                    </div>
@@ -22,7 +22,7 @@
 						        	</div>
 				            	</div>
 				                
-				                <br><br>
+				                <br><br> 
 				            
 					            @if ($freelancersCount == 1)
 					            	<h4><span class="badge">{{ $freelancersCount }}</span> Freelancer found</h4>

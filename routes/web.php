@@ -91,6 +91,7 @@ Route::prefix('freelancer')->group(function() {
     Route::post('/createProposal/{id}', 'Freelancer\ProposalController@createProposal')->name('createProposal');
     Route::post('/storeProposal/{job_id}', 'Freelancer\ProposalController@storeProposal')->name('storeProposal');
 
+
     Route::get('/goBack', 'Freelancer\SearchController@goBack')->name('goBack');
     Route::get('/goBackProposals', 'Freelancer\ProposalController@goBackProposals')->name('goBackProposals');
     
@@ -102,7 +103,6 @@ Route::prefix('freelancer')->group(function() {
     Route::get('contractsNow/{user_id}', 'Freelancer\JobController@contractsNow')->name('contractsNow');
     Route::get('/downloadFileFreelancer/{file_name}', 'Freelancer\SearchController@downloadFileFreelancer')->name('downloadFileFreelancer');
     Route::get('/earnings/{user_id}', 'Freelancer\JobController@earnings')->name('earnings');
-    
 });
 
 // Profile Freelancer ajax calls

@@ -34,7 +34,7 @@
             
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="padding-left">My jobs</h3>
+                    <h3 class="padding-left">My projects</h3>
                 </div><br>
 
                 <div class="panel-body"> 
@@ -61,7 +61,16 @@
             <h4><b>Proposals</b></h4>
             <a href="{{ route('freelancerProposal.index') }}"><h5 class="color-link"><b>{{ $proposals }} submitted proposals</b></h5></a><br>
             <h4><b>Contracts</b></h4>
-            <a href="{{ route('contractsFinish', Auth::user()->id) }}"><h5 class="color-link"><b>{{ $contracts }} contracts</b></h5></a>
+            <a href="{{ route('contractsFinish', Auth::user()->id) }}">
+            <h5 class="color-link">
+                @if($contracts == 1)
+                    <b>{{ $contracts }} contract</b>
+                @elseif($contracts > 1)
+                    <b>{{ $contracts }} contract</b>
+                @else
+                    <b>No contracts</b>
+                @endif
+            </h5></a>
         </div>
     </div>
 </div>
