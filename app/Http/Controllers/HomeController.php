@@ -27,7 +27,6 @@ class HomeController extends Controller
         // return freelancer last job searches
         $jobSearches = DB::table('job_search_history')->select('job_search_history.jobTitle')
                             ->orderBy('created_at','desc')->take(5)->get();
-        //dd($jobSearches);
 
         return view('profiles.freelancer', compact('jobSearches'));
     }

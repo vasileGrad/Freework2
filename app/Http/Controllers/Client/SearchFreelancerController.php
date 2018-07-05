@@ -41,9 +41,6 @@ class SearchFreelancerController extends Controller
             ])
             ->orderBy('freelancers.id','desc')->paginate(3);
 
-        //dd($freelancers);
-
-        //dd($freelancers);
         return view('clientPages.freelancerSearch', compact('freelancers', 'freelancersCount','skills'));
     }
 
@@ -88,14 +85,10 @@ class SearchFreelancerController extends Controller
                     ])
                     ->orderBy('freelancers.id','desc')->distinct()
                     ->paginate(3);
-        //dd($freelancers);
 
         $skills = DB::table('skills')->get();
         $freelancersCount = count($freelancers);
-        /*$freelancersCount = DB::table('freelancers')->leftJoin('users', 'freelancers.user_id', '=', 'users.id')->where('users.role_id', '=', 2)
-            ->count();*/
 
-        //dd($freelancersCount);
         return view('clientPages.freelancerSearch', compact('freelancers','freelancersCount','skills'));
     }
 
@@ -132,19 +125,8 @@ class SearchFreelancerController extends Controller
      */
     public function searchInviteFreelancers(Request $request) 
     {
-        $keyword_search = $request->input('search'); 
-        //$country = $request->input('country');
-        //$id_skill = $request->input('skill');
+        $keyword_search = $request->input('search');
         $job_id = $request->input('job_id');
-        //dd($job_id);
-
-        //$skill_name = DB::table('skills')->where('skills.id', '=', $id_skill)
-                                        //->select('skills.skillName')->first();
-
-        /*if($country != null)
-            $keyword_country = $country;
-        else
-            $keyword_country = '';*/
 
         $freelancers = DB::table('freelancers')->leftJoin('users','freelancers.user_id', '=', 'users.id')
                     ->select('users.id','users.firstName','users.lastName','users.image','users.title','users.location','users.country','description','freelancers.hourlyRate')
@@ -162,34 +144,11 @@ class SearchFreelancerController extends Controller
                     ->distinct()
                     ->paginate(3);
 
-                    /*->orWhere([
-                        ['users.country', '=', $keyword_country], 
-                        ['users.role_id', '=', 2],
-                        ['users.statusActiv', '!=', 0] 
-                    ])
-                    ->orWhere([
-                        ['skills.skillName', 'LIKE', '%'.$skill_name->skillName.'%'],
-                        ['users.role_id', '=', 2],
-                        ['users.statusActiv', '!=', 0]
-                    ])*/
-                    
-
-        //dd($freelancers->total());
-
-        /*$countFreelancers = 0;
-        foreach ($freelancers as $freelancer) {
-            if($freelancer->id)
-                $countFreelancers++;
-        }*/
-
-        //dd($freelancers);
-
         $skills = DB::table('skills')->leftJoin('job_skill','skills.id','job_skill.skill_id')
                                      ->select('skills.id','skills.skillName')
                                      ->where('job_skill.job_id',$job_id)
                                      ->get();
 
-        //dd($skills);
         return view('clientPages.jobs.inviteFreelancers', compact('job_id','freelancers','skills'));
     }
 
@@ -246,27 +205,6 @@ class SearchFreelancerController extends Controller
         return view('clientPages.Profile.inviteFreelancer', compact(['freelancer','skills','contracts','valueFreelancer','job_id']));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function calculateValueFreelancer($id){
         // Algorithm of calculation the Value of the Freelancer
         $freelancerId = DB::table('users')->leftJoin('freelancers','users.id','freelancers.user_id')
@@ -299,7 +237,6 @@ class SearchFreelancerController extends Controller
                                                     ['contracts.endTime','!=','']
                                                 ])
                                                 ->sum('paymentAmount');
-        //dd($totalEarnings->sum);
 
         return $valueFreelancer;
     }
@@ -312,27 +249,7 @@ class SearchFreelancerController extends Controller
      */
     public function show($id)
     {
-        //dd($id);
         $valueFreelancer = $this->calculateValueFreelancer($id);
-        //$valueFreelancer = DB::statement('select calculateValueFreelancer()');
-        //$value = DB::table('users')->select('users.firstName')->where('users.id','=',1)->first();
-        //dd($value);
-
-        //$valueFreelancer = DB::raw(DB::select('select calculateValueFreelancer()'));
-        //dd(DB::raw(DB::select('select calculateValueFreelancer()')));
-        //echo $valueFreelancer;
-        //die();
-
-        //$param1 = 2;
-        //$param2 = 3;
-        //dd(DB::select('exec maxim(?,?)', array($param1,$param2)));
-        //dd(DB::select('bla'));
-        //dd(DB::select()->from(DB::raw('"bla"()')));
-        //dd(DB::statement('select maxim(?,?)', array($param1,$param2)));
-
-        //$valueFreelancer=DB::select('SELECT public."bla"()');
-        //$valueFreelancer=DB::statement('select bla()');
-        //dd($valueFreelancer);
 
         $freelancerId = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
                 ->select('freelancers.id')
@@ -376,8 +293,6 @@ class SearchFreelancerController extends Controller
                 ->get();   
                 
         return view('clientPages.freelancerShow', compact(['freelancer','skills','contracts','valueFreelancer']));
-        //$freelancer = User::find($id);
-        //return view('clientPages.freelancerShow')->withFreelancer($freelancer);
     }
 
     /**
@@ -409,39 +324,5 @@ class SearchFreelancerController extends Controller
                 ->paginate(5);
 
         return view('clientPages.freelancers.contractsFinishFreelancer', compact('contracts'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

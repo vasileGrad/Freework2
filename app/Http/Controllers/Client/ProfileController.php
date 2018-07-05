@@ -55,10 +55,6 @@ class ProfileController extends Controller
                 ->take(2)
                 ->get(); 
 
-        //dd($contracts);
-        //dd($freelancer);
-        //dd($client);
-
         return view('clientPages.Profile.show', compact(['client','contracts','contractsNow']));
     }
 }

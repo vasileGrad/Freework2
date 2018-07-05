@@ -87,7 +87,7 @@
         	    <div class="panel-heading">
         	    	<div class="row padding-left">
         				<div class="col-md-6">
-        		            <h2>Invitations Send</h2>
+        		            <h2>Invitations Sent</h2>
         		        </div>
         		    </div><br>
         	    </div>
@@ -124,8 +124,8 @@
 						<div class="row"><br>
 							{!! Html::linkRoute('inviteFreelancers', 'Invite Freelancers', array($job->id), array('class' => 'btn btn-success btn-block')) !!}
 							<br>
-							{!! Html::linkRoute('jobs.edit', 'Edit', array($job->id), array('class' => 'btn btn-info btn-block')) !!}
-							<br>
+							{{-- {!! Html::linkRoute('jobs.edit', 'Edit', array($job->id), array('class' => 'btn btn-info btn-block')) !!}
+							<br> --}}
 							{!! Form::open(['route' => ['jobs.destroy', $job->id],'method' => 'DELETE'] ) !!}
 								{!! Form::submit('Delete', ['class' => 'btn btn-danger btn-block']) !!}
 							{!! Form::close() !!}

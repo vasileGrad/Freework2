@@ -57,9 +57,3 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-
-    
-
-{{-- @section('scripts')
-  {{ Html::script('js/hoverDropdownMenu.js') }}
-@endsection --}}

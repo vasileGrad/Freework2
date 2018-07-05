@@ -55,9 +55,6 @@ class FreelancerController extends Controller
                     ])
                     ->count();
 
-        //dd($contracts);
-        //dd($jobSearches);
-
         return view('profiles.freelancer', compact('jobSearches','skills','proposals','contracts'));
     }
 }

@@ -23,8 +23,8 @@
         <li><a href="{{ route('contractsNow', Auth::user()->id) }}">Contracts in progress</a></li>
         <li role="separator" class="divider"></li>
         <li><a href="{{ route('contractsFinish', Auth::user()->id) }}">Finished Contracts</a></li>
-        <li role="separator" class="divider"></li>
-        <li><a href="{{ route('earnings', Auth::user()->id) }}">Business Reports</a></li>
+        {{-- <li role="separator" class="divider"></li>
+        <li><a href="{{ route('earnings', Auth::user()->id) }}">Business Reports</a></li> --}}
       </ul>
     </li>
     {{-- <li class="dropdown">
@@ -42,7 +42,7 @@
         <li role="separator" class="divider"></li>
         <li><a href="#">Tests</a></li>
       </ul>
-    </li> --}}
+    </li> --}} 
     <li class="space_nav_options"><a href="{{ route('messages') }}"><strong>MESSAGES</strong></a></li>
     <li id="glyphicon-comment"><h4><a href="{{ url('messages') }}" style="display: none"><i class="glyphicon glyphicon-comment color-link"></i></a></h4></li>
   </ul>

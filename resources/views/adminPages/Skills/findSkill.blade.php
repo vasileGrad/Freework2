@@ -13,7 +13,7 @@
 		                	<form method="GET" action="{{ route("findSkill") }}">
 				            	{{ csrf_field() }}
 								<div class="input-group col-md-12 col-offset-md-4 col-sm-12 col-offset-sm-4">
-				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Skill">
+				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search skill">
 				                    <div class="input-group-btn">
 				                       <button type="submit" class="btn btn-default"><strong>Search</strong></button>
 				                    </div>

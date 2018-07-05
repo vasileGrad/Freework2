@@ -53,10 +53,3 @@
     </div>
 </div>
 @endsection
-
-
-{{-- 
-
-	<td><a href="{{ route('jobs.show', $job->id) }}" class="btn btn-info btn-sm">View</a> <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-default btn-sm">Edit</a></td>
-			
-@stop --}}

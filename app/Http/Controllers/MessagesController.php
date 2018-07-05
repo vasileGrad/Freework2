@@ -37,10 +37,6 @@ class MessagesController extends Controller
                                 ->where('users.id', '=', $userId)
                                 ->first();
         }
-        //$userMsg = DB::select('messages_get(?)', array($id));
-        //dd($jobs);
-        //dd($userMsg);
-        //dd([$user, $userId]);
         return view('messages.messages', compact('user','userId'));
     }
  
@@ -59,7 +55,6 @@ class MessagesController extends Controller
             ->select('jobs.title', 'conversations.id','users.firstName', 'users.lastName', 'users.image')
             ->where('conversations.user_one', $AuthUser)
             ->get();
-        //dd($allUsers1);
 
         $allUsers2 = DB::table('users') 
             ->leftJoin('conversations', 'users.id', 'conversations.user_one')
@@ -68,8 +63,8 @@ class MessagesController extends Controller
             ->select('jobs.title', 'conversations.id','users.firstName', 'users.lastName','users.image')
             ->where('conversations.user_two', $AuthUser)
             ->get();
-        // combine all the users
 
+        // combine all the users
         return array_merge($allUsers1->toArray(), $allUsers2->toArray());
     }
 
@@ -104,7 +99,6 @@ class MessagesController extends Controller
                             'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus','reviews.reviewClient as reviewClient','reviews.rateClient as rateClient')
                         ->where('messages.conversation_id', $id)
                         ->get();
-        //dd($userMsg1);
         }elseif($AuthUserRole == 3){
             $userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
                         ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
@@ -123,7 +117,6 @@ class MessagesController extends Controller
                             'users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus','reviews.reviewFreelancer as reviewFreelancer', 'reviews.rateFreelancer as rateFreelancer')
                         ->where('messages.conversation_id', $id)
                         ->get();
-            //dd($userMsg);
         }
         return $userMsg;
     }
@@ -139,9 +132,7 @@ class MessagesController extends Controller
         $AuthUserRole = Session::get('AuthUserRole');
         
         $proposal_id = (int)$proposal_id;
-        //dd($proposal_id);
         $proposal = Proposal::find($proposal_id);
-        //dd($proposal);
         $proposal->current_proposal_status = 2; // 2 = negociation phase
         $proposal->save();
 
@@ -154,12 +145,7 @@ class MessagesController extends Controller
         $client = DB::table('proposals')->select('proposals.client_id')
                                             ->where('proposals.id', '=', $proposal_id)
                                             ->first();
-        //dd($client_id);
-        //dd($freelancer_id);
 
-        //dd([$AuthUser, $freelancer_id->user_id, $proposal_id]);
-
-        //dd($AuthUserRole);
         if($AuthUserRole == 3){ //Client starts a new conversation
             // new conversation for a new Job
             $conId_new = DB::table('conversations')->insertGetId([
@@ -176,7 +162,7 @@ class MessagesController extends Controller
                 'status'          => 1,
                 'conversation_id' => $conId_new
             ]);
-            //dd($sendM);
+
         }elseif($AuthUserRole == 2) {// Freelancer starts a new conversation
             // new conversation for a new Job
             $conId_new = DB::table('conversations')->insertGetId([
@@ -193,7 +179,6 @@ class MessagesController extends Controller
                 'status'          => 1,
                 'conversation_id' => $conId_new
             ]);
-            //dd($sendM);
         }
 
         return redirect()->route('messages');
@@ -206,17 +191,13 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function sendMessage(Request $request) {
-        //dd('hello');
         $AuthUser = Session::get('AuthUser');
         
         $conID = $request->conID;
         $msg = $request->msg;
-        //dd(['conID','msg']);
         $fetch_userTo = DB::table('messages')->where('conversation_id', $conID)->get();
 
-        //dd($fetch_userTo);
         if($fetch_userTo[0]->user_from == $AuthUser){
-            // fetch user_to
             $userTo = $fetch_userTo[0]->user_to;
         }else {
             // fetch user_to
@@ -275,7 +256,6 @@ class MessagesController extends Controller
                                 ->select('users.id', 'users.firstName', 'users.lastName', 'users.country', 'users.location', 'users.image')
                                 ->get();
         } 
-        //dd($users);
         return view('messages.newMessage', compact('users'));
     }
 
@@ -577,10 +557,7 @@ class MessagesController extends Controller
 
         // find the proposal in the table proposals 
         $proposal = Proposal::find($proposalId);
-
-        echo 'proposal->current_proposal_status= ';
-        echo $proposal->current_proposal_status;
-        echo ' aaaaaaaaaaaaaaaaaa';
+        
         // update the status in the proposals table - review for Client
         if($proposal->current_proposal_status == 9){
             $proposal->current_proposal_status = 11;
@@ -598,26 +575,6 @@ class MessagesController extends Controller
 
         return $userMsg;
 
-        echo 'conID=';
-        echo $conID;
-        echo 'eeeeeeeeee';
-
-        echo 'proposalId=';
-        echo $proposalId;
-        echo 'eeeeeeeeee';
-
-        echo 'valueTip=';
-        echo $valueTip;
-        echo 'eeeeeeeeee';
-        echo 'customTip=';
-        echo $customTip;
-        echo 'eeeeeeeeee';
-        //echo $userMsg;
-        echo 'eeeeeeeeee';
-        //die();
-
-        //return $userMsg;
-
         if ($valueTip == '' && $customTip != ''){
             try {
                 // 1. Validate the data
@@ -628,7 +585,6 @@ class MessagesController extends Controller
             } catch (\Exception $e) {
                 return $userMsg;
             } 
-
                 $contract = Contract::find($contractId->id);
                 // Update the tipAmount 
                 $contract->tipAmount = $customTip;
@@ -637,30 +593,11 @@ class MessagesController extends Controller
                 // find the proposal in the table proposals 
                 $proposal = Proposal::find($proposalId);
 
-                echo 'proposal->current_proposal_status= ';
-                echo $proposal->current_proposal_status;
-                echo ' aaaaaaaaaaaaaaaaaa';
                 // update the status in the proposals table - review for Client
                 if($proposal->current_proposal_status == 9){
                     $proposal->current_proposal_status = 11;
                     $proposal->save();
                 }
-
-                echo 'customTip=  ';
-                echo $customTip;
-                echo ' aaaaaaaaaaaaaaa';
-                //die();
-                /*$userMsg = DB::table('messages')->leftJoin('users', 'users.id', 'messages.user_from')
-                        ->leftJoin('conversations', 'messages.conversation_id', 'conversations.id')
-                        ->leftJoin('proposals', 'conversations.proposal_id', 'proposals.id')
-                        ->leftJoin('jobs', 'proposals.job_id', 'jobs.id')
-                        ->select('users.firstName','users.lastName','users.image', 'jobs.id as jobId','jobs.title as jobTitle','messages.msg','messages.user_from','messages.status','messages.conversation_id','messages.created_at', 'conversations.proposal_id as conProposal','proposals.payment_amount','proposals.current_proposal_status as currentProposalStatus')
-                        ->where('messages.conversation_id', $conID)
-                        ->get();
-
-                return $userMsg;*/
-            
-            
         } 
         elseif ($valueTip != ''){
             $contract = Contract::find($contractId->id);
@@ -676,26 +613,10 @@ class MessagesController extends Controller
                 $proposal->current_proposal_status = 11;
                 $proposal->save();
             }
-
-            echo 'valueTip == ';
-            echo $valueTip;
-            echo ' bbbbbbbbbbbbbbb';
-            //die();
-
             return $userMsg;
         }elseif ( $valueTip == '' && $customTip == ''){
-            echo 'OOOOOOOOOOOOOOOOOOOOOOOOO = ';
-            echo 'die ';
-            //die();
-
             return $userMsg;
         }
-
-        return $userMsg;
-
-        //echo 'userMsg=';
-        //echo $userMsg;
-        //echo 'eeeeeeeeee';
-        //die();                
+        return $userMsg;             
     }
 }

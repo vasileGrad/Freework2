@@ -13,7 +13,7 @@
 		                	<form method="POST" action="{{ route("freelancerSearchFilter") }}">
 				            	{{ csrf_field() }}
 								<div class="input-group col-md-8 col-sm-8 top-textarea">
-				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Freelancers">
+				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search freelancers">
 				                    <div class="input-group-btn">
 				                        <button type="submit" class="btn btn-default">Submit</button>
 				                    </div>

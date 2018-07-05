@@ -144,5 +144,3 @@ Route::post('/finishContract', 'MessagesController@finishContract');
 Route::post('/leaveReviewClient', 'MessagesController@leaveReviewClient')->name('leaveReviewClient');
 Route::post('/leaveReviewFreelancer', 'MessagesController@leaveReviewFreelancer')->name('leaveReviewFreelancer');
 Route::post('/leaveTip', 'MessagesController@leaveTip')->name('leaveTip');
-
-

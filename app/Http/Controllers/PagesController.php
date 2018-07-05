@@ -17,8 +17,7 @@ class PagesController extends Controller
     		->count();
 
     	$jobs = DB::table('jobs')->count();
-
-    	//dd([$clients, $freelancers, $jobs]);
+        
     	return view('pages.welcome', compact(['clients','freelancers','jobs']));
 	}
 }

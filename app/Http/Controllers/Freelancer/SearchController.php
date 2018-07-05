@@ -41,17 +41,6 @@ class SearchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function goBack()
     {
         return Redirect()->route('jobSearch');
@@ -66,7 +55,6 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input('search');
-        //dd($keyword);
         if(isset($keyword)){
             $job = DB::table('job_search_history')->select('job_search_history.jobTitle')->orderBy('job_search_history.created_at', 'desc')->first();
             //dd($job->jobTitle);
@@ -128,7 +116,7 @@ class SearchController extends Controller
         $client_history = Input::get('client_history');
         $budget = Input::get('budget');
         $project_length = Input::get('project_length');
-        //dd([$job_type,$experience_level,$nr_proposals,$client_history,$budget,$project_length]);
+
         if(isset($keyword)){
             DB::table('job_search_history')->insert(
             ['jobTitle' => $keyword]);
@@ -173,12 +161,7 @@ class SearchController extends Controller
             $keyword_budget1 = 5000;
             $keyword_budget2 = 1000000;
         }
-            
-
-        //dd([$keyword_budget1,$keyword_budget2]);
-
-        //dd([$keyword_job_type,$keyword_experience_level,$keyword_project_length]);
-
+        
         $jobs = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
                                 ->leftJoin('users', 'clients.user_id', '=', 'users.id')
                                 ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
@@ -194,10 +177,9 @@ class SearchController extends Controller
                                     ['levels.levelName', 'LIKE', '%'.$keyword_experience_level.'%'],
                                     ['expected_duration.durationName', 'LIKE', '%'.$keyword_project_length.'%']
                                 ])
-                                //->whereBetween('jobs.paymentAmount', array($keyword_budget1, $keyword_budget2))
                                 ->orderBy('jobs.id','desc')
                                 ->paginate(5);
-        //dd([$keyword_budget1,$keyword_budget2]);
+
         $hourly = DB::table('jobs')->leftJoin('payment_type', 'jobs.paymentTypeId', '=', 'payment_type.id')->where('payment_type.paymentName', 'Hourly')->count();
 
 
@@ -224,17 +206,6 @@ class SearchController extends Controller
         $more_six_months = DB::table('jobs')->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')->where('expected_duration.durationName', 'More than 6 months')->count();
 
         return view('freelancerPages.findWork.jobSearch', compact('jobs', 'hourly', 'fixed_price', 'entry_level','intermediate','expert','less_100','between_100_500','between_500_1k','between_1k_5k','more_5k','less_one_week','less_one_month','one_three_months','three_six_months','more_six_months'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -267,11 +238,6 @@ class SearchController extends Controller
                                         ->where('jobs.id', '=', $id)
                                         ->get();  
 
-       /* $proposal = DB::table('proposals')->where([
-                                            ['proposals.job_id', '=', $id],
-                                            ['proposals.freelancer_id', '=', $user_id]
-                                        ])->count();*/ 
-
         $freelancer = DB::table('users')->leftJoin('freelancers','users.id','freelancers.user_id')->select('freelancers.id')
                                 ->where('users.id',$user_id)
                                 ->first();
@@ -281,16 +247,14 @@ class SearchController extends Controller
                                             ['proposals.freelancer_id', '=', $freelancer->id]
                                         ])
                                         ->count();
-        //dd($proposalCount);
+
         $job_saved = DB::table('job_saved')->where([
                                             ['job_saved.job_id', '=', $id],
                                             ['job_saved.freelancer_id', '=', $user_id]
                                         ])->count();
 
         $uploads = DB::table('uploads')->where('uploads.job_id', $job->id)
-                                       ->select('uploads.fileName')->get();
-        //dd($uploads);
-        //dd([$job,$job_skills,$proposal, $job_saved, $id, $user_id]);                                                     
+                                       ->select('uploads.fileName')->get();                                              
         return view('freelancerPages.findWork.jobShow', compact('job','job_skills','proposalCount','job_saved','uploads'));
     }
 
@@ -301,41 +265,6 @@ class SearchController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function downloadFileFreelancer($file_name) {
-        //dd($file_name);
         return Storage::download($file_name);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    } 
 }

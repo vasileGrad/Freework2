@@ -101,7 +101,7 @@
 			   			{{ Form::file('files[]', array('multiple'=>true)) }}<br><br>
 
 						<div class="col-md-6 col-md-offset-3">
-					    	{{ Form::submit('Create Post', array('class' => 'btn btn-success btn-lg btn-block', 'style' => 'margin-top: 20px;')) }}
+					    	{{ Form::submit('Submit', array('class' => 'btn btn-success btn-lg btn-block', 'style' => 'margin-top: 20px;')) }}
 					    </div>
 					{!! Form::close() !!}
 			    

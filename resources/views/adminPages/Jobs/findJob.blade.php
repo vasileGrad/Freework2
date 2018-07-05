@@ -13,7 +13,7 @@
 		                	<form method="GET" action="{{ route("findJobFilter") }}">
 				            	{{ csrf_field() }} 
 								<div class="input-group col-md-6 col-sm-6 padding-left mainUser">
-				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search for Jobs">
+				                    <input type="text" name="search" class="form-control" aria-label="..." placeholder="Search jobs">
 				                    <div class="input-group-btn">
 				                        <button type="submit" class="btn btn-default">Submit</button>
 				                    </div>

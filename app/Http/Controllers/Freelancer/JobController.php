@@ -36,17 +36,6 @@ class JobController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -73,41 +62,6 @@ class JobController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-/* #######################################################################*/
-/**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -140,7 +94,7 @@ class JobController extends Controller
 
         $job_saved->save();
 
-        //Session::flash('success', 'The job was successfully saved!');
+        Session::flash('success', 'The job was successfully saved!');
         // Redirect to another Controller
         return redirect()->action('Freelancer\SearchController@jobShow', $jobId);
     }
@@ -158,7 +112,7 @@ class JobController extends Controller
                                 ['job_saved.freelancer_id', '=', Auth::user()->id]
                             ])->delete();
 
-        //Session::flash('success', 'The job was successfully unsaved!');
+        Session::flash('success', 'The job was successfully unsaved!');
 
         return redirect()->action('Freelancer\SearchController@jobShow', $jobId);
     }
@@ -219,8 +173,6 @@ class JobController extends Controller
                 ])
                 ->orderBy('contracts.endtime', 'desc')
                 ->paginate(5);
- 
-        //dd([$contracts,$freelancerId->id]);
 
         return view('freelancerPages.myJobs.contractsFinish', compact('contracts'));
     }
@@ -250,8 +202,7 @@ class JobController extends Controller
                 ])
                 ->orderBy('contracts.endtime', 'desc')
                 ->paginate(5);
-
-        //dd($contracts);
+                
         return view('freelancerPages.myJobs.contractsNow', compact('contracts'));
     }
 

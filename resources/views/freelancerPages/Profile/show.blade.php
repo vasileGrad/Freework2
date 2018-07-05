@@ -151,27 +151,6 @@
 			</div>
 		</div>
 
-	{{-- <!-- Modal for Work History-->
-	<div class="modal fade" id="myModal" tabindex="-3" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Edit Job Title</h4>
-	      </div>
-	      <div class="modal-body">
-	        {{ $freelancer->firstName}}
-	        {{ substr(strip_tags($freelancer->description), 0, 50) }}{{ strlen(strip_tags($freelancer->description)) > 50 ? "..." : "" }}
-	        {{ $freelancer->title}}
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary">Save changes</button>
-	      </div>
-	    </div>
-	  </div>
-	</div> --}}
-
 		<div class="panel panel-default">
 		  	<div class="panel-heading">
 		    	<h3 class="panel-title"><h3 class="padding-left">Skills</h3></h3>
@@ -182,59 +161,6 @@
 			@endforeach
 		  	</div><br>
 		</div>
-
-		{{-- <div class="panel panel-default">
-		  	<div class="panel-heading">
-		  		<div class="row">
-		  			<div class="col-md-10 col-sm-10">
-		  				<h3 class="padding-left">Portfolio</h3>
-		  			</div>
-		  			<div class="col-md-2 col-sm-2">
-		  				<!-- Button trigger modal -->
-						<button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#myModal"><b>+ Edit</b></button>
-		  			</div>
-		  		</div>
-		  	</div>
-		  	<div class="panel-body">
-		  		<div class="row padding-left">
-		    		<h5>Panel content</h5>
-		    	</div>
-		  	</div>
-		</div> --}}
-
-		{{-- <div class="panel panel-default">
-		  	<div class="panel-heading">
-		    	<h3 class="panel-title"><h3 class="padding-left">Certifications</h3></h3>
-		  	</div>
-		  	<div class="panel-body">
-		  		<div class="row padding-left">
-		  			<h5>No items to display.</h5>
-		  		</div>
-		    	
-		  	</div>
-		</div> --}}
-
-		{{-- <div class="panel panel-default">
-		  	<div class="panel-heading">
-		    	<h3 class="panel-title"><h3 class="padding-left">Employment History</h3></h3>
-		  	</div>
-		  	<div class="panel-body">
-		  		<div class="row padding-left">
-		  			<h5>Informations</h5>
-		  		</div>
-		  	</div>
-		</div> --}}
-
-		{{-- <div class="panel panel-default">
-		  	<div class="panel-heading">
-		    	<h3 class="panel-title"><h3 class="padding-left">Education</h3></h3>
-		  	</div>
-		  	<div class="panel-body">
-		  		<div class="row padding-left">
-		  			<h5>Degrees and certifications</h5>
-		  		</div>
-		  	</div>
-		</div> --}}
 	</div> <!-- end of .col-md-8 -->
 </div>
 </div>

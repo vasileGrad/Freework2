@@ -8,7 +8,7 @@
     <div class="row" id="app">
     	<div class="col-md-12 col-sm-12">
         	<div id="navigation" class="col-md-3 col-sm-3 col-xs-3 mess-color ">
-        		<h3 align="center">Messenger<abbr title="Create New Conversation"><a href="{{ route('newMessage') }}"><i class="glyphicon glyphicon-edit pull-right"></i></a></abbr></h3><br>
+        		<h3 align="center">Messenger<abbr title="Create New Conversation"><a href="{{ route('newMessage') }}">{{-- <i class="glyphicon glyphicon-edit pull-right"></i> --}}</a></abbr></h3><br>
                 <ul v-for="privateMsg in privateMsgs">
                     <li @click="messages(privateMsg.id)" class="row privateMsg">
                         <div class="col-md-3 pull-left">
@@ -34,7 +34,7 @@
         	</div>
 
         	<div class="col-md-3 col-sm-3 col-xs-3 mess-color">
-        		<h3 align="center">User Information</h3>
+        		<h3 align="center">Informations</h3>
         		<br><hr>
 
                 @if(Session::get('AuthUserRole') === 3)
@@ -57,7 +57,7 @@
 
                         <h4 class="padding-left" v-if="currentProposalStatus == 6">Contract in progress.</h4>
 
-                        <h4 class="padding-left" v-if="currentProposalStatus == 7">Please give a review</h4><br>
+                        <h4 class="padding-left" v-if="currentProposalStatus == 7">Please leave a review</h4><br>
 
                         <h4 class="padding-left" v-if="currentProposalStatus == 9 || currentProposalStatus == 10">Show your appreciation to your freelanceer by giving a tip.</h4><br><hr>
 
@@ -181,17 +181,7 @@
                                         <input type="radio" id="10" value="10" v-model="valueTip"><b>$10</b>&nbsp;&nbsp; 
                                         <input type="radio" id="id" value="20" v-model="valueTip"><b>$20</b>&nbsp;&nbsp;  
                                         <input type="text" id="customTip" name="customTip" class="form-control" placeholder="Custom tip" v-model="customTip">
-                                        {{-- {!! Form::open() !!}
-                                            {{ Form::text('customTip', null, array('class' => 'form-control', 'form-inline', 'placeholder' => 'Custom Tip', 'required' => '', 'numeric', 'min' => '1', 'max' => '1000')) }}
-                                        {!! Form::close() !!} --}}
                                     </div>
-
-                                   {{--  <div class="btn-group" role="group" aria-label="Basic example">
-                                      <button type="button" class="btn btn-secondary" id="5" name="5" value="5" v-model="valueTip"> $5 </button>
-                                      <button type="button" class="btn btn-secondary" id="10" name="10" value="10" v-model="valueTip"> $10 </button>
-                                      <button type="button" class="btn btn-secondary" id="id" name="20" value="20" v-model="valueTip"> $20 </button>
-                                      <input type="text" name="custom_tip" class="form-control" placeholder="Custom tip" v-model="customTip">
-                                    </div> --}}
                                 </div>
                             </div>
                             <div class="modal-footer">

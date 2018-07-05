@@ -14,37 +14,6 @@ class ProfileController extends Controller
     {
         $this->middleware('auth:freelancer');
     }
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-              
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     public function calculateValueFreelancer(){
         // Algorithm of calculation the Value of the Freelancer
@@ -80,25 +49,6 @@ class ProfileController extends Controller
     public function freelancerProfile($id)
     {
         $valueFreelancer = $this->calculateValueFreelancer();
-        //$valueFreelancer = DB::statement('select calculateValueFreelancer()');
-        //$value = DB::table('users')->select('users.firstName')->where('users.id','=',1)->first();
-        //dd($value);
-
-        //$valueFreelancer = DB::raw(DB::select('select calculateValueFreelancer()'));
-        //dd(DB::raw(DB::select('select calculateValueFreelancer()')));
-        //echo $valueFreelancer;
-        //die();
-
-        //$param1 = 2;
-        //$param2 = 3;
-        //dd(DB::select('exec maxim(?,?)', array($param1,$param2)));
-        //dd(DB::select('bla'));
-        //dd(DB::select()->from(DB::raw('"bla"()')));
-        //dd(DB::statement('select maxim(?,?)', array($param1,$param2)));
-
-        //$valueFreelancer=DB::select('SELECT public."bla"()');
-        //$valueFreelancer=DB::statement('select bla()');
-        //dd($valueFreelancer);
 
         $freelancerId = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
                 ->select('freelancers.id')
@@ -138,46 +88,9 @@ class ProfileController extends Controller
                     ['contracts.endTime', '!=', '']
                 ])
                 ->take(2)
-                ->get();    
-        //dd($contracts);
-        //$freelancer = User::find($id);
-        //dd($freelancer);
-                
+                ->get();   
+
         return view('freelancerPages.Profile.show', compact(['freelancer','skills','contracts','valueFreelancer']));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function updateTitle(Request $request)

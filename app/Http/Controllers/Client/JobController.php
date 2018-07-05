@@ -33,9 +33,6 @@ class JobController extends Controller
      */
     public function index()
     {
-        //$job2 = Job::all()->where('clientId', Auth::user()->id);
-        //dd(Auth::user()->id);
-
         $jobs = DB::table('jobs')->leftJoin('clients', 'clients.id', '=', 'jobs.clientId')
                                  ->leftJoin('users', 'clients.user_id', '=', 'users.id')
                                  ->leftJoin('category', 'category.id', '=', 'jobs.categoryId')
@@ -47,51 +44,6 @@ class JobController extends Controller
                                  ->where('users.id', Auth::user()->id)
                                  ->orderBy('jobs.created_at', 'desc')
                                  ->paginate(5); // 5 is the number of
-        // 1. Selecteaza toate joburile salvate de freelancerul cu id= 4
-        //$user_id = Auth::user()->id;
-        //$jobs = DB::select('call saved_jobs_freelancer(?)', [$user_id]);
-        //dd($jobs);
-        
-        // 2.   Selecteaza numele clientului care a postat jobul cu numele “Job 1”
-        //$job_title = 'Java programmer'; 
-        //$nume_client_job = DB::select('CALL nume_client_job(?)', [$job_title]);
-        //dd($nume_client_job);
-
-
-        //  3. Sa se afiseze toate joburile clientului cu numele “Client1”
-        //$nume_client = 'Client1';  
-        //$job_pentru_client = DB::select('CALL job_pentru_client(?)', [$nume_client]);
-        //dd($job_pentru_client); 
-
-
-        // 4. count_joburi_more_500
-        //$count = DB::select("CALL numara_joburi_more_500()");
-        //dd($count);
-
-        //5. //delete
-        //$job_title = 'Italian translation';
-        //$job_title = DB::select('CALL delete_job(?)', [$job_title]);
-        //dd($job_title);
-
-        //6. // insert
-       // $job_title = 'Job Job';
-        //$job_insert = DB::select('CALL insert_job(?)', [$job_title]);
-        //dd($job_insert);
-
-        // 6. calculoaza_valoare_freelancer - Procedura matematica
-        //$freelancer_nume = 'vasile';
-        //$freelancer_email = 'vasile@gmail.com';
-        //$valoare = DB::SELECT('CALL calculeaza_valoare_freelancer(?,?)', [$freelancer_nume, $freelancer_email]);
-        //dd($valoare);
-
-
-
-        //$skills = DB::table('skills')->leftJoin('job_skill', 'job_skill.skill_id', '=', 'skills.id')
-                                     //->leftJoin('jobs', 'jobs.id', '=', 'job_skill.job_id')
-                                     //->where('clientId', Auth::user()->id)->paginate(5); // 5 is the number of        
-        //dd($skills);
-
-        //return view('jobs.index', compact('jobs', 'skills'));
         return view('clientPages.jobs.index', compact('jobs'));
     }
 
@@ -265,8 +217,6 @@ class JobController extends Controller
                                      ->where('job_skill.job_id',$job_id)
                                      ->get();
 
-        //dd($countFreelancers);
-       //dd([$job,$freelancers]);
         return view('clientPages.jobs.inviteFreelancers', compact('job_id','freelancers','skills'));
     }
 
@@ -277,7 +227,6 @@ class JobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function downloadFileClient($file_name) {
-        //dd($file_name);
         return Storage::download($file_name);
     }
 
@@ -289,7 +238,6 @@ class JobController extends Controller
      */
     public function show($id)
     {   
-        //dd($id);
         $job = DB::table('jobs')->leftJoin('clients', 'jobs.clientId', '=', 'clients.id')
                                 ->leftJoin('users', 'clients.user_id', '=', 'users.id')
                                 ->leftJoin('expected_duration', 'jobs.expectedDurationId', '=', 'expected_duration.id')
@@ -321,8 +269,7 @@ class JobController extends Controller
                                             ['proposals.job_id', '=', $id],
                                             ['proposals.client_id','!=','']
                                         ])
-                                         ->get();
-        //dd([$freelancer_proposals,$freelancer_invitations]);   
+                                         ->get();   
         $uploads = DB::table('uploads')->where('uploads.job_id', $job->id)
                                        ->select('uploads.fileName')->get();
         //dd([count($job_skills),$job_skills,$id,$freelancer_proposals,$uploads]);
@@ -336,7 +283,6 @@ class JobController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function showProposal($id) {
-        //dd($id);
         $job = DB::table('proposals')->leftJoin('proposal_status_catalog', 'proposals.current_proposal_status', '=', 'proposal_status_catalog.id')
                                     ->leftJoin('payment_type', 'proposals.payment_type_id', '=', 'payment_type.id')
                                     ->leftJoin('jobs', 'proposals.job_id', '=', 'jobs.id')
@@ -348,7 +294,6 @@ class JobController extends Controller
                                     ->where('proposals.id','=', $id)
                                     ->first();
 
-        //dd($job);
         $job_skills = DB::table('jobs')->leftJoin('job_skill', 'jobs.id', '=', 'job_skill.job_id')
                                     ->leftJoin('skills', 'job_skill.skill_id', '=', 'skills.id')
                                     ->select('skills.skillName')
@@ -363,16 +308,8 @@ class JobController extends Controller
                                 ->where('proposals.id', '=', $id)
                                 ->first();
 
-        /*$count_jobs = DB::table('jobs')->where([
-                                        ['jobs.clientId', '=', $client->id],
-                                        ['jobs.statusActiv', '=', 1]
-                                    ])
-                                    ->count();*/
-       /* $proposal_status = DB::table('proposals')->select('proposals.current_proposal_status')->where('proposals.id', '=', )->first();
-*/
         $proposals_job = DB::table('proposals')->where('proposals.job_id', '=', $job->job_id)
                                                 ->count();
-        //dd([$job,$job_skills,$freelancer]);
 
         return view('clientPages.jobs.showProposal', compact('job','job_skills','freelancer','proposals_job'));
     }
@@ -441,29 +378,6 @@ class JobController extends Controller
                 ->paginate(5);
 
         return view('clientPages.jobs.contracts', compact('contracts'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
