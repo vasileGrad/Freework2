@@ -15,14 +15,32 @@ class ProfileController extends Controller
         $this->middleware('auth:freelancer');
     }
 
-    public function calculateValueFreelancer(){
+    // id = id of the freelancer
+    public function calculateValueFreelancer($id){
         // Algorithm of calculation the Value of the Freelancer
-        $valueFreelancer = 0;
 
         $user_profile = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
                 ->select('users.title', 'users.description','users.location','users.country')
                 ->where('users.id', Auth::user()->id)
                 ->first();
+
+        $freelancerId = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
+                ->select('freelancers.id')
+                ->where('users.id', '=', $id)
+                ->first();
+        $freelancer = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
+                        ->leftJoin('proposals', 'freelancers.id', 'proposals.freelancer_id')
+                        ->leftJoin('contracts', 'contracts.id', 'contracts.proposalId')
+                        ->select(DB::raw("(SELECT count(contracts.id) FROM contracts
+                            where (contracts.freelancerId = '$freelancerId->id' && contracts.endTime != '')) as countJobs"),
+                                DB::raw("(SELECT sum(contracts.paymentAmount) FROM contracts
+                            where (contracts.freelancerId = '$freelancerId->id' && contracts.endTime != '')) as totalEarnings"),'users.id', 'users.firstName', 'users.lastName', 'users.location', 'users.country', 'users.image', 'users.title', 'users.description', 'freelancers.hourlyRate')
+                        ->where([
+                            ['users.id', '=', $id],
+                            ['users.role_id', '=', 2]
+                        ])
+                        ->first();
+        $valueFreelancer = 0;
 
         if($user_profile->title != ''){
             $valueFreelancer = $valueFreelancer + 5;
@@ -37,6 +55,37 @@ class ProfileController extends Controller
             $valueFreelancer = $valueFreelancer + 5;
         }
 
+        $suma = $freelancer->totalEarnings;
+        if($suma > 100 && $suma < 500){
+            $valueFreelancer = $valueFreelancer + 10;
+        }
+        if($suma > 500 && $suma < 1000){
+            $valueFreelancer = $valueFreelancer + 100;
+        }
+        if($suma > 1000){
+            $valueFreelancer = $valueFreelancer + 1000;
+        }
+
+        $contracts = $freelancer->countJobs;
+        if($contracts > 1 && $contracts < 5){
+            $valueFreelancer = $valueFreelancer + 10;
+        }
+        if($contracts > 5 && $contracts < 10){
+            $valueFreelancer = $valueFreelancer + 100;
+        }
+        if($contracts > 10 && $contracts < 50){
+            $valueFreelancer = $valueFreelancer + 1000;
+        }
+        if($contracts > 50 && $contracts < 100){
+            $valueFreelancer = $valueFreelancer + 2000;
+        }
+        if($contracts > 100 && $contracts < 500){
+            $valueFreelancer = $valueFreelancer + 3000;
+        }
+        if($contracts > 500){
+            $valueFreelancer = $valueFreelancer + 5000;
+        }
+
         return $valueFreelancer;
     }
 
@@ -48,7 +97,7 @@ class ProfileController extends Controller
      */
     public function freelancerProfile($id)
     {
-        $valueFreelancer = $this->calculateValueFreelancer();
+        $valueFreelancer = $this->calculateValueFreelancer($id);
 
         $freelancerId = DB::table('users')->leftJoin('freelancers', 'users.id', 'freelancers.user_id')
                 ->select('freelancers.id')

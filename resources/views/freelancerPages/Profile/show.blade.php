@@ -19,8 +19,14 @@
 						<h5 class="editLocation"><span class="glyphicon glyphicon-map-marker"></span> <a href="#" data-toggle="modal" data-target="#myModalLocation"><b> {{ $freelancer->location }}, {{ $freelancer->country }} <b><input type="hidden" id="itemId3" value="{{$freelancer->id}}"><i class="glyphicon glyphicon-edit"></i></a></h5>
 		    		</div>
 		    		<div class="col-md-3 col-sm-3">
-	    				<img src="/images/trophy.png" alt="trophy" class="imageSearchJob" width="60" height="60"/>	
-	    			 	<h3 class="center-text valueFreelancer"><b>{{ $valueFreelancer}}</b></h3>
+		    			@if($valueFreelancer > 10 && $valueFreelancer < 500)
+	    					<img src="/images/basic.png" alt="basic" class="imageSearchJob" width="60" height="60"/>
+	    				@elseif($valueFreelancer > 500 && $valueFreelancer < 1000)	
+	    					<img src="/images/medium.png" alt="medium" class="imageSearchJob" width="60" height="60"/>
+	    				@elseif($valueFreelancer > 1000)
+	    					<img src="/images/advanced.png" alt="advanced" class="imageSearchJob" width="60" height="60"/>	
+	    				@endif
+	    			 	{{-- <h3 class="center-text valueFreelancer"><b>{{ $valueFreelancer}}</b></h3> --}}
 		    		</div>
 		    		<div class="col-md-12 col-sm-12">
 		    			<h3 class="editTitle"><a href="#" data-toggle="modal" data-target="#myModal1"><b>{{ $freelancer->title }} <b><input type="hidden" id="itemId2" value="{{$freelancer->id}}"><i class="glyphicon glyphicon-edit"></i></a></h3><br> 
